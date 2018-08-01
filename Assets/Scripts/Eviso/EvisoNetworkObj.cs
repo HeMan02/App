@@ -14,12 +14,12 @@ public class EvisoNetworkObj : NetworkBehaviour {
 
 	// utilizzo l'instance per generare una sola copia del server e per controllare se sono l'owner andrò a vedere se esiste l'instance
 	void Awake(){
+		nId = gameObject.GetComponent<NetworkIdentity> (); // mi facci orestituire il networkidentity per capire l'owner
 		if (isServer) {
 			ServerInstance = this;
 		} else {
 			OwnerInstance = this;
 		}
-		nId = gameObject.GetComponent<NetworkIdentity> (); // mi facci orestituire il networkidentity per capire l'owner
 	}
 
 	// Chiamato dall'oggetto sul server quando viene inzializzato 
