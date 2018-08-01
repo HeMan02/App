@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// test per trello!!!
 public class EvisoBollettaMain : MonoBehaviour {
 
 	public GameObject scrollContent;
