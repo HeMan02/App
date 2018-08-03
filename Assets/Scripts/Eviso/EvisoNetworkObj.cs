@@ -60,31 +60,34 @@ public class EvisoNetworkObj : NetworkBehaviour {
 		Debug.LogError ("Client scrive al Server");
 	}
 
-	[Command]
-	void CmdPrintNum(int num){
-		Debug.LogError ("client dice al server  il num: " + num);
-		TargetResposeToClient (connectionToClient,num);
-	}
+	// utilizzata per rispondere come test con numero random
+//	[Command]
+//	void CmdPrintNum(int num){
+//		Debug.LogError ("client dice al server  il num: " + num);
+//		TargetResposeToClient (connectionToClient,num);
+//	}
 
-	[TargetRpc]
-	public void TargetResposeToClient(NetworkConnection target,int num){
-		Debug.LogError ("sono i lserver e ti rispondo,ho ricevuto il tuo num : " + num);
-	}
+//	[TargetRpc]
+//	public void TargetResposeToClient(NetworkConnection target,int num){
+//		// rispondo al client per il numero random, utilizzato come prova
+//		Debug.LogError ("sono i lserver e ti rispondo,ho ricevuto il tuo num : " + num);
+//	}
 
 	[Command]
-	public void CmdCheckClient(string name,string password,int num){
-		TargetResposeToClient (connectionToClient,num);
-		Debug.LogError ("client dice al server  il num: " + num);
-		if(num == 0){
-			TargetChekValue (connectionToClient,true);
-		}else{
-			TargetChekValue (connectionToClient,false);
-		}
+	public void CmdCheckClient(string name,string password){
+		Debug.LogError ("client dice al server  il nome: " + name + " e la password " + password);
+		EvisoNetworkManager.instance.mailClient = name;
+		EvisoNetworkManager.instance.passClient = password;
+		EvisoNetworkManager.instance.CheckPassMailLogInConnection ();
+		// check dei valori s epresenti su DB e dopo invio del messaggio al client
+//			TargetChekValue (connectionToClient,true);
+//			TargetChekValue (connectionToClient,false);
 	}
 
 	[TargetRpc]
 	public void TargetChekValue(NetworkConnection target,bool checkCLinet){
 		Debug.LogError ("sono i lserver e ti rispondo che ho ceccato con : "  + checkCLinet);
+		// se vero o false vado ad aprire la scena
+		EvisoPageManager.instance.EvisoChoiceClick();
 	}
-
 }
