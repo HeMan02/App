@@ -16,17 +16,19 @@ public class EvisoNetworkManager : NetworkManager {
 	bool passcheck = false;
 	public string CreateUserUrl = "http://togeathosting.altervista.org/Insert.php";
 	public static EvisoNetworkManager instance;
+	public GameObject serverObj;
 
 	void Awake(){
 	}
 	// Use this for initialization
 	void Start () {
-		instance = this;
+//		instance = this;
 	}
 	// Update is called once per frame
 	void Update(){
 		if (Input.GetKeyDown (KeyCode.S)) {
 			StartServer ();
+			instance = this;
 		}
 		if (Input.GetKeyDown (KeyCode.C)) {
 			StartClient ();
@@ -35,6 +37,10 @@ public class EvisoNetworkManager : NetworkManager {
 	// Quando si inizializza il SERVER!!!! 
 	public override void OnStartServer(){
 		//		server = this;
+		serverObj = Instantiate(Resources.Load("Network", typeof(GameObject))) as GameObject;
+		serverObj.GetComponent<NetworkIdentity> ().serverOnly = true;
+//		Network.Instantiate(serverObj,Vector3.zero,Quaternion.identity,0);
+//		NetworkServer.Spawn(serverObj);
 		Debug.LogError ("SERVER DA MANAGER");
 	}
 	// manda il messaggio una sola volta appena il client si connette al server 
@@ -63,7 +69,7 @@ public class EvisoNetworkManager : NetworkManager {
 			string mail = null;
 			if (mailTotal[1] != null) {
 				mail = mailTotal [1];
-				//				Debug.Log("MailClient " +  mailClient + mailClient.Length + " == " + mail + mail.Length);
+								Debug.Log("MailClient " +  mailClient + mailClient.Length + " == " + mail + mail.Length);
 				if (string.Compare (mailClient, mail) == 0) {
 					mailCheck = true;
 				}
@@ -72,7 +78,7 @@ public class EvisoNetworkManager : NetworkManager {
 			string pass = null;
 			if (passTotal [1] != null) {
 				pass = passTotal [1];
-				//				Debug.Log("PassClient " +  passClient + " == " + pass);
+								Debug.Log("PassClient " +  passClient + " == " + pass);
 				if (string.Compare (passClient, pass) == 0) {
 					passcheck = true;
 				}
@@ -82,10 +88,12 @@ public class EvisoNetworkManager : NetworkManager {
 		if (mailCheck && passcheck) {
 			// mi vado a prendere il riferimentop o vedo come dagli l'input per settare a ok e andare avanti se no no
 			Debug.Log ("PASS GIUSTA ");
-			MainPage.instance.OpenLoginPage ();
+//			EvisoMainPage.instance.OpenLoginPage ();
+			EvisoNetworkObj.ServerInstance.ResposeLoginToClient (true);
 		} else {
 			Debug.Log ("PASS SBAGLIATA ");
-			MainPage.instance.PrintInfoText ("PASS SBAGLIATA");
+			EvisoMainPage.instance.PrintInfoText ("PASS SBAGLIATA");
+			EvisoNetworkObj.ServerInstance.ResposeLoginToClient (false);
 		}
 	}
 
@@ -140,6 +148,20 @@ public class EvisoNetworkManager : NetworkManager {
 		form.AddField("mailclientPost",mail);
 		form.AddField("passClientPost",pass);
 		WWW www = new WWW (CreateUserUrl, form);
+	}
+
+	// Usata come test
+	IEnumerator CiccioConnect ()
+	{
+		WWW itemsData = new WWW ("http://togeathosting.altervista.org/Ciccio.php");
+		yield return itemsData;
+	}
+
+	string GetDataValue (string data, string index)
+	{
+		string value = data.Substring (data.IndexOf (index) + index.Length);
+		//        value = value.Remove(value.IndexOf("|"));
+		return value;
 	}
 
 	// ============================================= CHIAMATE CORIUTINE =============================================

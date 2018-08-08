@@ -54,9 +54,11 @@ public class EvisoMainPage : MonoBehaviour {
 //		EvisoPageManager.instance.EvisoChoiceClick();
 	}
 
+
+
 	public void OpenLoginPage(){
 		Debug.Log("Entrato");
-		PageManager.instance.BackClick ("TogEatRegister");
+		EvisoPageManager.instance.BackClick ("TogEatRegister");
 	}
 
 	public void PrintInfoText(string textToPrint){

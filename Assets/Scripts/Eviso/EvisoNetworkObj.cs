@@ -15,11 +15,20 @@ public class EvisoNetworkObj : NetworkBehaviour {
 	// utilizzo l'instance per generare una sola copia del server e per controllare se sono l'owner andrò a vedere se esiste l'instance
 	void Awake(){
 		nId = gameObject.GetComponent<NetworkIdentity> (); // mi facci orestituire il networkidentity per capire l'owner
-		if (isServer) {
-			ServerInstance = this;
-		} else {
-			OwnerInstance = this;
-		}
+//		if (isServer) {
+//			Debug.LogError ("SERVERRRRRRRRRRRRRRRRRRRR");
+//			ServerInstance = this;
+//		} else {
+//			Debug.LogError ("OWNEEERRRRRRRRRRR");
+//			OwnerInstance = this;
+//		}
+//		if (nId.isServer) {
+//			Debug.LogError ("SERVERRRRRRRRRRRRRRRRRRRR   IDDDDDD");
+//			ServerInstance = this;
+//		} else {
+//			Debug.LogError ("OWNEEERRRRRRRRRRR   IDDDDD");
+//			OwnerInstance = this;
+//		}
 	}
 
 	// Chiamato dall'oggetto sul server quando viene inzializzato 
@@ -36,9 +45,11 @@ public class EvisoNetworkObj : NetworkBehaviour {
 	}
 
 	void Start(){
-		if (nId.isLocalPlayer) {
-			Debug.LogError ("Client da networkOBJ nello start solo io");
-		} 
+		if (EvisoNetworkManager.instance && nId.serverOnly) { // =============== CONTROLL OSPORCO PERO MI IDENTIVICA L'UNICA VERSIONE SU SERVER !!! DA MIGLIORARE! ===============
+			Debug.LogError ("Server OBJ");
+		} else if(nId.isLocalPlayer){
+			Debug.LogError ("client OBJ");
+		}
 	}
 
 	void Update(){ // Test per vedeer a chi manda i messaggi
@@ -61,17 +72,17 @@ public class EvisoNetworkObj : NetworkBehaviour {
 	}
 
 	// utilizzata per rispondere come test con numero random
-//	[Command]
-//	void CmdPrintNum(int num){
-//		Debug.LogError ("client dice al server  il num: " + num);
-//		TargetResposeToClient (connectionToClient,num);
-//	}
+	[Command]
+	void CmdPrintNum(int num){
+		Debug.LogError ("client dice al server  il num: " + num);
+		TargetResposeToClient (connectionToClient,num);
+	}
 
-//	[TargetRpc]
-//	public void TargetResposeToClient(NetworkConnection target,int num){
-//		// rispondo al client per il numero random, utilizzato come prova
-//		Debug.LogError ("sono i lserver e ti rispondo,ho ricevuto il tuo num : " + num);
-//	}
+	[TargetRpc]
+	public void TargetResposeToClient(NetworkConnection target,int num){
+		// rispondo al client per il numero random, utilizzato come prova
+		Debug.LogError ("sono i lserver e ti rispondo,ho ricevuto il tuo num : " + num);
+	}
 
 	[Command]
 	public void CmdCheckClient(string name,string password){
@@ -88,6 +99,14 @@ public class EvisoNetworkObj : NetworkBehaviour {
 	public void TargetChekValue(NetworkConnection target,bool checkCLinet){
 		Debug.LogError ("sono i lserver e ti rispondo che ho ceccato con : "  + checkCLinet);
 		// se vero o false vado ad aprire la scena
-		EvisoPageManager.instance.EvisoChoiceClick();
+//		EvisoPageManager.instance.EvisoChoiceClick();
+	}
+
+	public void ResposeLoginToClient(bool checkValue){
+		if (checkValue) {
+			TargetChekValue (connectionToClient, true);
+		} else {
+			TargetChekValue (connectionToClient, false);
+		}
 	}
 }
