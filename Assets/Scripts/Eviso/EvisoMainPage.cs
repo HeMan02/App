@@ -50,13 +50,15 @@ public class EvisoMainPage : MonoBehaviour {
 //		EvisoPageManager.instance.mailClient = usernameString;
 //		EvisoPageManager.instance.passClient = passwordString;
 //		EvisoPageManager.instance.CheckPassMailLogInConnection ();
-		EvisoNetworkObj.OwnerInstance.CmdCheckClient("pippo","2345",Random.Range (0, 10)); // utilizzo per mandare numero random da CLIENT->SERVER e viceversa dopo in risposta
+		EvisoNetworkObj.OwnerInstance.CmdCheckClient(usernameString,passwordString); // utilizzo per mandare numero random da CLIENT->SERVER e viceversa dopo in risposta
 //		EvisoPageManager.instance.EvisoChoiceClick();
 	}
 
+
+
 	public void OpenLoginPage(){
 		Debug.Log("Entrato");
-		PageManager.instance.BackClick ("TogEatRegister");
+		EvisoPageManager.instance.BackClick ("TogEatRegister");
 	}
 
 	public void PrintInfoText(string textToPrint){
