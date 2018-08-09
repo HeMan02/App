@@ -15,28 +15,14 @@ public class EvisoNetworkObj : NetworkBehaviour {
 	// utilizzo l'instance per generare una sola copia del server e per controllare se sono l'owner andrò a vedere se esiste l'instance
 	void Awake(){
 		nId = gameObject.GetComponent<NetworkIdentity> (); // mi facci orestituire il networkidentity per capire l'owner
-//		if (isServer) {
-//			Debug.LogError ("SERVERRRRRRRRRRRRRRRRRRRR");
-//			ServerInstance = this;
-//		} else {
-//			Debug.LogError ("OWNEEERRRRRRRRRRR");
-//			OwnerInstance = this;
-//		}
-//		if (nId.isServer) {
-//			Debug.LogError ("SERVERRRRRRRRRRRRRRRRRRRR   IDDDDDD");
-//			ServerInstance = this;
-//		} else {
-//			Debug.LogError ("OWNEEERRRRRRRRRRR   IDDDDD");
-//			OwnerInstance = this;
-//		}
 	}
 
 	// Chiamato dall'oggetto sul server quando viene inzializzato 
-	public override void OnStartServer(){
-		if (nId.isLocalPlayer) {
-			Debug.LogError ("SERVER da networkOBJ!!");
-		}
-	}
+//	public override void OnStartServer(){
+//		if (nId.isLocalPlayer) {
+//			Debug.LogError ("SERVER da networkOBJ!!");
+//		}
+//	}
 	// chiamato da tutti gli obj quando inizializzato
 //	public override void OnStartClient(){
 //		if (nId.isLocalPlayer) {
@@ -46,9 +32,9 @@ public class EvisoNetworkObj : NetworkBehaviour {
 
 	void Start(){
 		if (EvisoNetworkManager.instance && nId.serverOnly) { // =============== CONTROLL OSPORCO PERO MI IDENTIVICA L'UNICA VERSIONE SU SERVER !!! DA MIGLIORARE! ===============
-			Debug.LogError ("Server OBJ");
+			Debug.LogError ("Server OBJ"); // Se Server e proprietario lo setto come Server
 			ServerInstance = this;
-		} else if(nId.isLocalPlayer){
+		} else if(nId.isLocalPlayer){ // se client e proprietario setto Owner 
 			Debug.LogError ("client OBJ");
 			OwnerInstance = this;
 		}
@@ -88,7 +74,7 @@ public class EvisoNetworkObj : NetworkBehaviour {
 
 	[Command]
 	public void CmdCheckClient(string name,string password){
-		Debug.LogError ("client dice al server  il nome: " + name + " e la password " + password);
+		Debug.LogError ("client dice al server  il nome: " + name + " e la password " + password + " CONN: " + connectionToClient.isConnected);
 		EvisoNetworkManager.instance.mailClient = name;
 		EvisoNetworkManager.instance.passClient = password;
 		EvisoNetworkManager.instance.CheckPassMailLogInConnection ();
@@ -97,17 +83,27 @@ public class EvisoNetworkObj : NetworkBehaviour {
 //			TargetChekValue (connectionToClient,false);
 	}
 
+	// SERVER -> CLIENT risponde se password è giusta o no inserita dal client
 	[TargetRpc]
 	public void TargetChekValue(NetworkConnection target,bool checkCLinet){
+		Debug.LogError ("4 ");
 		Debug.LogError ("sono i lserver e ti rispondo che ho ceccato con : "  + checkCLinet);
+		if (checkCLinet) {
+		EvisoMainPage.instance.OpenLoginPage ();
+		} else {
+			Debug.LogError("CLIENT SBAGLIATA!!!!!!!");
+	   	EvisoMainPage.instance.PrintInfoText ("PASS SBAGLIATA");
+			// sbagliata fare comparire a video che sbagliata
+		}
 		// se vero o false vado ad aprire la scena
-//		EvisoPageManager.instance.EvisoChoiceClick();
 	}
 
 	public void ResposeLoginToClient(bool checkValue){
+		Debug.LogError ("2 ");
 		if (checkValue) {
 			TargetChekValue (connectionToClient, true);
 		} else {
+			Debug.LogError ("3 " + connectionToClient.isConnected);
 			TargetChekValue (connectionToClient, false);
 		}
 	}

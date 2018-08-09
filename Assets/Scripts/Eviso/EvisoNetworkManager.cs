@@ -88,12 +88,14 @@ public class EvisoNetworkManager : NetworkManager {
 		if (mailCheck && passcheck) {
 			// mi vado a prendere il riferimentop o vedo come dagli l'input per settare a ok e andare avanti se no no
 			Debug.Log ("PASS GIUSTA ");
-//			EvisoMainPage.instance.OpenLoginPage ();
 			EvisoNetworkObj.ServerInstance.ResposeLoginToClient (true);
+//			EvisoNetworkObj.ServerInstance.TargetChekValue(,true);
 		} else {
 			Debug.Log ("PASS SBAGLIATA ");
-			EvisoMainPage.instance.PrintInfoText ("PASS SBAGLIATA");
+			Debug.LogError ("1");
+//			EvisoMainPage.instance.PrintInfoText ("PASS SBAGLIATA");
 			EvisoNetworkObj.ServerInstance.ResposeLoginToClient (false);
+//			EvisoNetworkObj.ServerInstance.TargetChekValue(false);
 		}
 	}
 
