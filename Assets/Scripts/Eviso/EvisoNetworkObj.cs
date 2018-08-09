@@ -38,17 +38,19 @@ public class EvisoNetworkObj : NetworkBehaviour {
 		}
 	}
 	// chiamato da tutti gli obj quando inizializzato
-	public override void OnStartClient(){
-		if (nId.isLocalPlayer) {
-			Debug.LogError ("Client da networkOBJ!!");
-		}
-	}
+//	public override void OnStartClient(){
+//		if (nId.isLocalPlayer) {
+//			Debug.LogError ("Client da networkOBJ!!");
+//		}
+//	}
 
 	void Start(){
 		if (EvisoNetworkManager.instance && nId.serverOnly) { // =============== CONTROLL OSPORCO PERO MI IDENTIVICA L'UNICA VERSIONE SU SERVER !!! DA MIGLIORARE! ===============
 			Debug.LogError ("Server OBJ");
+			ServerInstance = this;
 		} else if(nId.isLocalPlayer){
 			Debug.LogError ("client OBJ");
+			OwnerInstance = this;
 		}
 	}
 
