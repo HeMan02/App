@@ -47,12 +47,8 @@ public class EvisoMainPage : MonoBehaviour {
 	// quando si preme il lognin click in locale, solo su un oggetto viene eseguito
 	public void LoginClick ()
 	{
-//		EvisoPageManager.instance.mailClient = usernameString;
-//		EvisoPageManager.instance.passClient = passwordString;
-//		EvisoPageManager.instance.CheckPassMailLogInConnection ();
-		Debug.LogError("-2");
+		Debug.LogError("-2 id: " + EvisoNetworkObj.instance.nId.assetId );
 		EvisoNetworkObj.instance.CmdCheckClient(usernameString,passwordString); // utilizzo per mandare numero random da CLIENT->SERVER e viceversa dopo in risposta
-//		EvisoPageManager.instance.EvisoChoiceClick();
 	}
 
 

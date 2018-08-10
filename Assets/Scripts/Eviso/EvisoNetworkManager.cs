@@ -20,24 +20,12 @@ public class EvisoNetworkManager : NetworkManager {
 	public NetworkConnection connectionToClient;
 
 	void Awake(){
-//		StartServer ();
 	}
 	// Use this for initialization
 	void Start () {
-		
-//		instance = this;
+
 	}
 
-
-//	void StartServer()
-//	{
-//		ConnectionConfig config = new ConnectionConfig();
-//		config.AddChannel(QosType.ReliableSequenced);
-//		config.AddChannel(QosType.UnreliableSequenced);
-//		config.PacketSize = 250;
-//		NetworkServer.Configure(config, 10);
-//		NetworkServer.Listen(25001);
-//	}
 	// Update is called once per frame
 	void Update(){
 		if (Input.GetKeyDown (KeyCode.S)) {
@@ -50,20 +38,6 @@ public class EvisoNetworkManager : NetworkManager {
 	}
 	// Quando si inizializza il SERVER!!!! 
 	public override void OnStartServer(){
-		//		server = this;
-//		serverObj = Instantiate(Resources.Load("Network", typeof(GameObject))) as GameObject;
-//		serverObj.GetComponent<NetworkIdentity> ().enabled = true;
-//		CmdSpawnObj ();
-//		serverObj.GetComponent<NetworkIdentity> ().serverOnly = true;
-//		Network.Instantiate (Resources.Load("Network", typeof(GameObject))) as GameObject;
-//		Network.Instantiate(serverObj,Vector3.zero,Quaternion.identity,0);
-//		NetworkServer.Spawn(Instantiate(Resources.Load("Network", typeof(GameObject))) as GameObject);
-//		if (TestConn.instance) {
-////			Debug.LogError ("SERVER OGGETTO SCENA");
-////			TestConn.instance.CmdSpawnObj ();
-//		} else {
-//			Debug.LogError ("CLINET OGGETTO SCENA");
-//		}
 		Debug.LogError ("SERVER DA MANAGER");
 	}
 	// manda il messaggio una sola volta appena il client si connette al server 
@@ -111,16 +85,13 @@ public class EvisoNetworkManager : NetworkManager {
 				}
 			}
 		}
-		//		Debug.Log("mailCheck " +  mailCheck + " passcheck " + passcheck);
 		if (mailCheck && passcheck) {
 			// mi vado a prendere il riferimentop o vedo come dagli l'input per settare a ok e andare avanti se no no
 			Debug.Log ("PASS GIUSTA ");
 			EvisoNetworkObj.instance.ResposeLoginToClient (true);
-//			EvisoNetworkObj.ServerInstance.TargetChekValue(,true);
 		} else {
 //			Debug.Log ("PASS SBAGLIATA " + connectionToClient.isConnected);
 			Debug.LogError ("1");
-//			EvisoMainPage.instance.PrintInfoText ("PASS SBAGLIATA");
 			EvisoNetworkObj.instance.ResposeLoginToClient (false);
 		}
 	}
