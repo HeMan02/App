@@ -10,6 +10,7 @@ public class EvisoNetworkObj : NetworkBehaviour {
 	public int port = 25001;
 	public static EvisoNetworkObj ServerInstance;
 	public static EvisoNetworkObj OwnerInstance;
+	public static EvisoNetworkObj instance;
 	public NetworkIdentity nId; // utilizzato per capire l'unico oggetto in locale utilizzatore degli script
 
 	// utilizzo l'instance per generare una sola copia del server e per controllare se sono l'owner andrò a vedere se esiste l'instance
@@ -31,10 +32,11 @@ public class EvisoNetworkObj : NetworkBehaviour {
 //	}
 
 	void Start(){
-		if (EvisoNetworkManager.instance && nId.serverOnly) { // =============== CONTROLL OSPORCO PERO MI IDENTIVICA L'UNICA VERSIONE SU SERVER !!! DA MIGLIORARE! ===============
+		instance = this;
+		if (isServer) { // =============== CONTROLL OSPORCO PERO MI IDENTIVICA L'UNICA VERSIONE SU SERVER !!! DA MIGLIORARE! ===============
 			Debug.LogError ("Server OBJ"); // Se Server e proprietario lo setto come Server
 			ServerInstance = this;
-		} else if(nId.isLocalPlayer){ // se client e proprietario setto Owner 
+		} else { // se client e proprietario setto Owner 
 			Debug.LogError ("client OBJ");
 			OwnerInstance = this;
 		}
@@ -74,6 +76,9 @@ public class EvisoNetworkObj : NetworkBehaviour {
 
 	[Command]
 	public void CmdCheckClient(string name,string password){
+//		if (!isLocalPlayer)
+//			return;
+		Debug.LogError("-1");
 		Debug.LogError ("client dice al server  il nome: " + name + " e la password " + password + " CONN: " + connectionToClient.isConnected);
 		EvisoNetworkManager.instance.mailClient = name;
 		EvisoNetworkManager.instance.passClient = password;
@@ -99,7 +104,7 @@ public class EvisoNetworkObj : NetworkBehaviour {
 	}
 
 	public void ResposeLoginToClient(bool checkValue){
-		Debug.LogError ("2 ");
+		Debug.LogError ("2 " + connectionToClient.isConnected);
 		if (checkValue) {
 			TargetChekValue (connectionToClient, true);
 		} else {

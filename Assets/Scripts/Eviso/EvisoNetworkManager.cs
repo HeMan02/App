@@ -17,13 +17,27 @@ public class EvisoNetworkManager : NetworkManager {
 	public string CreateUserUrl = "http://togeathosting.altervista.org/Insert.php";
 	public static EvisoNetworkManager instance;
 	public GameObject serverObj;
+	public NetworkConnection connectionToClient;
 
 	void Awake(){
+//		StartServer ();
 	}
 	// Use this for initialization
 	void Start () {
+		
 //		instance = this;
 	}
+
+
+//	void StartServer()
+//	{
+//		ConnectionConfig config = new ConnectionConfig();
+//		config.AddChannel(QosType.ReliableSequenced);
+//		config.AddChannel(QosType.UnreliableSequenced);
+//		config.PacketSize = 250;
+//		NetworkServer.Configure(config, 10);
+//		NetworkServer.Listen(25001);
+//	}
 	// Update is called once per frame
 	void Update(){
 		if (Input.GetKeyDown (KeyCode.S)) {
@@ -37,10 +51,19 @@ public class EvisoNetworkManager : NetworkManager {
 	// Quando si inizializza il SERVER!!!! 
 	public override void OnStartServer(){
 		//		server = this;
-		serverObj = Instantiate(Resources.Load("Network", typeof(GameObject))) as GameObject;
-		serverObj.GetComponent<NetworkIdentity> ().serverOnly = true;
+//		serverObj = Instantiate(Resources.Load("Network", typeof(GameObject))) as GameObject;
+//		serverObj.GetComponent<NetworkIdentity> ().enabled = true;
+//		CmdSpawnObj ();
+//		serverObj.GetComponent<NetworkIdentity> ().serverOnly = true;
+//		Network.Instantiate (Resources.Load("Network", typeof(GameObject))) as GameObject;
 //		Network.Instantiate(serverObj,Vector3.zero,Quaternion.identity,0);
-//		NetworkServer.Spawn(serverObj);
+//		NetworkServer.Spawn(Instantiate(Resources.Load("Network", typeof(GameObject))) as GameObject);
+//		if (TestConn.instance) {
+////			Debug.LogError ("SERVER OGGETTO SCENA");
+////			TestConn.instance.CmdSpawnObj ();
+//		} else {
+//			Debug.LogError ("CLINET OGGETTO SCENA");
+//		}
 		Debug.LogError ("SERVER DA MANAGER");
 	}
 	// manda il messaggio una sola volta appena il client si connette al server 
@@ -49,7 +72,11 @@ public class EvisoNetworkManager : NetworkManager {
 		Debug.LogError ("client e mi sono connesso MANAGER");
 	}
 
-
+//	[Command]
+//	void CmdSpawnObj(){
+//		Debug.LogError ("SERVER SPAWN 1");
+//		NetworkServer.Spawn(Instantiate(Resources.Load("Network", typeof(GameObject))) as GameObject);
+//	}
 	// ================================================== MANAGER CONNESSIONE PHP ==================================================
 	// per ora copiato da EvisoPageManager!! da arrangiare riferimenti password ecc
 
@@ -88,14 +115,13 @@ public class EvisoNetworkManager : NetworkManager {
 		if (mailCheck && passcheck) {
 			// mi vado a prendere il riferimentop o vedo come dagli l'input per settare a ok e andare avanti se no no
 			Debug.Log ("PASS GIUSTA ");
-			EvisoNetworkObj.ServerInstance.ResposeLoginToClient (true);
+			EvisoNetworkObj.instance.ResposeLoginToClient (true);
 //			EvisoNetworkObj.ServerInstance.TargetChekValue(,true);
 		} else {
-			Debug.Log ("PASS SBAGLIATA ");
+//			Debug.Log ("PASS SBAGLIATA " + connectionToClient.isConnected);
 			Debug.LogError ("1");
 //			EvisoMainPage.instance.PrintInfoText ("PASS SBAGLIATA");
-			EvisoNetworkObj.ServerInstance.ResposeLoginToClient (false);
-//			EvisoNetworkObj.ServerInstance.TargetChekValue(false);
+			EvisoNetworkObj.instance.ResposeLoginToClient (false);
 		}
 	}
 
@@ -169,6 +195,8 @@ public class EvisoNetworkManager : NetworkManager {
 	// ============================================= CHIAMATE CORIUTINE =============================================
 
 	public void CheckPassMailLogInConnection(){
+		Debug.LogError("0");
+//		connectionToClient = conn;
 		StartCoroutine ("CheckPassMailLogIn");
 	}
 
