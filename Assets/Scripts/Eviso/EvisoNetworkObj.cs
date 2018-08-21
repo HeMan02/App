@@ -13,37 +13,32 @@ public class EvisoNetworkObj : NetworkBehaviour {
 	public static EvisoNetworkObj instance;
 	public NetworkIdentity nId; // utilizzato per capire l'unico oggetto in locale utilizzatore degli script
 
+	// PRESI DA NETWORK MANAGER USATI PER PHP
+	public string[] items;
+	public bool checkToEnter = false;
+	public string itemsDataString;
+	public string passClient = null;
+	public string mailClient = null;
+	public string passToConfirmClient = null;
+	bool mailCheck = false;
+	bool passcheck = false;
+	public string CreateUserUrl = "http://togeathosting.altervista.org/Insert.php";
+
+
 	// utilizzo l'instance per generare una sola copia del server e per controllare se sono l'owner andrò a vedere se esiste l'instance
 	void Awake(){
 		nId = gameObject.GetComponent<NetworkIdentity> (); // mi facci orestituire il networkidentity per capire l'owner
 	}
-
-	// Chiamato dall'oggetto sul server quando viene inzializzato 
-//	public override void OnStartServer(){
-//
-//	}
-	// chiamato da tutti gli obj quando inizializzato
-//	public override void OnStartClient(){
-//		if (nId.isLocalPlayer) {
-//			Debug.LogError ("Client da networkOBJ!!");
-//		}
-//	}
-
+		
 	void Start(){
+		// ogni oggetto nuovo creato si auto setta serverinstance = this e perdo il settaggio
+		if (isLocalPlayer) {
 			instance = this;
-		if (isLocalPlayer)
-			Debug.LogError ("PIPPOOOOO LOCALEEEEEEEE");	
-		if (isServer) { // =============== CONTROLL OSPORCO PERO MI IDENTIVICA L'UNICA VERSIONE SU SERVER !!! DA MIGLIORARE! ===============
-			Debug.LogError ("Server OBJ"); // Se Server e proprietario lo setto come Server
-			ServerInstance = this;
-		} else { // se client e proprietario setto Owner 
-			Debug.LogError ("client OBJ");
-			OwnerInstance = this;
+//			Debug.LogError ("PIPPOOOOO LOCALEEEEEEEE");	
 		}
 	}
 
 	void Update(){ // Test per vedeer a chi manda i messaggi
-
 	}
 
 	[Command]
@@ -52,9 +47,10 @@ public class EvisoNetworkObj : NetworkBehaviour {
 //			return;
 		Debug.LogError("-1");
 		Debug.LogError ("client dice al server  il nome: " + name + " e la password " + password + " CONN: " + connectionToClient.isConnected);
-		EvisoNetworkManager.instance.mailClient = name;
-		EvisoNetworkManager.instance.passClient = password;
-		EvisoNetworkManager.instance.CheckPassMailLogInConnection ();
+//		EvisoNetworkManager.instance.mailClient = name;
+//		EvisoNetworkManager.instance.passClient = password;
+//		EvisoNetworkManager.instance.CheckPassMailLogInConnection ();
+		CheckPassMailLogInConnection();
 		// check dei valori s epresenti su DB e dopo invio del messaggio al client
 	}
 
@@ -73,6 +69,22 @@ public class EvisoNetworkObj : NetworkBehaviour {
 		// se vero o false vado ad aprire la scena
 	}
 
+	[ClientRpc]
+	public void RpcChekValue(bool checkCLinet){
+		if (!isLocalPlayer)
+			return;
+		Debug.LogError ("4 ");
+		Debug.LogError ("sono i lserver e ti rispondo che ho ceccato con : "  + checkCLinet);
+		if (checkCLinet) {
+			EvisoMainPage.instance.OpenLoginPage ();
+		} else {
+			Debug.LogError("CLIENT SBAGLIATA!!!!!!!");
+			EvisoMainPage.instance.PrintInfoText ("PASS SBAGLIATA");
+			// sbagliata fare comparire a video che sbagliata
+		}
+		// se vero o false vado ad aprire la scena
+	}
+
 	public void ResposeLoginToClient(bool checkValue){
 		Debug.LogError ("2 " + connectionToClient.isConnected);
 		if (checkValue) {
@@ -81,5 +93,127 @@ public class EvisoNetworkObj : NetworkBehaviour {
 			Debug.LogError ("3 " + connectionToClient.isConnected);
 			TargetChekValue (connectionToClient, false);
 		}
+	}
+
+	// ============================================= CHIAMATE CORIUTINE =============================================
+
+	// TENERE TUTTO IL CODICE DENTRO L'OGGETTO CHE CHIAMA I COMMAND SE NO SI PERDE I RIFERIMENTI!!!!!
+	public void CheckPassMailLogInConnection(){
+		Debug.LogError("0");
+		StartCoroutine ("CheckPassMailLogIn");
+	}
+
+	public void CheckPassMailRegisterConnection(){
+		StartCoroutine ("CheckPassMailRegister");
+	}
+
+	// ================================================== CONNESSIONE PHP ==================================================
+
+	IEnumerator CheckPassMailLogIn ()
+	{
+		WWW itemsData = new WWW ("http://togeathosting.altervista.org/Query.php");
+		yield return itemsData;
+		string itemsDataString = itemsData.text;
+		items = itemsDataString.Split (';');
+		// prendo i dati in modo corretto ma pensare come fare check, una è una coroutine e non è sincronizzata
+		mailCheck = false;
+		passcheck = false;
+		// scandisco tutti i nomi delle mail e delle pass e controllo se almeno una fa check
+		for (int i = 0; i < items.Length -1; i++ ){
+			string[] mailAndPass = items[i].Split('|');
+			string[] mailTotal = mailAndPass[0].Split (':');
+			string mail = null;
+			if (mailTotal[1] != null) {
+				mail = mailTotal [1];
+				Debug.Log("MailClient " +  mailClient + mailClient.Length + " == " + mail + mail.Length);
+				if (string.Compare (mailClient, mail) == 0) {
+					mailCheck = true;
+				}
+			}
+			string[] passTotal = mailAndPass[1].Split (':');
+			string pass = null;
+			if (passTotal [1] != null) {
+				pass = passTotal [1];
+				Debug.Log("PassClient " +  passClient + " == " + pass);
+				if (string.Compare (passClient, pass) == 0) {
+					passcheck = true;
+				}
+			}
+		}
+		if (mailCheck && passcheck) {
+			// mi vado a prendere il riferimentop o vedo come dagli l'input per settare a ok e andare avanti se no no
+			Debug.Log ("PASS GIUSTA ");
+			if(EvisoNetworkObj.ServerInstance.isLocalPlayer)
+				ResposeLoginToClient (true);
+		} else {
+			//			Debug.Log ("PASS SBAGLIATA " + connectionToClient.isConnected);
+			Debug.LogError ("1");
+			ResposeLoginToClient (false);
+		}
+	}
+
+	IEnumerator CheckPassMailRegister ()
+	{
+		WWW itemsData = new WWW ("http://togeathosting.altervista.org/Query.php");
+		yield return itemsData;
+		string itemsDataString = itemsData.text;
+		items = itemsDataString.Split (';');
+		// prendo i dati in modo corretto ma pensare come fare check, una è una coroutine e non è sincronizzata
+		mailCheck = false;
+		passcheck = false;
+		// scandisco tutti i nomi delle mail e delle pass e controllo se almeno una fa check
+		for (int i = 0; i < items.Length -1; i++ ){
+			string[] mailAndPass = items[i].Split('|');
+			string[] mailTotal = mailAndPass[0].Split (':');
+			string mail = null;
+			if (mailTotal[1] != null) {
+				mail = mailTotal [1];
+				//				Debug.Log("MailClient " +  mailClient + mailClient.Length + " == " + mail + mail.Length);
+				if (string.Compare (mailClient, mail) == 0) {
+					mailCheck = true;
+				}
+			}
+			string[] passTotal = mailAndPass[1].Split (':');
+			string pass = null;
+			if (passTotal [1] != null) {
+				pass = passTotal [1];
+				//				Debug.Log("PassClient " +  passClient + " == " + pass);
+				if (string.Compare (passClient, pass) == 0) {
+					passcheck = true;
+				}
+			}
+		}
+		//		Debug.Log("mailCheck " +  mailCheck + " passcheck " + passcheck);
+		if (mailCheck && passcheck) {
+			// mi vado a prendere il riferimentop o vedo come dagli l'input per settare a ok e andare avanti se no no
+			Debug.Log ("PASS già presente, non ti puoi registrare ");
+			Register.instance.PrintInfoText ("PASS già presente, non ti puoi registrare ");
+		} else {
+			Debug.Log ("PASS non presente ti registro ");
+			Register.instance.PrintInfoText ("PASS non presente ti registro ");
+			CreateUser (mailClient, passClient); // AGGIUNTO 
+			// CHIAMARE l'insert nel DB
+		}
+	}
+
+	//  INSERT
+	public void CreateUser(string mail, string pass){
+		WWWForm form = new WWWForm();
+		form.AddField("mailclientPost",mail);
+		form.AddField("passClientPost",pass);
+		WWW www = new WWW (CreateUserUrl, form);
+	}
+
+	IEnumerator CiccioConnect ()
+	{
+		WWW itemsData = new WWW ("http://togeathosting.altervista.org/Ciccio.php");
+		yield return itemsData;
+	}
+
+	string GetDataValue (string data, string index)
+	{
+		string value = data.Substring (data.IndexOf (index) + index.Length);
+		//        value = value.Remove(value.IndexOf("|"));
+		return value;
 	}
 }

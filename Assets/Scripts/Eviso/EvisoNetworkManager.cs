@@ -30,7 +30,7 @@ public class EvisoNetworkManager : NetworkManager {
 	void Update(){
 		if (Input.GetKeyDown (KeyCode.S)) {
 			StartServer ();
-			instance = this;
+//			instance = this;
 		}
 		if (Input.GetKeyDown (KeyCode.C)) {
 			StartClient ();
@@ -39,139 +39,12 @@ public class EvisoNetworkManager : NetworkManager {
 	// Quando si inizializza il SERVER!!!! 
 	public override void OnStartServer(){
 		Debug.LogError ("SERVER DA MANAGER");
+		instance = this; // DA VEDERE!!!
 	}
 	// manda il messaggio una sola volta appena il client si connette al server 
 	public override void OnClientConnect(NetworkConnection conn){
 		base.OnClientConnect (conn);
 		Debug.LogError ("client e mi sono connesso MANAGER");
 	}
-
-//	[Command]
-//	void CmdSpawnObj(){
-//		Debug.LogError ("SERVER SPAWN 1");
-//		NetworkServer.Spawn(Instantiate(Resources.Load("Network", typeof(GameObject))) as GameObject);
-//	}
-	// ================================================== MANAGER CONNESSIONE PHP ==================================================
-	// per ora copiato da EvisoPageManager!! da arrangiare riferimenti password ecc
-
-	IEnumerator CheckPassMailLogIn ()
-	{
-		WWW itemsData = new WWW ("http://togeathosting.altervista.org/Query.php");
-		yield return itemsData;
-		string itemsDataString = itemsData.text;
-		items = itemsDataString.Split (';');
-		// prendo i dati in modo corretto ma pensare come fare check, una è una coroutine e non è sincronizzata
-		mailCheck = false;
-		passcheck = false;
-		// scandisco tutti i nomi delle mail e delle pass e controllo se almeno una fa check
-		for (int i = 0; i < items.Length -1; i++ ){
-			string[] mailAndPass = items[i].Split('|');
-			string[] mailTotal = mailAndPass[0].Split (':');
-			string mail = null;
-			if (mailTotal[1] != null) {
-				mail = mailTotal [1];
-								Debug.Log("MailClient " +  mailClient + mailClient.Length + " == " + mail + mail.Length);
-				if (string.Compare (mailClient, mail) == 0) {
-					mailCheck = true;
-				}
-			}
-			string[] passTotal = mailAndPass[1].Split (':');
-			string pass = null;
-			if (passTotal [1] != null) {
-				pass = passTotal [1];
-								Debug.Log("PassClient " +  passClient + " == " + pass);
-				if (string.Compare (passClient, pass) == 0) {
-					passcheck = true;
-				}
-			}
-		}
-		if (mailCheck && passcheck) {
-			// mi vado a prendere il riferimentop o vedo come dagli l'input per settare a ok e andare avanti se no no
-			Debug.Log ("PASS GIUSTA ");
-			EvisoNetworkObj.instance.ResposeLoginToClient (true);
-		} else {
-//			Debug.Log ("PASS SBAGLIATA " + connectionToClient.isConnected);
-			Debug.LogError ("1");
-			EvisoNetworkObj.instance.ResposeLoginToClient (false);
-		}
-	}
-
-
-	IEnumerator CheckPassMailRegister ()
-	{
-		WWW itemsData = new WWW ("http://togeathosting.altervista.org/Query.php");
-		yield return itemsData;
-		string itemsDataString = itemsData.text;
-		items = itemsDataString.Split (';');
-		// prendo i dati in modo corretto ma pensare come fare check, una è una coroutine e non è sincronizzata
-		mailCheck = false;
-		passcheck = false;
-		// scandisco tutti i nomi delle mail e delle pass e controllo se almeno una fa check
-		for (int i = 0; i < items.Length -1; i++ ){
-			string[] mailAndPass = items[i].Split('|');
-			string[] mailTotal = mailAndPass[0].Split (':');
-			string mail = null;
-			if (mailTotal[1] != null) {
-				mail = mailTotal [1];
-				//				Debug.Log("MailClient " +  mailClient + mailClient.Length + " == " + mail + mail.Length);
-				if (string.Compare (mailClient, mail) == 0) {
-					mailCheck = true;
-				}
-			}
-			string[] passTotal = mailAndPass[1].Split (':');
-			string pass = null;
-			if (passTotal [1] != null) {
-				pass = passTotal [1];
-				//				Debug.Log("PassClient " +  passClient + " == " + pass);
-				if (string.Compare (passClient, pass) == 0) {
-					passcheck = true;
-				}
-			}
-		}
-		//		Debug.Log("mailCheck " +  mailCheck + " passcheck " + passcheck);
-		if (mailCheck && passcheck) {
-			// mi vado a prendere il riferimentop o vedo come dagli l'input per settare a ok e andare avanti se no no
-			Debug.Log ("PASS già presente, non ti puoi registrare ");
-			Register.instance.PrintInfoText ("PASS già presente, non ti puoi registrare ");
-		} else {
-			Debug.Log ("PASS non presente ti registro ");
-			Register.instance.PrintInfoText ("PASS non presente ti registro ");
-			CreateUser (mailClient, passClient); // AGGIUNTO 
-			// CHIAMARE l'insert nel DB
-		}
-	}
-
-	//  INSERT
-	public void CreateUser(string mail, string pass){
-		WWWForm form = new WWWForm();
-		form.AddField("mailclientPost",mail);
-		form.AddField("passClientPost",pass);
-		WWW www = new WWW (CreateUserUrl, form);
-	}
-
-	// Usata come test
-	IEnumerator CiccioConnect ()
-	{
-		WWW itemsData = new WWW ("http://togeathosting.altervista.org/Ciccio.php");
-		yield return itemsData;
-	}
-
-	string GetDataValue (string data, string index)
-	{
-		string value = data.Substring (data.IndexOf (index) + index.Length);
-		//        value = value.Remove(value.IndexOf("|"));
-		return value;
-	}
-
-	// ============================================= CHIAMATE CORIUTINE =============================================
-
-	public void CheckPassMailLogInConnection(){
-		Debug.LogError("0");
-//		connectionToClient = conn;
-		StartCoroutine ("CheckPassMailLogIn");
-	}
-
-	public void CheckPassMailRegisterConnection(){
-		StartCoroutine ("CheckPassMailRegister");
-	}
+		
 }
