@@ -8,10 +8,7 @@ public class EvisoNetworkObj : NetworkBehaviour {
 	// non sono convinto per ORA di utilizzare una classe statica come instance perchè non ne vedo l'utilizzo
 	public string ip = "192.168.1.192";
 	public int port = 25001;
-	public static EvisoNetworkObj ServerInstance;
-	public static EvisoNetworkObj OwnerInstance;
 	public static EvisoNetworkObj instance;
-	public NetworkIdentity nId; // utilizzato per capire l'unico oggetto in locale utilizzatore degli script
 
 	// PRESI DA NETWORK MANAGER USATI PER PHP
 	public string[] items;
@@ -24,18 +21,14 @@ public class EvisoNetworkObj : NetworkBehaviour {
 	bool passcheck = false;
 	public string CreateUserUrl = "http://togeathosting.altervista.org/Insert.php";
 
-
-	// utilizzo l'instance per generare una sola copia del server e per controllare se sono l'owner andrò a vedere se esiste l'instance
-	void Awake(){
-		nId = gameObject.GetComponent<NetworkIdentity> (); // mi facci orestituire il networkidentity per capire l'owner
-	}
-		
 	void Start(){
-		// tengo l'istanz adi quello in locale così comunicherà solo lui con la sua versione sul server
-		if (isLocalPlayer) {
+		// Tengo i nlocale solo la versione proprietaria del codice, sul server ovviamente ci saranno tutte le copie
+		if (isLocalPlayer) { // se sono in locale mi setto l'istanza e me l osalvo come indistruttibile in caso cambi scena
 			instance = this;
-		} else if (!isServer) {
-			Debug.LogError ("INTRUSO!!!!");
+			DontDestroyOnLoad (this);
+		} else if (!isServer) { // Se non sono server e non sono il propietario l odistruggo
+			Debug.LogError ("INTRUSO!!!! E L ODISTRUGGO");
+			Destroy (gameObject);
 			return;
 		}
 	}
@@ -45,7 +38,7 @@ public class EvisoNetworkObj : NetworkBehaviour {
 		Debug.LogError ("client dice al server  il nome: " + name + " e la password " + password + " CONN: " + connectionToClient.isConnected);
 		passClient = password;
 		mailClient = name;
-		CheckPassMailLogInConnection();
+		StartCoroutine ("CheckPassMailLogIn");
 		// check dei valori s epresenti su DB e dopo invio del messaggio al client
 	}
 
@@ -61,44 +54,7 @@ public class EvisoNetworkObj : NetworkBehaviour {
 		}
 		// se vero o false vado ad aprire la scena
 	}
-
-	[ClientRpc]
-	public void RpcChekValue(bool checkCLinet){
-		if (!isLocalPlayer)
-			return;
-		Debug.LogError ("sono i lserver e ti rispondo che ho ceccato con : "  + checkCLinet);
-		if (checkCLinet) {
-			EvisoMainPage.instance.OpenLoginPage ();
-		} else {
-			Debug.LogError("CLIENT SBAGLIATA!!!!!!!");
-			EvisoMainPage.instance.PrintInfoText ("PASS SBAGLIATA");
-			// sbagliata fare comparire a video che sbagliata
-		}
-		// se vero o false vado ad aprire la scena
-	}
-
-	public void ResposeLoginToClient(bool checkValue){
-		Debug.LogError ("2 " + connectionToClient.isConnected);
-		if (checkValue) {
-			TargetChekValue (connectionToClient, true);
-		} else {
-			Debug.LogError ("3 " + connectionToClient.isConnected);
-			TargetChekValue (connectionToClient, false);
-		}
-	}
-
-	// ============================================= CHIAMATE CORIUTINE =============================================
-
 	// TENERE TUTTO IL CODICE DENTRO L'OGGETTO CHE CHIAMA I COMMAND SE NO SI PERDE I RIFERIMENTI!!!!!
-	public void CheckPassMailLogInConnection(){
-		Debug.LogError("0");
-		StartCoroutine ("CheckPassMailLogIn");
-	}
-
-	public void CheckPassMailRegisterConnection(){
-		StartCoroutine ("CheckPassMailRegister");
-	}
-
 	// ================================================== CONNESSIONE PHP ==================================================
 	// controlla se password presente sul DB e ritorna il check 
 	IEnumerator CheckPassMailLogIn ()
@@ -134,10 +90,10 @@ public class EvisoNetworkObj : NetworkBehaviour {
 		}
 		if (mailCheck && passcheck) {
 			// mi vado a prendere il riferimentop o vedo come dagli l'input per settare a ok e andare avanti se no no
-			ResposeLoginToClient (true);
+			TargetChekValue (connectionToClient, true);
 		} else {
 			//			Debug.Log ("PASS SBAGLIATA " + connectionToClient.isConnected);
-			ResposeLoginToClient (false);
+			TargetChekValue (connectionToClient, false);
 		}
 	}
 

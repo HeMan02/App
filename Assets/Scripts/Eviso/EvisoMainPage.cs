@@ -48,17 +48,12 @@ public class EvisoMainPage : MonoBehaviour {
 	// quando si preme il lognin click in locale, solo su un oggetto viene eseguito
 	public void LoginClick ()
 	{
-		Debug.LogError("-2 id: " + EvisoNetworkObj.instance.nId.netId );
-		EvisoNetworkObj.instance.mailClient = usernameString;
-		EvisoNetworkObj.instance.passClient = passwordString;
 		EvisoNetworkObj.instance.CmdCheckClient(usernameString,passwordString); // utilizzo per mandare numero random da CLIENT->SERVER e viceversa dopo in risposta
 	}
-
-
-
+		
 	public void OpenLoginPage(){
 		Debug.Log("Entrato");
-		EvisoPageManager.instance.BackClick ("TogEatRegister");
+		EvisoPageManager.instance.BackClick ("EvisoChoice");
 	}
 
 	public void PrintInfoText(string textToPrint){
