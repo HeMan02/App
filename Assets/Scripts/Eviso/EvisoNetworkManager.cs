@@ -46,5 +46,4 @@ public class EvisoNetworkManager : NetworkManager {
 		base.OnClientConnect (conn);
 		Debug.LogError ("client e mi sono connesso MANAGER");
 	}
-		
 }

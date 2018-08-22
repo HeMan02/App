@@ -49,6 +49,8 @@ public class EvisoMainPage : MonoBehaviour {
 	public void LoginClick ()
 	{
 		Debug.LogError("-2 id: " + EvisoNetworkObj.instance.nId.netId );
+		EvisoNetworkObj.instance.mailClient = usernameString;
+		EvisoNetworkObj.instance.passClient = passwordString;
 		EvisoNetworkObj.instance.CmdCheckClient(usernameString,passwordString); // utilizzo per mandare numero random da CLIENT->SERVER e viceversa dopo in risposta
 	}
 

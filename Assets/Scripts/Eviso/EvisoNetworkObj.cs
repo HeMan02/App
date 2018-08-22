@@ -31,25 +31,20 @@ public class EvisoNetworkObj : NetworkBehaviour {
 	}
 		
 	void Start(){
-		// ogni oggetto nuovo creato si auto setta serverinstance = this e perdo il settaggio
+		// tengo l'istanz adi quello in locale così comunicherà solo lui con la sua versione sul server
 		if (isLocalPlayer) {
 			instance = this;
-//			Debug.LogError ("PIPPOOOOO LOCALEEEEEEEE");	
+		} else if (!isServer) {
+			Debug.LogError ("INTRUSO!!!!");
+			return;
 		}
-	}
-
-	void Update(){ // Test per vedeer a chi manda i messaggi
 	}
 
 	[Command]
 	public void CmdCheckClient(string name,string password){
-//		if (!isLocalPlayer)
-//			return;
-		Debug.LogError("-1");
 		Debug.LogError ("client dice al server  il nome: " + name + " e la password " + password + " CONN: " + connectionToClient.isConnected);
-//		EvisoNetworkManager.instance.mailClient = name;
-//		EvisoNetworkManager.instance.passClient = password;
-//		EvisoNetworkManager.instance.CheckPassMailLogInConnection ();
+		passClient = password;
+		mailClient = name;
 		CheckPassMailLogInConnection();
 		// check dei valori s epresenti su DB e dopo invio del messaggio al client
 	}
@@ -57,8 +52,6 @@ public class EvisoNetworkObj : NetworkBehaviour {
 	// SERVER -> CLIENT risponde se password è giusta o no inserita dal client
 	[TargetRpc]
 	public void TargetChekValue(NetworkConnection target,bool checkCLinet){
-		Debug.LogError ("4 ");
-		Debug.LogError ("sono i lserver e ti rispondo che ho ceccato con : "  + checkCLinet);
 		if (checkCLinet) {
 		EvisoMainPage.instance.OpenLoginPage ();
 		} else {
@@ -73,7 +66,6 @@ public class EvisoNetworkObj : NetworkBehaviour {
 	public void RpcChekValue(bool checkCLinet){
 		if (!isLocalPlayer)
 			return;
-		Debug.LogError ("4 ");
 		Debug.LogError ("sono i lserver e ti rispondo che ho ceccato con : "  + checkCLinet);
 		if (checkCLinet) {
 			EvisoMainPage.instance.OpenLoginPage ();
@@ -108,7 +100,7 @@ public class EvisoNetworkObj : NetworkBehaviour {
 	}
 
 	// ================================================== CONNESSIONE PHP ==================================================
-
+	// controlla se password presente sul DB e ritorna il check 
 	IEnumerator CheckPassMailLogIn ()
 	{
 		WWW itemsData = new WWW ("http://togeathosting.altervista.org/Query.php");
@@ -142,16 +134,14 @@ public class EvisoNetworkObj : NetworkBehaviour {
 		}
 		if (mailCheck && passcheck) {
 			// mi vado a prendere il riferimentop o vedo come dagli l'input per settare a ok e andare avanti se no no
-			Debug.Log ("PASS GIUSTA ");
-			if(EvisoNetworkObj.ServerInstance.isLocalPlayer)
-				ResposeLoginToClient (true);
+			ResposeLoginToClient (true);
 		} else {
 			//			Debug.Log ("PASS SBAGLIATA " + connectionToClient.isConnected);
-			Debug.LogError ("1");
 			ResposeLoginToClient (false);
 		}
 	}
 
+	// se utente già presente non ti registra di nuovo, se  no ti aggiunge
 	IEnumerator CheckPassMailRegister ()
 	{
 		WWW itemsData = new WWW ("http://togeathosting.altervista.org/Query.php");
@@ -196,7 +186,7 @@ public class EvisoNetworkObj : NetworkBehaviour {
 		}
 	}
 
-	//  INSERT
+	//  INSERT su DB
 	public void CreateUser(string mail, string pass){
 		WWWForm form = new WWWForm();
 		form.AddField("mailclientPost",mail);
@@ -204,12 +194,14 @@ public class EvisoNetworkObj : NetworkBehaviour {
 		WWW www = new WWW (CreateUserUrl, form);
 	}
 
+	// connessione al PHP ma non so se lo utilizzo ancora
 	IEnumerator CiccioConnect ()
 	{
 		WWW itemsData = new WWW ("http://togeathosting.altervista.org/Ciccio.php");
 		yield return itemsData;
 	}
 
+	// ritorna dati dal PHP
 	string GetDataValue (string data, string index)
 	{
 		string value = data.Substring (data.IndexOf (index) + index.Length);
