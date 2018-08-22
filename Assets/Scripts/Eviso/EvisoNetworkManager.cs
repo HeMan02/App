@@ -46,4 +46,8 @@ public class EvisoNetworkManager : NetworkManager {
 		base.OnClientConnect (conn);
 		Debug.LogError ("client e mi sono connesso MANAGER");
 	}
+	// se non forzata la disconnessione dal client non viene riconosciuto
+	public override void OnClientDisconnect(NetworkConnection connection){
+		Debug.LogError ("client DISCONNESSO!!!!");
+	}
 }
