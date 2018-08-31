@@ -80,6 +80,9 @@ public class EvisoPageManager : MonoBehaviour {
 			case "EvisoAutolettura":
 				SceneManager.LoadScene("EvisoChoice");
 				break;
+			case "EvisoAutoletturaPod":
+				SceneManager.LoadScene("EvisoAutolettura");
+				break;
 			}
 		}
 	}
@@ -117,5 +120,13 @@ public class EvisoPageManager : MonoBehaviour {
 		public void EvisoOpenGraphClick()
 	{
 		SceneManager.LoadScene("EvisoGraph");
+	}
+	public void EvisoAutoMain()
+	{
+		SceneManager.LoadScene("EvisoAutolettura");
+	}
+	public void EvisoAutoInsert()
+	{
+		SceneManager.LoadScene("EvisoAutoletturaPod");
 	}
 }
