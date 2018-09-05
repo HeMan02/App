@@ -74,6 +74,7 @@ public class EvisoAutoInsert : MonoBehaviour {
 	public void SendNumbers(){
 		if (CheckNumberToSend (f1Input, f2Input, f3Input)) {
 			// se supera il controllo invio i valori al DB e risetto i pulsanti come predefiniti, faccio anche partire la dissolvenza
+			EvisoNetworkObj.instance.AddReadings ("IT001E12345678",f1Input.text,f2Input.text,f3Input.text);
 			Debug.Log ("MANDARE!!");
 			f1Input.text = "";
 			f1ButtonImage.color = startColor;

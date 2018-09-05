@@ -20,6 +20,13 @@ public class EvisoNetworkObj : NetworkBehaviour {
 	bool mailCheck = false;
 	bool passcheck = false;
 	public string CreateUserUrl = "http://togeathosting.altervista.org/Insert.php";
+	public string AddReadingsUrl = "http://togeathosting.altervista.org/InsertAutoEnergy.php";
+	// per ora non li uso, se servissero sono qua
+	public string podClient;
+	public string f1Client;
+	public string f2Client;
+	public string f3Client;
+
 
 	void Start(){
 		// Tengo i nlocale solo la versione proprietaria del codice, sul server ovviamente ci saranno tutte le copie
@@ -27,7 +34,7 @@ public class EvisoNetworkObj : NetworkBehaviour {
 			instance = this;
 			DontDestroyOnLoad (this);
 		} else if (!isServer) { // Se non sono server e non sono il propietario l odistruggo
-			Debug.LogError ("INTRUSO!!!! E L ODISTRUGGO");
+			Debug.LogError ("INTRUSO!!!! E LO DISTRUGGO");
 			Destroy (gameObject);
 			return;
 		}
@@ -40,6 +47,17 @@ public class EvisoNetworkObj : NetworkBehaviour {
 		mailClient = name;
 		StartCoroutine ("CheckPassMailLogIn");
 		// check dei valori s epresenti su DB e dopo invio del messaggio al client
+	}
+
+	// in teoria non dovrebbe servire assegnare altre variabile ma passargli già le variabili da inserire perchè controllo effettuato in locale
+	[Command]
+	public void CmdAddAutoReadings(string pod, string f1, string f2, string f3){
+		Debug.LogError ("POD: " + pod + " F1: " + f1 + " F2: " + f2 + "F3" + f3 );
+//		podClient = pod;
+//		f1Client = f1;
+//		f2Client = f2;
+//		f3Client = f3;
+		AddReadings (pod,f1,f2,f3);
 	}
 
 	// SERVER -> CLIENT risponde se password è giusta o no inserita dal client
@@ -150,13 +168,15 @@ public class EvisoNetworkObj : NetworkBehaviour {
 		WWW www = new WWW (CreateUserUrl, form);
 	}
 
-	// connessione al PHP ma non so se lo utilizzo ancora
-	IEnumerator CiccioConnect ()
-	{
-		WWW itemsData = new WWW ("http://togeathosting.altervista.org/Ciccio.php");
-		yield return itemsData;
+	public void AddReadings(string podClient, string f1Client, string f2Client, string f3Client){
+		WWWForm form = new WWWForm();
+		form.AddField("podClient",podClient);
+		form.AddField("f1Client",f1Client);
+		form.AddField("f2Client",f2Client);
+		form.AddField("f3Client",f3Client);
+		WWW www = new WWW (AddReadingsUrl, form);
 	}
-
+		
 	// ritorna dati dal PHP
 	string GetDataValue (string data, string index)
 	{
