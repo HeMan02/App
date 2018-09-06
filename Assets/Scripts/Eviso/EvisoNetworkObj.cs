@@ -51,13 +51,13 @@ public class EvisoNetworkObj : NetworkBehaviour {
 
 	// in teoria non dovrebbe servire assegnare altre variabile ma passargli già le variabili da inserire perchè controllo effettuato in locale
 	[Command]
-	public void CmdAddAutoReadings(string pod, string f1, string f2, string f3){
+	public void CmdAddAutoReadings(string pod, string f1, string f2, string f3,string data){
 		Debug.LogError ("POD: " + pod + " F1: " + f1 + " F2: " + f2 + "F3" + f3 );
 //		podClient = pod;
 //		f1Client = f1;
 //		f2Client = f2;
 //		f3Client = f3;
-		AddReadings (pod,f1,f2,f3);
+		AddReadings (pod,f1,f2,f3,data);
 	}
 
 	// SERVER -> CLIENT risponde se password è giusta o no inserita dal client
@@ -168,12 +168,13 @@ public class EvisoNetworkObj : NetworkBehaviour {
 		WWW www = new WWW (CreateUserUrl, form);
 	}
 
-	public void AddReadings(string podClient, string f1Client, string f2Client, string f3Client){
+	public void AddReadings(string podClient, string f1Client, string f2Client, string f3Client,string dataClient){
 		WWWForm form = new WWWForm();
 		form.AddField("podClient",podClient);
 		form.AddField("f1Client",f1Client);
 		form.AddField("f2Client",f2Client);
 		form.AddField("f3Client",f3Client);
+		form.AddField("dataClient",dataClient);
 		WWW www = new WWW (AddReadingsUrl, form);
 	}
 		
