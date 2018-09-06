@@ -20,6 +20,7 @@ public class EvisoPageManager : MonoBehaviour {
 	public GraphData graph1;
 	public GraphData graph2;
 	public List<GraphData> graphList;
+	public List<DataClient> dataClientList;
 
 	// utilizzo una lista di strutture dove associo ad ognuna i dati del grafico e andranno associati al tasto
 	public struct GraphData{
@@ -27,6 +28,19 @@ public class EvisoPageManager : MonoBehaviour {
 		public float f1;
 		public float f2;
 		public float f3;
+	}
+
+	public struct DataClient{
+		string nome;
+		string pod;
+		string nFtt;
+		string emissione;
+		string perRifIn;
+		string perRifFine;
+		string origineDati;
+		int f1;
+		int f2;
+		int f3;
 	}
 	
 	// la lista dei grafi contiene la lista dei tasti e al sui interno per ogni tasto il contenuto di f1,f2,f3 per quella data ( dati ricevuti tutti da DB )

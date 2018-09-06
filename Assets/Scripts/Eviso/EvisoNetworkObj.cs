@@ -51,12 +51,7 @@ public class EvisoNetworkObj : NetworkBehaviour {
 
 	[Command]
 	public void CmdGetDataClient(){
-//		Debug.LogError ("client dice al server  il nome: " + name + " e la password " + password + " CONN: " + connectionToClient.isConnected);
-//		passClient = password;
-//		mailClient = name;
-//		StartCoroutine ("CheckPassMailLogIn");
-		// check dei valori s epresenti su DB e dopo invio del messaggio al client
-		StartCoroutine("GetDataclientFromDb");
+		StartCoroutine("GetDataClientFromDb");
 	}
 
 	// in teoria non dovrebbe servire assegnare altre variabile ma passargli già le variabili da inserire perchè controllo effettuato in locale
@@ -81,6 +76,13 @@ public class EvisoNetworkObj : NetworkBehaviour {
 			// sbagliata fare comparire a video che sbagliata
 		}
 		// se vero o false vado ad aprire la scena
+	}
+
+	// utilizzo per mandare da SERVER -> CLIENT i dati dell'utente
+	[TargetRpc]
+	public void TargetSetData(NetworkConnection target,bool checkCLinet){
+
+
 	}
 	// TENERE TUTTO IL CODICE DENTRO L'OGGETTO CHE CHIAMA I COMMAND SE NO SI PERDE I RIFERIMENTI!!!!!
 	// ================================================== CONNESSIONE PHP ==================================================
@@ -118,6 +120,7 @@ public class EvisoNetworkObj : NetworkBehaviour {
 		}
 		if (mailCheck && passcheck) {
 			// mi vado a prendere il riferimentop o vedo come dagli l'input per settare a ok e andare avanti se no no
+//			GetAndSendDataToClient(mailClient);
 			TargetChekValue (connectionToClient, true);
 		} else {
 			//			Debug.Log ("PASS SBAGLIATA " + connectionToClient.isConnected);
@@ -202,6 +205,11 @@ public class EvisoNetworkObj : NetworkBehaviour {
 //			string[] mailTotal = mailAndPass[0].Split (':');
 //			string[] passTotal = mailAndPass[1].Split (':');
 		}
+	}
+
+	// utilizzare per checcare e poi andare a settare i valori al client
+	public void GetAndSendDataToClient(){
+
 	}
 
 	// ritorna dati dal PHP
