@@ -49,6 +49,16 @@ public class EvisoNetworkObj : NetworkBehaviour {
 		// check dei valori s epresenti su DB e dopo invio del messaggio al client
 	}
 
+	[Command]
+	public void CmdGetDataClient(){
+//		Debug.LogError ("client dice al server  il nome: " + name + " e la password " + password + " CONN: " + connectionToClient.isConnected);
+//		passClient = password;
+//		mailClient = name;
+//		StartCoroutine ("CheckPassMailLogIn");
+		// check dei valori s epresenti su DB e dopo invio del messaggio al client
+		StartCoroutine("GetDataclientFromDb");
+	}
+
 	// in teoria non dovrebbe servire assegnare altre variabile ma passargli già le variabili da inserire perchè controllo effettuato in locale
 	[Command]
 	public void CmdAddAutoReadings(string pod, string f1, string f2, string f3,string data){
@@ -177,7 +187,23 @@ public class EvisoNetworkObj : NetworkBehaviour {
 		form.AddField("dataClient",dataClient);
 		WWW www = new WWW (AddReadingsUrl, form);
 	}
-		
+	// TEST		------------------------------------------------------
+	IEnumerator GetDataclientFromDb ()
+	{
+		WWW itemsData = new WWW ("http://togeathosting.altervista.org/QueryGetDataRiepBollette.php");
+		yield return itemsData;
+		string itemsDataString = itemsData.text;
+		items = itemsDataString.Split (';');
+		// prendo i dati in modo corretto ma pensare come fare check, una è una coroutine e non è sincronizzata
+		// scandisco tutti i nomi delle mail e delle pass e controllo se almeno una fa check
+		for (int i = 0; i < items.Length -1; i++ ){
+			string[] mailAndPass = items[i].Split('|');
+			Debug.LogError("i: " + i + " item: " + items[i].ToString());
+//			string[] mailTotal = mailAndPass[0].Split (':');
+//			string[] passTotal = mailAndPass[1].Split (':');
+		}
+	}
+
 	// ritorna dati dal PHP
 	string GetDataValue (string data, string index)
 	{
