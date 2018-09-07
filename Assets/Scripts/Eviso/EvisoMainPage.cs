@@ -13,8 +13,6 @@ public class EvisoMainPage : MonoBehaviour {
 	public GameObject buttonLogin;
 	public GameObject buttonRegister;
 	public Text infoText;
-
-
 	//    TouchScreenKeyboard keyboard;
 	string usernameString;
 	string passwordString;
@@ -49,7 +47,7 @@ public class EvisoMainPage : MonoBehaviour {
 	public void LoginClick ()
 	{
 		EvisoNetworkObj.instance.CmdCheckClient(usernameString,passwordString); // utilizzo per mandare numero random da CLIENT->SERVER e viceversa dopo in risposta
-		EvisoNetworkObj.instance.CmdGetDataClient();
+//		EvisoNetworkObj.instance.CmdGetDataClient();
 	}
 		
 	public void OpenLoginPage(){
