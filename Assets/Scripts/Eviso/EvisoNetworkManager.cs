@@ -23,18 +23,25 @@ public class EvisoNetworkManager : NetworkManager {
 	}
 	// Use this for initialization
 	void Start () {
-
+//		Debug.LogError (" HEADLESS: " + IsHeadless ());
+		if (IsHeadless ()) {
+			StartServer ();
+		} else {
+			StartClient ();
+		}
 	}
+
+
 
 	// Update is called once per frame
 	void Update(){
-		if (Input.GetKeyDown (KeyCode.S)) {
-			StartServer ();
-//			instance = this;
-		}
-		if (Input.GetKeyDown (KeyCode.C)) {
-			StartClient ();
-		}
+//		if (Input.GetKeyDown (KeyCode.S)) {
+//			StartServer ();
+////			instance = this;
+//		}
+//		if (Input.GetKeyDown (KeyCode.C)) {
+//			StartClient ();
+//		}
 	}
 	// Quando si inizializza il SERVER!!!! 
 	public override void OnStartServer(){
@@ -49,5 +56,9 @@ public class EvisoNetworkManager : NetworkManager {
 	// se non forzata la disconnessione dal client non viene riconosciuto
 	public override void OnClientDisconnect(NetworkConnection connection){
 		Debug.LogError ("client DISCONNESSO!!!!");
+	}
+
+	bool IsHeadless(){
+		return SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null;
 	}
 }
