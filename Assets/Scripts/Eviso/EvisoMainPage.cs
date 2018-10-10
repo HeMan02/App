@@ -13,6 +13,7 @@ public class EvisoMainPage : MonoBehaviour {
 	public GameObject buttonLogin;
 	public GameObject buttonRegister;
 	public Text infoText;
+	public GameObject gameobjectExit;
 	//    TouchScreenKeyboard keyboard;
 	string usernameString;
 	string passwordString;
@@ -27,6 +28,7 @@ public class EvisoMainPage : MonoBehaviour {
 		usernameInputField = username.transform.GetChild (0).GetComponent<InputField> ();
 		passwordInputField = password.transform.GetChild (0).GetComponent<InputField> ();
 		infoText.text = "";
+		gameobjectExit.SetActive (false);
 	}
 
 	// Update is called once per frame
@@ -34,6 +36,9 @@ public class EvisoMainPage : MonoBehaviour {
 	{
 		usernameString = usernameInputField.text;
 		passwordString = passwordInputField.text;
+		if (Input.GetKeyDown (KeyCode.Escape)) { 
+			gameobjectExit.SetActive (!gameobjectExit.activeSelf);
+		}
 		//		Debug.Log ("il testo nome contiene " + usernameString);
 		//		Debug.Log ("il testo password contiene " + passwordString);
 	}
@@ -58,5 +63,13 @@ public class EvisoMainPage : MonoBehaviour {
 	public void PrintInfoText(string textToPrint){
 		infoText.text = "";
 		infoText.text = "" + textToPrint;
+	}
+
+	public void ExitApllication(){
+		Application.Quit ();
+	}
+
+	public void ReturnToAppication(){
+		gameobjectExit.SetActive (false);
 	}
 }

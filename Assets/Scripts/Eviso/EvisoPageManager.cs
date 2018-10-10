@@ -67,10 +67,10 @@ public class EvisoPageManager : MonoBehaviour {
 			var actualScene = SceneManager.GetActiveScene ();
 			switch (actualScene.name) { // in base a ogni scenaq torno indietro a quella che mi serve
 			case "EvisoMain":
-				Debug.Log ("Sono nel Main non posso tornarte indietro");
+//				Debug.Log ("Sono nel Main non posso tornarte indietro");
 				break;
 			case "EvisoChoice":
-				SceneManager.LoadScene("EvisoMain");
+//				SceneManager.LoadScene("EvisoMain");
 				break;
 			case "EvisoBollettaMain":
 				SceneManager.LoadScene("EvisoChoice");
