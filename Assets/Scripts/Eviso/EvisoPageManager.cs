@@ -15,7 +15,6 @@ public class EvisoPageManager : MonoBehaviour {
 	public string passToConfirmClient = null;
 	bool mailCheck = false;
 	bool passcheck = false;
-	public string CreateUserUrl = "http://togeathosting.altervista.org/Insert.php";
 	public int numberButtonBills = 0;
 	public GraphData graph1;
 	public GraphData graph2;

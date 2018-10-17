@@ -19,8 +19,8 @@ public class EvisoNetworkObj : NetworkBehaviour {
 	public string passToConfirmClient = null;
 	bool mailCheck = false;
 	bool passcheck = false;
-	public string CreateUserUrl = "http://togeathosting.altervista.org/Insert.php";
-	public string AddReadingsUrl = "http://togeathosting.altervista.org/InsertAutoEnergy.php";
+	string CreateUserUrl = "http://localhost/PHPScripts/Insert.php";
+	string AddReadingsUrl = "http://localhost/PHPScripts/InsertAutoEnergy.php";
 	public List<DataClient> dataClientList;
 	public DataClient dataClient;
 	public string[] getItemVector;
@@ -107,7 +107,7 @@ public class EvisoNetworkObj : NetworkBehaviour {
 	// controlla se password presente sul DB e ritorna il check 
 	IEnumerator CheckPassMailLogIn ()
 	{
-		WWW itemsData = new WWW ("http://togeathosting.altervista.org/Query.php");
+		WWW itemsData = new WWW ("http://localhost/PHPScripts/Query.php");
 		yield return itemsData;
 		string itemsDataString = itemsData.text;
 		items = itemsDataString.Split (';');
@@ -148,7 +148,7 @@ public class EvisoNetworkObj : NetworkBehaviour {
 	// se utente già presente non ti registra di nuovo, se  no ti aggiunge
 	IEnumerator CheckPassMailRegister ()
 	{
-		WWW itemsData = new WWW ("http://togeathosting.altervista.org/Query.php");
+		WWW itemsData = new WWW ("http://localhost/PHPScripts/Query.php");
 		yield return itemsData;
 		string itemsDataString = itemsData.text;
 		items = itemsDataString.Split (';');
@@ -230,7 +230,7 @@ public class EvisoNetworkObj : NetworkBehaviour {
 	IEnumerator GetAndSendDataToClient(string mail){
 		WWWForm form = new WWWForm();
 		form.AddField("mailclientPost",mail);
-		WWW itemsData = new WWW ("http://togeathosting.altervista.org/QueryGetDataRiepBollette.php");
+		WWW itemsData = new WWW ("http://localhost/PHPScripts/QueryGetDataRiepBollette.php");
 		yield return itemsData;
 		string itemsDataString = itemsData.text;
 		items = itemsDataString.Split (';');

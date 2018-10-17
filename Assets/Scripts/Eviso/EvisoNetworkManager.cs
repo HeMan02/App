@@ -14,7 +14,6 @@ public class EvisoNetworkManager : NetworkManager {
 	public string passToConfirmClient = null;
 	bool mailCheck = false;
 	bool passcheck = false;
-	public string CreateUserUrl = "http://togeathosting.altervista.org/Insert.php";
 	public static EvisoNetworkManager instance;
 	public GameObject serverObj;
 	public NetworkConnection connectionToClient;
@@ -32,7 +31,7 @@ public class EvisoNetworkManager : NetworkManager {
 	}
 
 
-
+	// comandi tenuti per avvio in locale, ma cambiare IP
 	// Update is called once per frame
 	void Update(){
 //		if (Input.GetKeyDown (KeyCode.S)) {
