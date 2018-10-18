@@ -46,7 +46,7 @@ public class EvisoNetworkObj : NetworkBehaviour {
 			instance = this;
 			DontDestroyOnLoad (this);
 		} else if (!isServer) { // Se non sono server e non sono il propietario l odistruggo
-			Debug.LogError ("INTRUSO!!!! E LO DISTRUGGO");
+//			Debug.LogError ("INTRUSO!!!! E LO DISTRUGGO");
 			Destroy (gameObject);
 			return;
 		}
@@ -69,7 +69,7 @@ public class EvisoNetworkObj : NetworkBehaviour {
 	// in teoria non dovrebbe servire assegnare altre variabile ma passargli già le variabili da inserire perchè controllo effettuato in locale
 	[Command]
 	public void CmdAddAutoReadings(string pod, string f1, string f2, string f3,string data){
-		Debug.LogError ("POD: " + pod + " F1: " + f1 + " F2: " + f2 + "F3" + f3 );
+//		Debug.LogError ("POD: " + pod + " F1: " + f1 + " F2: " + f2 + "F3" + f3 );
 		AddReadings (pod,f1,f2,f3,data);
 	}
 
@@ -264,18 +264,17 @@ public class EvisoNetworkObj : NetworkBehaviour {
 					dataClient.origineDati = testString [1];
 					break;
 				case 7:
-					dataClient.f1 = 2;
+					dataClient.f1 = Random.Range(0,300);
 					break;
 				case 8:
-					dataClient.f2 = 2;
+					dataClient.f2 = Random.Range(0,300);
 					break;
 				case 9:
-					dataClient.f3 = 2;
+					dataClient.f3 = Random.Range(0,300);
 					break;
 				}
 			}
 			TargetSetDataClient (connectionToClient,dataClient);
-
 		}
 		TargetChekValue (connectionToClient, true);
 	}

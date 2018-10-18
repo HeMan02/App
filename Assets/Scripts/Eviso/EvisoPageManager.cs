@@ -16,8 +16,6 @@ public class EvisoPageManager : MonoBehaviour {
 	bool mailCheck = false;
 	bool passcheck = false;
 	public int numberButtonBills = 0;
-	public GraphData graph1;
-	public GraphData graph2;
 	public List<GraphData> graphList;
 
 	// utilizzo una lista di strutture dove associo ad ognuna i dati del grafico e andranno associati al tasto
@@ -38,24 +36,12 @@ public class EvisoPageManager : MonoBehaviour {
 		if (numGameobject > 1)
 			Destroy(gameObject);
 		DontDestroyOnLoad(gameObject);
-		//		infoTextObj = GameObject.Find ("infoTextObj");
-		Debug.Log("Awake");
 	}
 	// Use this for initialization
 	void Start()
 	{
 		instance = this;
 		graphList = new List<GraphData>();
-		graph1 = new GraphData();
-		graph2 = new GraphData();
-		graph1.f1 = Random.Range(0f,200f);
-		graph1.f2 = Random.Range(0f,200f);
-		graph1.f3 = Random.Range(0f,200f);
-		graph2.f1 = Random.Range(0f,200f);
-		graph2.f2 = Random.Range(0f,200f);
-		graph2.f3 = Random.Range(0f,200f);
-		graphList.Add(graph1);
-		graphList.Add(graph2);
 	}
 
 	// Update is called once per frame
