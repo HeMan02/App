@@ -19,8 +19,11 @@ public class EvisoNetworkObj : NetworkBehaviour {
 	public string passToConfirmClient = null;
 	bool mailCheck = false;
 	bool passcheck = false;
-	string CreateUserUrl = "http://localhost/PHPScripts/Insert.php";
-	string AddReadingsUrl = "http://localhost/PHPScripts/InsertAutoEnergy.php";
+	// ===================== NORMAL =====================
+	public string createUserUrl;
+	public string addReadingsUrl;
+	public string queryPhp; 
+	public string queryGetDataRiepBills;
 	public List<DataClient> dataClientList;
 	public DataClient dataClient;
 	public string[] getItemVector;
@@ -41,6 +44,9 @@ public class EvisoNetworkObj : NetworkBehaviour {
 
 
 	void Start(){
+		if (isServer) {
+			SetPath (EvisoNetworkManager.instance.test);
+		}
 		// Tengo i nlocale solo la versione proprietaria del codice, sul server ovviamente ci saranno tutte le copie
 		if (isLocalPlayer) { // se sono in locale mi setto l'istanza e me l osalvo come indistruttibile in caso cambi scena
 			instance = this;
@@ -107,9 +113,10 @@ public class EvisoNetworkObj : NetworkBehaviour {
 	// controlla se password presente sul DB e ritorna il check 
 	IEnumerator CheckPassMailLogIn ()
 	{
-		WWW itemsData = new WWW ("http://localhost/PHPScripts/Query.php");
+		WWW itemsData = new WWW (queryPhp);
 		yield return itemsData;
 		string itemsDataString = itemsData.text;
+		Debug.LogError ("data : " + itemsDataString);
 		items = itemsDataString.Split (';');
 		// prendo i dati in modo corretto ma pensare come fare check, una è una coroutine e non è sincronizzata
 		mailCheck = false;
@@ -148,7 +155,7 @@ public class EvisoNetworkObj : NetworkBehaviour {
 	// se utente già presente non ti registra di nuovo, se  no ti aggiunge
 	IEnumerator CheckPassMailRegister ()
 	{
-		WWW itemsData = new WWW ("http://localhost/PHPScripts/Query.php");
+		WWW itemsData = new WWW (queryPhp);
 		yield return itemsData;
 		string itemsDataString = itemsData.text;
 		items = itemsDataString.Split (';');
@@ -195,7 +202,7 @@ public class EvisoNetworkObj : NetworkBehaviour {
 		WWWForm form = new WWWForm();
 		form.AddField("mailclientPost",mail);
 		form.AddField("passClientPost",pass);
-		WWW www = new WWW (CreateUserUrl, form);
+		WWW www = new WWW (createUserUrl, form);
 	}
 
 	public void AddReadings(string podClient, string f1Client, string f2Client, string f3Client,string dataClient){
@@ -205,32 +212,14 @@ public class EvisoNetworkObj : NetworkBehaviour {
 		form.AddField("f2Client",f2Client);
 		form.AddField("f3Client",f3Client);
 		form.AddField("dataClient",dataClient);
-		WWW www = new WWW (AddReadingsUrl, form);
+		WWW www = new WWW (addReadingsUrl, form);
 	}
-	// TEST		------------------------------------------------------
-//	IEnumerator GetDataclientFromDb ()
-//	{
-////		WWWForm form = new WWWForm();
-////		form.AddField("Mail",);
-//		WWW itemsData = new WWW ("http://togeathosting.altervista.org/QueryGetDataRiepBollette.php");
-//		yield return itemsData;
-//		string itemsDataString = itemsData.text;
-//		items = itemsDataString.Split (';');
-//		// prendo i dati in modo corretto ma pensare come fare check, una è una coroutine e non è sincronizzata
-//		// scandisco tutti i nomi delle mail e delle pass e controllo se almeno una fa check
-//		for (int i = 0; i < items.Length -1; i++ ){
-//			string[] mailAndPass = items[i].Split('|');
-//			Debug.LogError("i: " + i + " item: " + items[i].ToString());
-////			string[] mailTotal = mailAndPass[0].Split (':');
-////			string[] passTotal = mailAndPass[1].Split (':');
-//		}
-//	}
 
 	// utilizzare per checcare e poi andare a settare i valori al client
 	IEnumerator GetAndSendDataToClient(string mail){
 		WWWForm form = new WWWForm();
 		form.AddField("mailclientPost",mail);
-		WWW itemsData = new WWW ("http://localhost/PHPScripts/QueryGetDataRiepBollette.php");
+		WWW itemsData = new WWW (queryGetDataRiepBills);
 		yield return itemsData;
 		string itemsDataString = itemsData.text;
 		items = itemsDataString.Split (';');
@@ -285,5 +274,20 @@ public class EvisoNetworkObj : NetworkBehaviour {
 		string value = data.Substring (data.IndexOf (index) + index.Length);
 		//        value = value.Remove(value.IndexOf("|"));
 		return value;
+	}
+
+	void SetPath(bool testValue){
+		// Se in Test setto dei percorsi se n altri
+		if (testValue) {
+			createUserUrl = "http://togeathosting.altervista.org/Insert.php";
+			addReadingsUrl = "http://togeathosting.altervista.org/InsertAutoEnergy.php";
+			queryPhp = "http://togeathosting.altervista.org/Query.php"; 
+			queryGetDataRiepBills = "http://togeathosting.altervista.org/QueryGetDataRiepBollette.php";
+		} else {
+			createUserUrl = "http://localhost/PHPScripts/Insert.php";
+			addReadingsUrl = "http://localhost/PHPScripts/InsertAutoEnergy.php";
+			queryPhp = "http://localhost/PHPScripts/Query.php"; 
+			queryGetDataRiepBills = "http://localhost/PHPScripts/QueryGetDataRiepBollette.php";
+		}
 	}
 }

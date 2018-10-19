@@ -17,16 +17,26 @@ public class EvisoNetworkManager : NetworkManager {
 	public static EvisoNetworkManager instance;
 	public GameObject serverObj;
 	public NetworkConnection connectionToClient;
+	public bool test;
+	public string ip = "85.234.128.105";
+	public string ipTest = "192.168.1.192";
 
 	void Awake(){
 	}
 	// Use this for initialization
 	void Start () {
-//		Debug.LogError (" HEADLESS: " + IsHeadless ());
-		if (IsHeadless ()) {
-			StartServer ();
+		if (test) {
+			this.gameObject.GetComponent<EvisoNetworkManager> ().networkAddress = ipTest;
 		} else {
-			StartClient ();
+			this.gameObject.GetComponent<EvisoNetworkManager> ().networkAddress = ip;
+		}
+//		Debug.LogError (" HEADLESS: " + IsHeadless ());
+		if (!test) {
+			if (IsHeadless ()) {
+				StartServer ();
+			} else {
+				StartClient ();
+			}
 		}
 	}
 
@@ -34,13 +44,14 @@ public class EvisoNetworkManager : NetworkManager {
 	// comandi tenuti per avvio in locale, ma cambiare IP
 	// Update is called once per frame
 	void Update(){
-//		if (Input.GetKeyDown (KeyCode.S)) {
-//			StartServer ();
-////			instance = this;
-//		}
-//		if (Input.GetKeyDown (KeyCode.C)) {
-//			StartClient ();
-//		}
+		if (test) {
+			if (Input.GetKeyDown (KeyCode.S)) {
+				StartServer ();
+			}
+			if (Input.GetKeyDown (KeyCode.C)) {
+				StartClient ();
+			}
+		}
 	}
 	// Quando si inizializza il SERVER!!!! 
 	public override void OnStartServer(){

@@ -20,12 +20,12 @@ public class EvisoBollettaMain : MonoBehaviour {
 			GameObject instanceObj = Instantiate(Resources.Load("Button", typeof(GameObject))) as GameObject;
 			instanceObj.name = "B" + i;
 			instanceObj.transform.parent = scrollContent.transform;
-			instanceObj.transform.GetChild (0).GetComponent<UnityEngine.UI.Text>().text = EvisoNetworkObj.instance.dataClientList[i].pod; // data 
+			instanceObj.transform.GetChild (0).GetComponent<UnityEngine.UI.Text>().text = myDataClient[i].pod; // data 
 			// vado a crearmi il dato del grafo e lo vado a settare per usare successivamente
 			graphData = new EvisoPageManager.GraphData();
-			graphData.f1 = EvisoNetworkObj.instance.dataClientList [i].f1;
-			graphData.f2 = EvisoNetworkObj.instance.dataClientList [i].f2;
-			graphData.f3 = EvisoNetworkObj.instance.dataClientList [i].f3;
+			graphData.f1 = myDataClient [i].f1;
+			graphData.f2 = myDataClient [i].f2;
+			graphData.f3 = myDataClient [i].f3;
 			EvisoPageManager.instance.graphList.Add(graphData);
 		}
 	}
