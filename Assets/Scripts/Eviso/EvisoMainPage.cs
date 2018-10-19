@@ -66,7 +66,6 @@ public class EvisoMainPage : MonoBehaviour {
 	}
 
 	public void ExitApllication(){
-		// AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 		Application.Quit ();
 	}
 

@@ -19,7 +19,6 @@ public class EvisoNetworkObj : NetworkBehaviour {
 	public string passToConfirmClient = null;
 	bool mailCheck = false;
 	bool passcheck = false;
-	// ===================== NORMAL =====================
 	public string createUserUrl;
 	public string addReadingsUrl;
 	public string queryPhp; 
@@ -116,7 +115,6 @@ public class EvisoNetworkObj : NetworkBehaviour {
 		WWW itemsData = new WWW (queryPhp);
 		yield return itemsData;
 		string itemsDataString = itemsData.text;
-		Debug.LogError ("data : " + itemsDataString);
 		items = itemsDataString.Split (';');
 		// prendo i dati in modo corretto ma pensare come fare check, una è una coroutine e non è sincronizzata
 		mailCheck = false;
@@ -253,13 +251,16 @@ public class EvisoNetworkObj : NetworkBehaviour {
 					dataClient.origineDati = testString [1];
 					break;
 				case 7:
-					dataClient.f1 = Random.Range(0,300);
+//					dataClient.f1 = Random.Range(0,300);
+					dataClient.f1 = int.Parse(testString [1]);
 					break;
 				case 8:
-					dataClient.f2 = Random.Range(0,300);
+//					dataClient.f2 = Random.Range(0,300);
+					dataClient.f2 = int.Parse(testString [1]);
 					break;
 				case 9:
-					dataClient.f3 = Random.Range(0,300);
+//					dataClient.f3 = Random.Range(0,300);
+					dataClient.f3 = int.Parse(testString [1]);
 					break;
 				}
 			}
