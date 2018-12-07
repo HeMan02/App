@@ -69,6 +69,9 @@ public class EvisoPageManager : MonoBehaviour {
 			case "EvisoAutoletturaPod":
 				SceneManager.LoadScene("EvisoAutolettura");
 				break;
+			case "EvisoAutoletturaPodGas":
+				SceneManager.LoadScene("EvisoAutolettura");
+				break;
 			}
 		}
 	}
@@ -114,5 +117,9 @@ public class EvisoPageManager : MonoBehaviour {
 	public void EvisoAutoInsert()
 	{
 		SceneManager.LoadScene("EvisoAutoletturaPod");
+	}
+	public void EvisoAutoInsertGas()
+	{
+		SceneManager.LoadScene("EvisoAutoletturaPodGas");
 	}
 }

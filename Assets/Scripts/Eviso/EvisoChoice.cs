@@ -38,6 +38,14 @@ public class EvisoChoice : MonoBehaviour {
 		EvisoPageManager.instance.EvisoAutoletturaClick();
 	}
 
+	public void AutoletturaGasClick ()
+	{
+		//		EvisoPageManager.instance.mailClient = usernameString;
+		//		EvisoPageManager.instance.passClient = passwordString;
+		//		EvisoPageManager.instance.CheckPassMailLogInConnection ();
+		EvisoPageManager.instance.EvisoAutoInsertGas();
+	}
+
 	public void NestoreClick ()
 	{
 		//		EvisoPageManager.instance.mailClient = usernameString;

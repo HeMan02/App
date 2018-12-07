@@ -15,6 +15,6 @@ public class EvisoAutoMain : MonoBehaviour {
 	}
 
 	public void OpenInsertScene(){
-		EvisoPageManager.instance.EvisoAutoInsert ();
+		EvisoPageManager.instance.EvisoAutoInsertGas ();
 	}
 }
