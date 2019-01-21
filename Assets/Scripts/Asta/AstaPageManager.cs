@@ -45,4 +45,9 @@ public class AstaPageManager : MonoBehaviour {
 	{
 		SceneManager.LoadScene("AstaMyPlayers");
 	}
+
+	public void AstaMainPage()
+	{
+		SceneManager.LoadScene("AstaMain");
+	}
 }
