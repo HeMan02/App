@@ -7,6 +7,26 @@ public class AstaPageManager : MonoBehaviour {
 	public string[] items;
 	public bool checkGenerateCharacters;
 	public static AstaPageManager instance;
+
+	public struct Character{
+		string name;
+		int id;
+		string type; 
+		string rule; 
+		int vel;
+		int att;
+		int res;
+		int life;
+		int def;
+		int flag;
+		int head;
+		int body;
+		int extraBody;
+		string dateStart; 
+		string dateEnd; 
+	}
+
+
 	// Use this for initialization
 	void Start () {
 		int numGameobject = GameObject.FindGameObjectsWithTag("AstaPageManager").Length;
