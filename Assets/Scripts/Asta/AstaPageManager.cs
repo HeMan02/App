@@ -4,10 +4,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class AstaPageManager : MonoBehaviour {
-
+	public string[] items;
+	public bool checkGenerateCharacters;
 	public static AstaPageManager instance;
 	// Use this for initialization
 	void Start () {
+		int numGameobject = GameObject.FindGameObjectsWithTag("AstaPageManager").Length;
+		if (numGameobject > 1)
+			Destroy(gameObject);
+		DontDestroyOnLoad(gameObject);
 		instance = this;
 	}
 	
@@ -38,6 +43,7 @@ public class AstaPageManager : MonoBehaviour {
 
 	public void AstaLoginMarket()
 	{
+		CheckCharactersConnection ();
 		SceneManager.LoadScene("AstaMarket");
 	}
 
@@ -50,4 +56,42 @@ public class AstaPageManager : MonoBehaviour {
 	{
 		SceneManager.LoadScene("AstaMain");
 	}
+
+	// ================================ CONNESSIONE AL DB ===================================================
+
+	public void CheckCharactersConnection(){
+		Debug.Log ("Funzione start coroutine");
+		StartCoroutine ("CheckCharacters");
+	}
+
+	IEnumerator CheckCharacters()
+	{
+		Debug.Log ("Funzione dentro coroutine");
+		WWW itemsData = new WWW ("http://togeathosting.altervista.org/QueryAllCharacters.php");
+		yield return itemsData;
+		string itemsDataString = itemsData.text;
+		items = itemsDataString.Split ('|');
+		// prendo i dati in modo corretto ma pensare come fare check, una è una coroutine e non è sincronizzata
+		checkGenerateCharacters = false;
+		Debug.Log ("lunghezza: " + items.Length);
+		// scandisco tutti i nomi delle mail e delle pass e controllo se almeno una fa check
+		for (int i = 0; i < items.Length ; i++ ){
+			string[] dataGet = items[i].Split(':');
+			Debug.Log ("Dato: " + dataGet[1].ToString());
+//			for (int j = 0; j < dataGet.Length; j++) {
+//				Debug.Log ("Dato: " + dataGet[j].ToString());
+//			}
+//			Debug.Log ("Dato: " + items[i].ToString());
+		}
+		//		Debug.Log("mailCheck " +  mailCheck + " passcheck " + passcheck);
+//		if (mailCheck && passcheck) {
+//			// mi vado a prendere il riferimentop o vedo come dagli l'input per settare a ok e andare avanti se no no
+//			Debug.Log ("PASS GIUSTA ");
+//			MainPage.instance.OpenLoginPage ();
+//		} else {
+//			Debug.Log ("PASS SBAGLIATA ");
+//			MainPage.instance.PrintInfoText ("PASS SBAGLIATA");
+//		}
+	}
+
 }
