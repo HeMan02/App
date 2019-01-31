@@ -15,11 +15,20 @@ public class AstaPageManager : MonoBehaviour
 
 	public enum Type
 	{
-		
+		uman,
+		beasts,
+		ghost,
+		zombie,
+		vampire
 	}
 	
 	public enum Rule
 	{
+		thief, // ladro
+		knight, // cavaliere
+		magician,
+		strategist,
+		druid
 	}
 
     public struct Character
@@ -146,6 +155,28 @@ public class AstaPageManager : MonoBehaviour
 //			MainPage.instance.PrintInfoText ("PASS SBAGLIATA");
 //		}
     }
+	
+	// Creata per nome più parlante,uguale a quella sopra
+	IEnumerator GetCharacters(){
+        WWW itemsData = new WWW("http://togeathosting.altervista.org/QueryAllCharacters.php");
+        yield return itemsData;
+        string itemsDataString = itemsData.text;
+        items = itemsDataString.Split('|');
+        // prendo i dati in modo corretto ma pensare come fare check, una è una coroutine e non è sincronizzata
+        checkGenerateCharacters = false;
+        Debug.Log("lunghezza: " + items.Length);
+        // scandisco tutti i nomi delle mail e delle pass e controllo se almeno una fa check
+        for (int i = 0; i < items.Length; i++)
+        {
+            string[] dataGet = items[i].Split(':');
+            Debug.Log("Dato: " + dataGet[1].ToString());
+        }
+	}
+	
+	public void GenerateListCharacters()
+	{
+		
+	}
 
     public Character GenerateRandomCharacter()
     {
