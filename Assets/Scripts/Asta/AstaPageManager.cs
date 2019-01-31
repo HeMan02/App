@@ -13,6 +13,14 @@ public class AstaPageManager : MonoBehaviour
     public string dateNormalFormat = "yyyy/MM/dd-HH:mm:ss";
     public string dateMyFormat = "yyyyMMddHHmmss";
 
+	public enum Type
+	{
+		
+	}
+	
+	public enum Rule
+	{
+	}
 
     public struct Character
     {
@@ -142,20 +150,20 @@ public class AstaPageManager : MonoBehaviour
     public Character GenerateRandomCharacter()
     {
         Character randomCharacter = new Character();
-        randomCharacter.name = "";
-        randomCharacter.id = 1;
+        randomCharacter.name = GenerateRandomName();
+        randomCharacter.id = 0;
         randomCharacter.type = "";
         randomCharacter.rule = "";
-        randomCharacter.vel = 1;
-        randomCharacter.att = 1;
-        randomCharacter.res = 1;
-        randomCharacter.life = 1;
+        randomCharacter.vel = UnityEngine.Random.Range(1, 100);
+        randomCharacter.att = UnityEngine.Random.Range(1, 100);
+        randomCharacter.res = UnityEngine.Random.Range(1, 100);
+        randomCharacter.life = UnityEngine.Random.Range(1, 100);
         randomCharacter.flag = 1;
-        randomCharacter.head = 1;
-        randomCharacter.body = 1;
-        randomCharacter.extraBody = 1;
-        randomCharacter.dateStart = "";
-        randomCharacter.dateEnd = "";
+        randomCharacter.head = UnityEngine.Random.Range(1, 5);
+        randomCharacter.body = UnityEngine.Random.Range(1, 5);
+        randomCharacter.extraBody = UnityEngine.Random.Range(1, 5);
+        randomCharacter.dateStart = DateTime.Now.ToString(dateMyFormat);
+        randomCharacter.dateEnd = ""; // aggiungere 24 ore ma convertire in numero prima
         return randomCharacter;
     }
 
