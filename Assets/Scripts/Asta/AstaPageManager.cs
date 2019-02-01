@@ -12,6 +12,7 @@ public class AstaPageManager : MonoBehaviour
     public static AstaPageManager instance;
     public string dateNormalFormat = "yyyy/MM/dd-HH:mm:ss";
     public string dateMyFormat = "yyyyMMddHHmmss";
+	public List<Character> listOfCharacters;
 
 	public enum Type
 	{
@@ -194,7 +195,11 @@ public class AstaPageManager : MonoBehaviour
         randomCharacter.body = UnityEngine.Random.Range(1, 5);
         randomCharacter.extraBody = UnityEngine.Random.Range(1, 5);
         randomCharacter.dateStart = DateTime.Now.ToString(dateMyFormat);
-        randomCharacter.dateEnd = ""; // aggiungere 24 ore ma convertire in numero prima
+		// TEST AGGIUNTA DATA
+		string dataString = DateTime.Now.ToString(dateMyFormat);
+		long dataEndToPrint = long.Parse(dataString);
+		dataEndToPrint += 240000;
+		randomCharacter.dateEnd = dataEndToPrint.ToString(); // aggiungere 24 ore ma convertire in numero prima
         return randomCharacter;
     }
 
@@ -286,5 +291,7 @@ public class AstaPageManager : MonoBehaviour
         return myString;
     }
 
-
+	public List<Character> GenerateListOfCharacters(string[] items){
+		return null;
+	}
 }
