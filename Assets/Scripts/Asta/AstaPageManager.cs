@@ -12,25 +12,28 @@ public class AstaPageManager : MonoBehaviour
     public static AstaPageManager instance;
     public string dateNormalFormat = "yyyy/MM/dd-HH:mm:ss";
     public string dateMyFormat = "yyyyMMddHHmmss";
-	public List<Character> listOfCharacters;
+    public List<Character> listOfCharacters;
+    public int numCharactersDB;
 
-	public enum Type
-	{
-		uman,
-		beasts,
-		ghost,
-		zombie,
-		vampire
-	}
-	
-	public enum Rule
-	{
-		thief, // ladro
-		knight, // cavaliere
-		magician,
-		strategist,
-		druid
-	}
+    public enum Type
+    {
+        Uman,
+        Beasts,
+        Ghost,
+        Zombie,
+        Vampire
+    }
+
+    public enum Rule
+    {
+        Thief,
+        // ladro
+        Knight,
+        // cavaliere
+        Magician,
+        Strategist,
+        Druid
+    }
 
     public struct Character
     {
@@ -123,61 +126,37 @@ public class AstaPageManager : MonoBehaviour
     public void CheckCharactersConnection()
     {
         Debug.Log("Funzione start coroutine");
-        StartCoroutine("CheckCharacters");
+        StartCoroutine("GetCharacters");
+    }
+        
+    // Creata per nome più parlante,uguale a quella sopra
+    IEnumerator GetCharacters()
+    {
+        WWW itemsData = new WWW("http://togeathosting.altervista.org/QueryAllCharacters.php");
+        yield return itemsData;
+        string itemsDataString = itemsData.text;
+        Debug.Log(itemsDataString);
+        string[] itemsDataVector = itemsDataString.Split(';');
+        numCharactersDB = itemsDataVector.Length; // num characters DB
+        for (int i = 0; i < itemsDataVector.Length - 1; i++)
+        {
+            items = itemsDataVector[i].Split('|');
+            // prendo i dati in modo corretto ma pensare come fare check, una è una coroutine e non è sincronizzata
+            checkGenerateCharacters = false;
+//            Debug.Log("1 lunghezza: " + items.Length);
+            // scandisco tutti i nomi delle mail e delle pass e controllo se almeno una fa check
+            for (int j = 0; j < items.Length; j++)
+            {
+                string[] dataGet = items[j].Split(':');
+                Debug.Log("Dato: " + dataGet[1].ToString());
+            }
+        }
     }
 
-    IEnumerator CheckCharacters()
+    public void GenerateListCharacters()
     {
-        Debug.Log("Funzione dentro coroutine");
-        WWW itemsData = new WWW("http://togeathosting.altervista.org/QueryAllCharacters.php");
-        yield return itemsData;
-        string itemsDataString = itemsData.text;
-        items = itemsDataString.Split('|');
-        // prendo i dati in modo corretto ma pensare come fare check, una è una coroutine e non è sincronizzata
-        checkGenerateCharacters = false;
-        Debug.Log("lunghezza: " + items.Length);
-        // scandisco tutti i nomi delle mail e delle pass e controllo se almeno una fa check
-        for (int i = 0; i < items.Length; i++)
-        {
-            string[] dataGet = items[i].Split(':');
-            Debug.Log("Dato: " + dataGet[1].ToString());
-//			for (int j = 0; j < dataGet.Length; j++) {
-//				Debug.Log ("Dato: " + dataGet[j].ToString());
-//			}
-//			Debug.Log ("Dato: " + items[i].ToString());
-        }
-        //		Debug.Log("mailCheck " +  mailCheck + " passcheck " + passcheck);
-//		if (mailCheck && passcheck) {
-//			// mi vado a prendere il riferimentop o vedo come dagli l'input per settare a ok e andare avanti se no no
-//			Debug.Log ("PASS GIUSTA ");
-//			MainPage.instance.OpenLoginPage ();
-//		} else {
-//			Debug.Log ("PASS SBAGLIATA ");
-//			MainPage.instance.PrintInfoText ("PASS SBAGLIATA");
-//		}
-    }
-	
-	// Creata per nome più parlante,uguale a quella sopra
-	IEnumerator GetCharacters(){
-        WWW itemsData = new WWW("http://togeathosting.altervista.org/QueryAllCharacters.php");
-        yield return itemsData;
-        string itemsDataString = itemsData.text;
-        items = itemsDataString.Split('|');
-        // prendo i dati in modo corretto ma pensare come fare check, una è una coroutine e non è sincronizzata
-        checkGenerateCharacters = false;
-        Debug.Log("lunghezza: " + items.Length);
-        // scandisco tutti i nomi delle mail e delle pass e controllo se almeno una fa check
-        for (int i = 0; i < items.Length; i++)
-        {
-            string[] dataGet = items[i].Split(':');
-            Debug.Log("Dato: " + dataGet[1].ToString());
-        }
-	}
-	
-	public void GenerateListCharacters()
-	{
 		
-	}
+    }
 
     public Character GenerateRandomCharacter()
     {
@@ -195,11 +174,11 @@ public class AstaPageManager : MonoBehaviour
         randomCharacter.body = UnityEngine.Random.Range(1, 5);
         randomCharacter.extraBody = UnityEngine.Random.Range(1, 5);
         randomCharacter.dateStart = DateTime.Now.ToString(dateMyFormat);
-		// TEST AGGIUNTA DATA
-		string dataString = DateTime.Now.ToString(dateMyFormat);
-		long dataEndToPrint = long.Parse(dataString);
-		dataEndToPrint += 240000;
-		randomCharacter.dateEnd = dataEndToPrint.ToString(); // aggiungere 24 ore ma convertire in numero prima
+        // TEST AGGIUNTA DATA
+        string dataString = DateTime.Now.ToString(dateMyFormat);
+        long dataEndToPrint = long.Parse(dataString);
+        dataEndToPrint += 240000;
+        randomCharacter.dateEnd = dataEndToPrint.ToString(); // aggiungere 24 ore ma convertire in numero prima
         return randomCharacter;
     }
 
@@ -291,7 +270,8 @@ public class AstaPageManager : MonoBehaviour
         return myString;
     }
 
-	public List<Character> GenerateListOfCharacters(string[] items){
-		return null;
-	}
+    public List<Character> GenerateListOfCharacters(string[] items)
+    {
+        return null;
+    }
 }
