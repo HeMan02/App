@@ -9,11 +9,12 @@ public class AstaPageManager : MonoBehaviour
 {
     public string[] items;
     public bool checkGenerateCharacters;
-    public static AstaPageManager instance;
+    public static AstaPageManager Instance;
     public string dateNormalFormat = "yyyy/MM/dd-HH:mm:ss";
     public string dateMyFormat = "yyyyMMddHHmmss";
     public List<Character> listOfCharacters;
     public int numCharactersDB;
+    public int currentId = 0;
 
     public enum Type
     {
@@ -39,8 +40,8 @@ public class AstaPageManager : MonoBehaviour
     {
         public string name;
         public int id;
-        public string type;
-        public string rule;
+        public Type type;
+        public Rule rule;
         public int vel;
         public int att;
         public int res;
@@ -65,7 +66,7 @@ public class AstaPageManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        instance = this;
+        Instance = this;
         Debug.Log("data: " + DateTime.Now.ToString(dateMyFormat));
         string myRandomName = GenerateRandomName();
         Debug.Log("nome: " + myRandomName);
@@ -87,8 +88,8 @@ public class AstaPageManager : MonoBehaviour
                 case "AstaMarket":
                     SceneManager.LoadScene("AstaMain");
                     break;
-                case "AstaMyPlayers":
-                    SceneManager.LoadScene("AstaMain");
+                case "AstaCharacter":
+                    SceneManager.LoadScene("AstaMarket");
                     break;
             }
         }
@@ -114,6 +115,11 @@ public class AstaPageManager : MonoBehaviour
     public void AstaLoginMyPlayers()
     {
         SceneManager.LoadScene("AstaMyPlayers");
+    }
+
+    public void AstaLoginCharacterMarket()
+    {
+        SceneManager.LoadScene("AstaCharacter");
     }
 
     public void AstaMainPage()
@@ -163,8 +169,8 @@ public class AstaPageManager : MonoBehaviour
         Character randomCharacter = new Character();
         randomCharacter.name = GenerateRandomName();
         randomCharacter.id = 0;
-        randomCharacter.type = "";
-        randomCharacter.rule = "";
+        randomCharacter.type = 0;
+        randomCharacter.rule = 0;
         randomCharacter.vel = UnityEngine.Random.Range(1, 100);
         randomCharacter.att = UnityEngine.Random.Range(1, 100);
         randomCharacter.res = UnityEngine.Random.Range(1, 100);
@@ -270,8 +276,19 @@ public class AstaPageManager : MonoBehaviour
         return myString;
     }
 
-    public List<Character> GenerateListOfCharacters(string[] items)
+
+    public List<Character> GenerateListOfCharacters()
     {
-        return null;
+        // Genera la lista di characters
+        List<Character> listCharacters = new List<Character>();
+        for (int i = 0; i < 5; i++)
+        {
+            Character newCharacter = new  Character();
+            newCharacter.name = GenerateRandomName();
+            newCharacter.type = (Type)UnityEngine.Random.Range(0, 4);
+            newCharacter.rule = (Rule)UnityEngine.Random.Range(0, 4);
+            listCharacters.Add(newCharacter);
+        }
+        return listCharacters;
     }
 }

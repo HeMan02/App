@@ -16,18 +16,18 @@ public class AstaMainPage : MonoBehaviour {
 		
 	}
 
-	public void OpenLoginPage(){
-		Debug.Log("Entrato ");
-		AstaPageManager.instance.CustomClick ("EvisoChoice");
-	}
+	// public void OpenLoginPage(){
+	// 	Debug.Log("Entrato ");
+	// 	AstaPageManager.instance.CustomClick ("EvisoChoice");
+	// }
 
 	public void OpenMyPlayersPage(){
 		Debug.Log("Entrato My Players");
-		AstaPageManager.instance.AstaLoginMyPlayers ();
+		AstaPageManager.Instance.AstaLoginMyPlayers ();
 	}
 
 	public void OpenMarketPage(){
 		Debug.Log("Entrato Market");
-		AstaPageManager.instance.AstaLoginMarket ();
+		AstaPageManager.Instance.AstaLoginMarket ();
 	}
 }
