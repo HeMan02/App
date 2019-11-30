@@ -12,7 +12,7 @@ public class AstaPageManager : MonoBehaviour
     public static AstaPageManager Instance;
     public string dateNormalFormat = "yyyy/MM/dd-HH:mm:ss";
     public string dateMyFormat = "yyyyMMddHHmmss";
-    public List<Character> listOfCharacters;
+    public List<Character> listCharacters = new List<Character>();
     public int numCharactersDB;
     public int currentId = 0;
 
@@ -280,7 +280,6 @@ public class AstaPageManager : MonoBehaviour
     public List<Character> GenerateListOfCharacters()
     {
         // Genera la lista di characters
-        List<Character> listCharacters = new List<Character>();
         for (int i = 0; i < 5; i++)
         {
             Character newCharacter = new  Character();

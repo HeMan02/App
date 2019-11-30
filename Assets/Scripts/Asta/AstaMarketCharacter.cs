@@ -7,11 +7,14 @@ using UnityEngine.EventSystems;
 public class AstaMarketCharacter : MonoBehaviour
 {
     public int myId;
+    public List<AstaPageManager.Character> listCharactersMarket;
     public Text name;
     // Start is called before the first frame update
     void Start()
     {
-        name.text = "" + System.DateTime.Now.ToString ("dd/MM/yyyy"); // visualizzo la data odierna come controlo
+        myId = AstaPageManager.Instance.currentId;
+        listCharactersMarket = AstaPageManager.Instance.listCharacters;
+        name.text = listCharactersMarket[myId].name; // visualizzo la data odierna come controlo
     }
 
     // Update is called once per frame

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class AstaMarket : MonoBehaviour
 {
@@ -33,6 +35,9 @@ public class AstaMarket : MonoBehaviour
     }
 
     public void OpenCharacterPage(){
+         string nameObj = EventSystem.current.currentSelectedGameObject.name;
+         string[] splitName = nameObj.Split('.');
+         AstaPageManager.Instance.currentId = int.Parse(splitName[1]);
       AstaPageManager.Instance.AstaLoginCharacterMarket();
     }
 
@@ -44,7 +49,7 @@ public class AstaMarket : MonoBehaviour
             GameObject characterPrefab = Resources.Load("Character") as GameObject;
             GameObject character = Instantiate(characterPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
             character.transform.SetParent(scrollContentPAret.transform, false);
-            character.name = "CHR" + i.ToString(); 
+            character.name = "CHR." + i.ToString(); 
         }
     }
 }
