@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using System.Linq.Expressions;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class AstaPageManager : MonoBehaviour
 {
@@ -15,6 +17,9 @@ public class AstaPageManager : MonoBehaviour
     public List<Character> listCharacters = new List<Character>();
     public int numCharactersDB;
     public int currentId = 0;
+
+    public Sprite[] iltemBody;
+    public Sprite[] iltemHead;
 
     public enum Type
     {
@@ -286,6 +291,8 @@ public class AstaPageManager : MonoBehaviour
             newCharacter.name = GenerateRandomName();
             newCharacter.type = (Type)UnityEngine.Random.Range(0, 4);
             newCharacter.rule = (Rule)UnityEngine.Random.Range(0, 4);
+            newCharacter.head = UnityEngine.Random.Range(0, 17);
+            newCharacter.body = UnityEngine.Random.Range(0, 27);
             listCharacters.Add(newCharacter);
         }
         return listCharacters;
