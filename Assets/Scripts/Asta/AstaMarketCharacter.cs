@@ -27,4 +27,9 @@ public class AstaMarketCharacter : MonoBehaviour
     {
         
     }
+
+    public void ReturnClickButton()
+    {
+        AstaPageManager.Instance.AstaLoginMarket();
+    }
 }

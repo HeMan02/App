@@ -50,6 +50,11 @@ public class AstaMarket : MonoBehaviour
             GameObject character = Instantiate(characterPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
             character.transform.SetParent(scrollContentPAret.transform, false);
             character.name = "CHR." + i.ToString(); 
+            character.GetComponent<AstaCharaacterMarketList>().name.text =  listCharactersMarket[i].name;
         }
+    }
+
+    public void ReturnClickButton(){
+        AstaPageManager.Instance.AstaMainPage();
     }
 }
