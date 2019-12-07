@@ -274,7 +274,6 @@ public class AstaPageManager : MonoBehaviour
                 if (j == 0)
                 {
                     newCharacter.name = dataGet[1].ToString();
-                    Debug.Log(dataGet[1].ToString());
                 }
                 // if (j == 1)
                 // {
@@ -301,10 +300,19 @@ public class AstaPageManager : MonoBehaviour
                 // {
                 //     newCharacter.name =
                 // }
+                 if (j == 12)
+                {
+                    newCharacter.head  = int.Parse(dataGet[1].ToString());
+                }
+                 if (j == 13)
+                {
+                    newCharacter.body = int.Parse(dataGet[1].ToString());
+                }
             }
-            newCharacter.type = (Type)UnityEngine.Random.Range(0, 4);
-            newCharacter.rule = (Rule)UnityEngine.Random.Range(0, 4);
-            newCharacter.head = UnityEngine.Random.Range(0, 17);
+            // newCharacter.type = (Type)UnityEngine.Random.Range(0, 4);
+            // newCharacter.rule = (Rule)UnityEngine.Random.Range(0, 4);
+            // newCharacter.head = UnityEngine.Random.Range(0, 17);
+            // newCharacter.body=UnityEngine.Random.Range(0, 26);
             listCharacters.Add(newCharacter);
         }
         return listCharacters;
