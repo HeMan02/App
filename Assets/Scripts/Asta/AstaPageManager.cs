@@ -72,9 +72,10 @@ public class AstaPageManager : MonoBehaviour
     void Start()
     {
         Instance = this;
-        Debug.Log("data: " + DateTime.Now.ToString(dateMyFormat));
-        string myRandomName = GenerateRandomName();
-        Debug.Log("nome: " + myRandomName);
+        // Debug.Log("data: " + DateTime.Now.ToString(dateMyFormat));
+        // string myRandomName = GenerateRandomName();
+        // Debug.Log("nome: " + myRandomName);
+        CheckCharactersConnection();
 //        System.DateTime.Now.ToString();
     }
 	
@@ -143,7 +144,7 @@ public class AstaPageManager : MonoBehaviour
     // Creata per nome più parlante,uguale a quella sopra
     IEnumerator GetCharacters()
     {
-        WWW itemsData = new WWW("http://togeathosting.altervista.org/QueryAllCharacters.php");
+        WWW itemsData = new WWW("http://astaapp.altervista.org/GetCharacters.php");
         yield return itemsData;
         string itemsDataString = itemsData.text;
         Debug.Log(itemsDataString);
@@ -154,7 +155,7 @@ public class AstaPageManager : MonoBehaviour
             items = itemsDataVector[i].Split('|');
             // prendo i dati in modo corretto ma pensare come fare check, una è una coroutine e non è sincronizzata
             checkGenerateCharacters = false;
-//            Debug.Log("1 lunghezza: " + items.Length);
+           Debug.Log("1 lunghezza: " + items.Length);
             // scandisco tutti i nomi delle mail e delle pass e controllo se almeno una fa check
             for (int j = 0; j < items.Length; j++)
             {
