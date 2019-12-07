@@ -11,22 +11,23 @@ public class AstaMarket : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+            GenerateMarketCharacters();
     }
 	
     // Update is called once per frame
     void Update()
     {
-        if (AstaPageManager.Instance.numCharactersDB != 0 && checkGenerate)
-        {
-            checkGenerate = false;
-            GenerateMarketCharacters();
-        }
+        // if (AstaPageManager.Instance.numCharactersDB != 0 && checkGenerate)
+        // {
+        //     Debug.Log("Entrato");
+        //     checkGenerate = false;
+        //     GenerateMarketCharacters();
+        // }
 
-        if (Input.GetKey(KeyCode.Escape))
-        { 
-            OpenMainPage();
-        }
+        // if (Input.GetKey(KeyCode.Escape))
+        // { 
+        //     OpenMainPage();
+        // }
     }
 
     public void OpenMainPage()
@@ -43,7 +44,7 @@ public class AstaMarket : MonoBehaviour
 
     public void GenerateMarketCharacters()
     {
-        List<AstaPageManager.Character> listCharactersMarket = AstaPageManager.Instance.GenerateListOfCharacters();
+        List<AstaPageManager.Character> listCharactersMarket = AstaPageManager.Instance.listCharacters;
         for (int i = 0; i < listCharactersMarket.Count; i++)
         {
             GameObject characterPrefab = Resources.Load("Character") as GameObject;

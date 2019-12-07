@@ -20,6 +20,7 @@ public class AstaPageManager : MonoBehaviour
 
     public Sprite[] iltemBody;
     public Sprite[] iltemHead;
+    public string[] itemsDataVector;
 
     public enum Type
     {
@@ -72,19 +73,15 @@ public class AstaPageManager : MonoBehaviour
     void Start()
     {
         Instance = this;
-        // Debug.Log("data: " + DateTime.Now.ToString(dateMyFormat));
-        // string myRandomName = GenerateRandomName();
-        // Debug.Log("nome: " + myRandomName);
         CheckCharactersConnection();
-//        System.DateTime.Now.ToString();
     }
-	
+
     // Update is called once per frame
     void Update()
     {
         // controllo sul tasto di ritorno back
         if (Input.GetKey(KeyCode.Escape))
-        { 
+        {
             var actualScene = SceneManager.GetActiveScene();
             switch (actualScene.name)
             { // in base a ogni scenaq torno indietro a quella che mi serve
@@ -114,7 +111,6 @@ public class AstaPageManager : MonoBehaviour
 
     public void AstaLoginMarket()
     {
-        CheckCharactersConnection();
         SceneManager.LoadScene("AstaMarket");
     }
 
@@ -140,34 +136,16 @@ public class AstaPageManager : MonoBehaviour
         Debug.Log("Funzione start coroutine");
         StartCoroutine("GetCharacters");
     }
-        
-    // Creata per nome più parlante,uguale a quella sopra
+
+    // Chiam i lDB e mi faccio restituire i dati dei characters
     IEnumerator GetCharacters()
     {
         WWW itemsData = new WWW("http://astaapp.altervista.org/GetCharacters.php");
         yield return itemsData;
         string itemsDataString = itemsData.text;
-        Debug.Log(itemsDataString);
-        string[] itemsDataVector = itemsDataString.Split(';');
-        numCharactersDB = itemsDataVector.Length; // num characters DB
-        for (int i = 0; i < itemsDataVector.Length - 1; i++)
-        {
-            items = itemsDataVector[i].Split('|');
-            // prendo i dati in modo corretto ma pensare come fare check, una è una coroutine e non è sincronizzata
-            checkGenerateCharacters = false;
-           Debug.Log("1 lunghezza: " + items.Length);
-            // scandisco tutti i nomi delle mail e delle pass e controllo se almeno una fa check
-            for (int j = 0; j < items.Length; j++)
-            {
-                string[] dataGet = items[j].Split(':');
-                Debug.Log("Dato: " + dataGet[1].ToString());
-            }
-        }
-    }
-
-    public void GenerateListCharacters()
-    {
-		
+        itemsDataVector = itemsDataString.Split(';');
+        numCharactersDB = itemsDataVector.Length - 1; // num characters DB
+        GenerateListOfCharacters();
     }
 
     public Character GenerateRandomCharacter()
@@ -208,7 +186,7 @@ public class AstaPageManager : MonoBehaviour
         {
             if (i == 0) // il primo valore deve essere maiuscolo
             {
-                myString += firstChar[UnityEngine.Random.Range(0, firstChar.Length)]; 
+                myString += firstChar[UnityEngine.Random.Range(0, firstChar.Length)];
             }
             else
             {
@@ -269,7 +247,7 @@ public class AstaPageManager : MonoBehaviour
                         }
                         else
                         {
-                            flag2 = false;  
+                            flag2 = false;
                         }
                     }
                     if (flag1 == false || flag2 == false)
@@ -285,15 +263,48 @@ public class AstaPageManager : MonoBehaviour
 
     public List<Character> GenerateListOfCharacters()
     {
-        // Genera la lista di characters
-        for (int i = 0; i < 5; i++)
+        Debug.Log("count " + itemsDataVector.Length);
+        for (int i = 0; i < itemsDataVector.Length - 1; i++)
         {
-            Character newCharacter = new  Character();
-            newCharacter.name = GenerateRandomName();
+            Character newCharacter = new Character();
+            items = itemsDataVector[i].Split('|');
+            for (int j = 0; j < items.Length; j++)
+            {
+                string[] dataGet = items[j].Split(':');
+                if (j == 0)
+                {
+                    newCharacter.name = dataGet[1].ToString();
+                    Debug.Log(dataGet[1].ToString());
+                }
+                // if (j == 1)
+                // {
+                //     newCharacter.name =
+                // }
+                // if (j == 2)
+                // {
+                //     newCharacter.name =
+                // }
+                // if (j == 3)
+                // {
+                //     newCharacter.name =
+                // }
+                // if (j == 4)
+                // {
+                //     newCharacter.name =
+                // }if (j == 5)
+                // {
+                //     newCharacter.name =
+                // }if (j == 6)
+                // {
+                //     newCharacter.name =
+                // }if (j == 7)
+                // {
+                //     newCharacter.name =
+                // }
+            }
             newCharacter.type = (Type)UnityEngine.Random.Range(0, 4);
             newCharacter.rule = (Rule)UnityEngine.Random.Range(0, 4);
             newCharacter.head = UnityEngine.Random.Range(0, 17);
-            newCharacter.body = UnityEngine.Random.Range(0, 27);
             listCharacters.Add(newCharacter);
         }
         return listCharacters;
