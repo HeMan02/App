@@ -15,7 +15,7 @@ public class AstaMarketCharacter : MonoBehaviour
     public Text malus;
     public Text randomSkill;
     public Text type;
-    public Text life;
+    public Image life;
     public Text xp;
     // Start is called before the first frame update
     void Start()
@@ -24,14 +24,14 @@ public class AstaMarketCharacter : MonoBehaviour
         myId = AstaPageManager.Instance.currentId;
         listCharactersMarket = AstaPageManager.Instance.listCharacters;
         name.text = listCharactersMarket[myId].name; // visualizzo la data odierna come controlo
-        body.sprite = AstaPageManager.Instance.iltemBody[ listCharactersMarket[myId].body];
-        head.sprite = AstaPageManager.Instance.iltemHead[ listCharactersMarket[myId].head];
         bonus.text = "" + listCharactersMarket[myId].bonus;
         malus.text = "" + listCharactersMarket[myId].malus;
         randomSkill.text = "" + listCharactersMarket[myId].randomSkill;
         type.text = "" + listCharactersMarket[myId].type;
-        life.text = "" + listCharactersMarket[myId].life;
-        xp.text = "" + listCharactersMarket[myId].xp;
+        head.sprite = AstaPageManager.Instance.iltemHead[ listCharactersMarket[myId].head];
+        body.sprite = AstaPageManager.Instance.iltemBody[ listCharactersMarket[myId].body];
+        life.fillAmount = listCharactersMarket[myId].life;
+        xp.text = "Xp: " + listCharactersMarket[myId].xp + "/100";
     }
 
     // Update is called once per frame

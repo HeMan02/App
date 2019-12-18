@@ -334,14 +334,15 @@ CheckCharactersConnection();
                 if (j == 6)
                 {
                      Debug.Log("6: " + dataGet[1].ToString());
-                    newCharacter.body = int.Parse(dataGet[1].ToString());
+                    newCharacter.head  = int.Parse(dataGet[1].ToString()); 
                 }
                  if (j == 7)
                 {
                      Debug.Log("7: " + dataGet[1].ToString());
-                    newCharacter.head  = int.Parse(dataGet[1].ToString());
+                    newCharacter.body = int.Parse(dataGet[1].ToString());
                 }
             }
+            newCharacter.life = 100;
             listCharacters.Add(newCharacter);
         }
         return listCharacters;
