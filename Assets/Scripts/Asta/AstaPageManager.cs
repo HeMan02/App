@@ -47,18 +47,13 @@ public class AstaPageManager : MonoBehaviour
         public string name;
         public int id;
         public Type type;
-        public Rule rule;
-        public int vel;
-        public int att;
-        public int res;
+        public int bonus;
+        public int malus;
+        public int randomSkill;
+        public int xp;
         public int life;
-        public int def;
-        public int flag;
         public int head;
         public int body;
-        public int extraBody;
-        public string dateStart;
-        public string dateEnd;
     }
 
     void Awake()
@@ -74,6 +69,8 @@ public class AstaPageManager : MonoBehaviour
     {
         Instance = this;
         CheckCharactersConnection();
+        // CheckRefreshCharactersConnection();
+        // CheckRefreshCharacters();
     }
 
     // Update is called once per frame
@@ -137,39 +134,38 @@ public class AstaPageManager : MonoBehaviour
         StartCoroutine("GetCharacters");
     }
 
+        public void CheckRefreshCharactersConnection()
+    {
+        Debug.Log("Funzione start coroutine nome");
+        StartCoroutine("CheckRefreshCharacters");
+    }
+
     // Chiam i lDB e mi faccio restituire i dati dei characters
     IEnumerator GetCharacters()
     {
         WWW itemsData = new WWW("http://astaapp.altervista.org/GetCharacters.php");
         yield return itemsData;
         string itemsDataString = itemsData.text;
+        Debug.Log(itemsDataString);
         itemsDataVector = itemsDataString.Split(';');
         numCharactersDB = itemsDataVector.Length - 1; // num characters DB
         GenerateListOfCharacters();
     }
 
-    public Character GenerateRandomCharacter()
-    {
-        Character randomCharacter = new Character();
-        randomCharacter.name = GenerateRandomName();
-        randomCharacter.id = 0;
-        randomCharacter.type = 0;
-        randomCharacter.rule = 0;
-        randomCharacter.vel = UnityEngine.Random.Range(1, 100);
-        randomCharacter.att = UnityEngine.Random.Range(1, 100);
-        randomCharacter.res = UnityEngine.Random.Range(1, 100);
-        randomCharacter.life = UnityEngine.Random.Range(1, 100);
-        randomCharacter.flag = 1;
-        randomCharacter.head = UnityEngine.Random.Range(1, 5);
-        randomCharacter.body = UnityEngine.Random.Range(1, 5);
-        randomCharacter.extraBody = UnityEngine.Random.Range(1, 5);
-        randomCharacter.dateStart = DateTime.Now.ToString(dateMyFormat);
-        // TEST AGGIUNTA DATA
-        string dataString = DateTime.Now.ToString(dateMyFormat);
-        long dataEndToPrint = long.Parse(dataString);
-        dataEndToPrint += 240000;
-        randomCharacter.dateEnd = dataEndToPrint.ToString(); // aggiungere 24 ore ma convertire in numero prima
-        return randomCharacter;
+    public void CheckRefreshCharacters(){
+        Debug.Log("Entrti");
+        	WWWForm form = new WWWForm();
+	    form.AddField("name","giorgio");
+		WWW www = new WWW ("http://astaapp.altervista.org/RefreshCharacters.php", form);
+/*
+        WWWForm form = new WWWForm();
+		form.AddField("podClient",podClient);
+		form.AddField("f1Client",f1Client);
+		form.AddField("f2Client",f2Client);
+		form.AddField("f3Client",f3Client);
+		form.AddField("dataClient",dataClient);
+		WWW www = new WWW (AddReadingsUrl, form);
+        */
     }
 
     public string GenerateRandomName()
@@ -300,19 +296,15 @@ public class AstaPageManager : MonoBehaviour
                 // {
                 //     newCharacter.name =
                 // }
-                 if (j == 12)
-                {
-                    newCharacter.head  = int.Parse(dataGet[1].ToString());
-                }
-                 if (j == 13)
+                if (j == 6)
                 {
                     newCharacter.body = int.Parse(dataGet[1].ToString());
                 }
+                 if (j == 7)
+                {
+                    newCharacter.head  = int.Parse(dataGet[1].ToString());
+                }
             }
-            // newCharacter.type = (Type)UnityEngine.Random.Range(0, 4);
-            // newCharacter.rule = (Rule)UnityEngine.Random.Range(0, 4);
-            // newCharacter.head = UnityEngine.Random.Range(0, 17);
-            // newCharacter.body=UnityEngine.Random.Range(0, 26);
             listCharacters.Add(newCharacter);
         }
         return listCharacters;
