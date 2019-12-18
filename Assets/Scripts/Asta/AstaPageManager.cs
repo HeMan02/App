@@ -107,7 +107,12 @@ public class AstaPageManager : MonoBehaviour
         Instance = this; 
         // CheckRefreshCharactersConnection();
         CheckRefreshCharacters();
-        CheckCharactersConnection();
+        StartCoroutine(StartFromWait());
+    }
+
+    IEnumerator StartFromWait(){
+yield return new WaitForSeconds(3);
+CheckCharactersConnection();
     }
 
     // Update is called once per frame
@@ -145,6 +150,7 @@ public class AstaPageManager : MonoBehaviour
 
     public void AstaLoginMarket()
     {
+        if(listCharacters.Count>0)
         SceneManager.LoadScene("AstaMarket");
     }
 
