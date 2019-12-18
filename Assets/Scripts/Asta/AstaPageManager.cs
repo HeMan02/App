@@ -24,22 +24,59 @@ public class AstaPageManager : MonoBehaviour
 
     public enum Type
     {
-        Uman,
-        Beasts,
-        Ghost,
+        Ingegnere,
+        Bestia,
+        Fantasma,
         Zombie,
-        Vampire
+        Vampiro,
+        Architetto,
+        Muratore,
+        Fabbro,
+        Cavaliere,
+        Postino
     }
 
-    public enum Rule
+    public enum Bonus
     {
-        Thief,
+        Coraggioso,
         // ladro
-        Knight,
+        Resistente,
         // cavaliere
-        Magician,
-        Strategist,
-        Druid
+        Intelligente,
+        Veloce,
+        Leader,
+        Combattimento,
+        Sincero,
+        Curativo,
+    }
+
+    public enum Malus
+    {
+        Analfabeta,
+        // ladro
+        Allergico,
+        // cavaliere
+        Disonesto,
+        Pauroso,
+        Logorroico,
+        Ladro,
+        Disattento,
+        Brutto,
+        Puzza
+    }
+
+    public enum RandomSkill
+    {
+        Artista,
+        // ladro
+        Musicista,
+        // cavaliere
+        Borseggiatore,
+        Nascondersi,
+        Vegano,
+        Vola,
+        Danza
+        
     }
 
     public struct Character
@@ -47,9 +84,9 @@ public class AstaPageManager : MonoBehaviour
         public string name;
         public int id;
         public Type type;
-        public int bonus;
-        public int malus;
-        public int randomSkill;
+        public Bonus bonus;
+        public Malus malus;
+        public RandomSkill randomSkill;
         public int xp;
         public int life;
         public int head;
@@ -67,10 +104,10 @@ public class AstaPageManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        Instance = this;
-        CheckCharactersConnection();
+        Instance = this; 
         // CheckRefreshCharactersConnection();
-        // CheckRefreshCharacters();
+        CheckRefreshCharacters();
+        CheckCharactersConnection();
     }
 
     // Update is called once per frame
@@ -153,19 +190,10 @@ public class AstaPageManager : MonoBehaviour
     }
 
     public void CheckRefreshCharacters(){
-        Debug.Log("Entrti");
-        	WWWForm form = new WWWForm();
-	    form.AddField("name","giorgio");
-		WWW www = new WWW ("http://astaapp.altervista.org/RefreshCharacters.php", form);
-/*
         WWWForm form = new WWWForm();
-		form.AddField("podClient",podClient);
-		form.AddField("f1Client",f1Client);
-		form.AddField("f2Client",f2Client);
-		form.AddField("f3Client",f3Client);
-		form.AddField("dataClient",dataClient);
-		WWW www = new WWW (AddReadingsUrl, form);
-        */
+        string randomName = GenerateRandomName();   
+	    form.AddField("name",randomName);
+		WWW www = new WWW ("http://astaapp.altervista.org/RefreshCharacters.php", form);
     }
 
     public string GenerateRandomName()
@@ -266,42 +294,45 @@ public class AstaPageManager : MonoBehaviour
             items = itemsDataVector[i].Split('|');
             for (int j = 0; j < items.Length; j++)
             {
-                string[] dataGet = items[j].Split(':');
+                string[] dataGet = items[j].Split('@');
                 if (j == 0)
                 {
+                    Debug.Log("0: " + dataGet[1].ToString());
                     newCharacter.name = dataGet[1].ToString();
                 }
-                // if (j == 1)
-                // {
-                //     newCharacter.name =
-                // }
-                // if (j == 2)
-                // {
-                //     newCharacter.name =
-                // }
-                // if (j == 3)
-                // {
-                //     newCharacter.name =
-                // }
-                // if (j == 4)
-                // {
-                //     newCharacter.name =
-                // }if (j == 5)
-                // {
-                //     newCharacter.name =
-                // }if (j == 6)
-                // {
-                //     newCharacter.name =
-                // }if (j == 7)
-                // {
-                //     newCharacter.name =
-                // }
+                if (j == 1)
+                {
+                     Debug.Log("1: " + dataGet[1].ToString());
+                    newCharacter.xp = int.Parse(dataGet[1].ToString());
+                }
+                if (j == 2)
+                {
+                     Debug.Log("2: " + dataGet[1].ToString());
+                    newCharacter.bonus = (Bonus)int.Parse(dataGet[1].ToString());
+                }
+                if (j == 3)
+                {
+                     Debug.Log("3: " + dataGet[1].ToString());
+                    newCharacter.malus = (Malus)int.Parse(dataGet[1].ToString());
+                }
+                if (j == 4)
+                {
+                     Debug.Log("4: " + dataGet[1].ToString());
+                    newCharacter.randomSkill = (RandomSkill)int.Parse(dataGet[1].ToString());
+                }
+                if (j == 5)
+                {
+                     Debug.Log("5: " + dataGet[1].ToString());
+                    newCharacter.type = (Type)int.Parse(dataGet[1].ToString());
+                }
                 if (j == 6)
                 {
+                     Debug.Log("6: " + dataGet[1].ToString());
                     newCharacter.body = int.Parse(dataGet[1].ToString());
                 }
                  if (j == 7)
                 {
+                     Debug.Log("7: " + dataGet[1].ToString());
                     newCharacter.head  = int.Parse(dataGet[1].ToString());
                 }
             }
