@@ -9,6 +9,7 @@ using UnityEngine.EventSystems;
 
 public class AstaPageManager : MonoBehaviour
 {
+    // ========== CHARACTERS
     public string[] items;
     public bool checkGenerateCharacters;
     public static AstaPageManager Instance;
@@ -105,6 +106,7 @@ public class AstaPageManager : MonoBehaviour
     void Start()
     {
         Instance = this; 
+        // ======= CHARACTERS
         // CheckRefreshCharactersConnection();
         CheckRefreshCharacters();
         StartCoroutine(StartFromWait());
@@ -118,6 +120,7 @@ CheckCharactersConnection();
     // Update is called once per frame
     void Update()
     {
+        // ========= NAVIGATION 
         // controllo sul tasto di ritorno back
         if (Input.GetKey(KeyCode.Escape))
         {
@@ -134,11 +137,6 @@ CheckCharactersConnection();
                     SceneManager.LoadScene("AstaMarket");
                     break;
             }
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            string myRandomName = GenerateRandomName();
-            Debug.Log("nome: " + myRandomName);
         }
     }
 
