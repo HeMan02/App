@@ -23,7 +23,7 @@ public class AstaPageManager : MonoBehaviour
     public Sprite[] iltemHead;
     public string[] itemsDataVector;
     // ========== USER DATA
-    public string userId;
+    public string idUser;
     public string totalCash;
 
     public enum Type
@@ -110,8 +110,8 @@ public class AstaPageManager : MonoBehaviour
     {
         Instance = this;
         // ======= CHARACTERS
-        // CheckRefreshCharacters();
-        // StartCoroutine(StartFromWait());
+        //  CheckRefreshCharacters();
+        //  StartCoroutine(StartFromWait());
     }
 
     IEnumerator StartFromWait()
@@ -185,9 +185,11 @@ public class AstaPageManager : MonoBehaviour
     }
 
     // Chiam i lDB e mi faccio restituire i dati dei characters
-    IEnumerator GetCharacters()
+     IEnumerator GetCharacters()
     {
-        WWW itemsData = new WWW("http://astaapp.altervista.org/GetCharacters.php");
+        WWWForm form = new WWWForm();
+        form.AddField("idUser", idUser);
+        WWW itemsData = new WWW("http://astaapp.altervista.org/GetCharacters.php",form);
         yield return itemsData;
         string itemsDataString = itemsData.text;
         Debug.Log(itemsDataString);
@@ -198,10 +200,12 @@ public class AstaPageManager : MonoBehaviour
 
     public void CheckRefreshCharacters()
     {
+        Debug.Log("0");
         WWWForm form = new WWWForm();
         string randomName = GenerateRandomName();
         form.AddField("name", randomName);
         WWW www = new WWW("http://astaapp.altervista.org/RefreshCharacters.php", form);
+        StartCoroutine(StartFromWait());
     }
 
 
@@ -306,42 +310,42 @@ public class AstaPageManager : MonoBehaviour
                 string[] dataGet = items[j].Split('@');
                 if (j == 0)
                 {
-                    // Debug.Log("0: " + dataGet[1].ToString());
+                     Debug.Log("0: " + dataGet[1].ToString());
                     newCharacter.name = dataGet[1].ToString();
                 }
                 if (j == 1)
                 {
-                    //  Debug.Log("1: " + dataGet[1].ToString());
+                      Debug.Log("1: " + dataGet[1].ToString());
                     newCharacter.xp = int.Parse(dataGet[1].ToString());
                 }
                 if (j == 2)
                 {
-                    //  Debug.Log("2: " + dataGet[1].ToString());
+                      Debug.Log("2: " + dataGet[1].ToString());
                     newCharacter.bonus = (Bonus)int.Parse(dataGet[1].ToString());
                 }
                 if (j == 3)
                 {
-                    //  Debug.Log("3: " + dataGet[1].ToString());
+                      Debug.Log("3: " + dataGet[1].ToString());
                     newCharacter.malus = (Malus)int.Parse(dataGet[1].ToString());
                 }
                 if (j == 4)
                 {
-                    //  Debug.Log("4: " + dataGet[1].ToString());
+                  Debug.Log("4: " + dataGet[1].ToString());
                     newCharacter.randomSkill = (RandomSkill)int.Parse(dataGet[1].ToString());
                 }
                 if (j == 5)
                 {
-                    //  Debug.Log("5: " + dataGet[1].ToString());
+                      Debug.Log("5: " + dataGet[1].ToString());
                     newCharacter.type = (Type)int.Parse(dataGet[1].ToString());
                 }
                 if (j == 6)
                 {
-                    //  Debug.Log("6: " + dataGet[1].ToString());
+                      Debug.Log("6: " + dataGet[1].ToString());
                     newCharacter.head = int.Parse(dataGet[1].ToString());
                 }
                 if (j == 7)
                 {
-                    //  Debug.Log("7: " + dataGet[1].ToString());
+                      Debug.Log("7: " + dataGet[1].ToString());
                     newCharacter.body = int.Parse(dataGet[1].ToString());
                 }
             }

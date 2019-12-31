@@ -48,7 +48,7 @@ public class AstaLogin : MonoBehaviour
     IEnumerator CheckPassMailLogIn()
     {
         // chiamata della query per check di user e password
-        Debug.Log("0: " + usernameString + " psw: " + passwordString);
+        // Debug.Log("0: " + usernameString + " psw: " + passwordString);
         WWWForm form = new WWWForm();
         form.AddField("name", usernameString);
         form.AddField("pwd", passwordString);
@@ -68,7 +68,7 @@ public class AstaLogin : MonoBehaviour
                     string[] userTotal = userAndPass[j].Split('@');
                     if (j == 0)
                     {
-                        AstaPageManager.Instance.userId = userTotal[1];
+                        AstaPageManager.Instance.idUser = userTotal[1];
                     }
                     if (j == 3)
                     {
@@ -76,6 +76,7 @@ public class AstaLogin : MonoBehaviour
                     }
                 }
             }
+            AstaPageManager.Instance.CheckRefreshCharacters();
 			AstaPageManager.Instance.AstaMainPage();
         }
         else
