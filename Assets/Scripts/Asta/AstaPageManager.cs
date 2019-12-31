@@ -157,7 +157,7 @@ public class AstaPageManager : MonoBehaviour
 
     public void AstaLoginMyPlayers()
     {
-        SceneManager.LoadScene("AstaMyPlayers");
+        SceneManager.LoadScene("AstaUserCharacter");
     }
 
     public void AstaLoginCharacterMarket()
