@@ -88,7 +88,7 @@ public class AstaLogin : MonoBehaviour
 
     public void StartCheckLogin()
     {
-        Debug.Log("Funzione start coroutine");
+        // Debug.Log("Funzione start coroutine");
         StartCoroutine("CheckPassMailLogIn");
     }
 }

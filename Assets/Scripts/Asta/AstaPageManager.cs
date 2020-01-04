@@ -10,18 +10,27 @@ using UnityEngine.EventSystems;
 public class AstaPageManager : MonoBehaviour
 {
     // ========== CHARACTERS
-    public string[] items;
     public bool checkGenerateCharacters;
     public static AstaPageManager Instance;
     public string dateNormalFormat = "yyyy/MM/dd-HH:mm:ss";
     public string dateMyFormat = "yyyyMMddHHmmss";
-    public List<Character> listCharacters = new List<Character>();
-    public int numCharactersDB;
-    public int currentId = 0;
+    public List<Character> listCharacters = new List<Character>(); // MARKET
+    public List<Character> listUserCharacters = new List<Character>(); // MY CHARACTERS
 
     public Sprite[] iltemBody;
     public Sprite[] iltemHead;
+    // =========== MARKET DATA CHARACTERS
+    public int currentId = 0;
+    public int numCharactersDB;
     public string[] itemsDataVector;
+    
+    public string[] items;
+    // =========== USER DATA CHARACTERS
+    public int currentUserId = 0;
+    public int numUserCharactersDB;
+    public string[] itemsUserDataVector;
+    
+    public string[] itemsUser;
     // ========== USER DATA
     public string idUser;
     public string totalCash;
@@ -110,14 +119,16 @@ public class AstaPageManager : MonoBehaviour
     {
         Instance = this;
         // ======= CHARACTERS
-        //  CheckRefreshCharacters();
-        //  StartCoroutine(StartFromWait());
+        //   CheckRefreshCharacters();
+        //   StartCoroutine(StartFromWait()); // Se scommentato è poi già presente in CheckRefreshCharacters()
     }
 
     IEnumerator StartFromWait()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1);
         CheckCharactersConnection();
+        yield return new WaitForSeconds(1);
+        CheckUserCharactersConnection();
     }
 
     // Update is called once per frame
@@ -155,14 +166,20 @@ public class AstaPageManager : MonoBehaviour
             SceneManager.LoadScene("AstaMarket");
     }
 
-    public void AstaLoginMyPlayers()
+     public void AstaLoginUserListCharacters()
     {
-        SceneManager.LoadScene("AstaUserCharacter");
+        if (listUserCharacters.Count > 0)
+            SceneManager.LoadScene("AstaUserListCharacters");
     }
 
     public void AstaLoginCharacterMarket()
     {
         SceneManager.LoadScene("AstaCharacter");
+    }
+
+     public void AstaLoginUserCharacter()
+    {
+        SceneManager.LoadScene("AstaUserCharacter");
     }
 
     public void AstaMainPage()
@@ -174,13 +191,19 @@ public class AstaPageManager : MonoBehaviour
 
     public void CheckCharactersConnection()
     {
-        Debug.Log("Funzione start coroutine");
+        // Debug.Log("Funzione start coroutine");
         StartCoroutine("GetCharacters");
+    }
+
+    public void CheckUserCharactersConnection()
+    {
+        // Debug.Log("Funzione start coroutine");
+        StartCoroutine("GetUserCharacters");
     }
 
     public void CheckRefreshCharactersConnection()
     {
-        Debug.Log("Funzione start coroutine nome");
+        // Debug.Log("Funzione start coroutine nome");
         StartCoroutine("CheckRefreshCharacters");
     }
 
@@ -188,19 +211,31 @@ public class AstaPageManager : MonoBehaviour
      IEnumerator GetCharacters()
     {
         WWWForm form = new WWWForm();
-        form.AddField("idUser", idUser);
+        form.AddField("idUser", 0);
         WWW itemsData = new WWW("http://astaapp.altervista.org/GetCharacters.php",form);
         yield return itemsData;
         string itemsDataString = itemsData.text;
-        Debug.Log(itemsDataString);
+        // Debug.Log(itemsDataString);
         itemsDataVector = itemsDataString.Split(';');
         numCharactersDB = itemsDataVector.Length - 1; // num characters DB
         GenerateListOfCharacters();
     }
 
+    IEnumerator GetUserCharacters()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("idUser", idUser);
+        WWW itemsData = new WWW("http://astaapp.altervista.org/GetCharacters.php",form);
+        yield return itemsData;
+        string itemsDataString = itemsData.text;
+        // Debug.Log(itemsDataString);
+        itemsUserDataVector = itemsDataString.Split(';');
+        numUserCharactersDB = itemsUserDataVector.Length - 1; // num characters DB
+        GenerateListOfUserCharacters();
+    }
+
     public void CheckRefreshCharacters()
     {
-        Debug.Log("0");
         WWWForm form = new WWWForm();
         string randomName = GenerateRandomName();
         form.AddField("name", randomName);
@@ -298,9 +333,8 @@ public class AstaPageManager : MonoBehaviour
     }
 
 
-    public List<Character> GenerateListOfCharacters()
+    public void GenerateListOfCharacters()
     {
-        // Debug.Log("count " + itemsDataVector.Length);
         for (int i = 0; i < itemsDataVector.Length - 1; i++)
         {
             Character newCharacter = new Character();
@@ -310,48 +344,106 @@ public class AstaPageManager : MonoBehaviour
                 string[] dataGet = items[j].Split('@');
                 if (j == 0)
                 {
-                     Debug.Log("0: " + dataGet[1].ToString());
+                    //  Debug.Log("0: " + dataGet[1].ToString());
                     newCharacter.name = dataGet[1].ToString();
                 }
                 if (j == 1)
                 {
-                      Debug.Log("1: " + dataGet[1].ToString());
+                    //   Debug.Log("1: " + dataGet[1].ToString());
                     newCharacter.xp = int.Parse(dataGet[1].ToString());
                 }
                 if (j == 2)
                 {
-                      Debug.Log("2: " + dataGet[1].ToString());
+                    //   Debug.Log("2: " + dataGet[1].ToString());
                     newCharacter.bonus = (Bonus)int.Parse(dataGet[1].ToString());
                 }
                 if (j == 3)
                 {
-                      Debug.Log("3: " + dataGet[1].ToString());
+                    //   Debug.Log("3: " + dataGet[1].ToString());
                     newCharacter.malus = (Malus)int.Parse(dataGet[1].ToString());
                 }
                 if (j == 4)
                 {
-                  Debug.Log("4: " + dataGet[1].ToString());
+                //   Debug.Log("4: " + dataGet[1].ToString());
                     newCharacter.randomSkill = (RandomSkill)int.Parse(dataGet[1].ToString());
                 }
                 if (j == 5)
                 {
-                      Debug.Log("5: " + dataGet[1].ToString());
+                    //   Debug.Log("5: " + dataGet[1].ToString());
                     newCharacter.type = (Type)int.Parse(dataGet[1].ToString());
                 }
                 if (j == 6)
                 {
-                      Debug.Log("6: " + dataGet[1].ToString());
+                    //   Debug.Log("6: " + dataGet[1].ToString());
                     newCharacter.head = int.Parse(dataGet[1].ToString());
                 }
                 if (j == 7)
                 {
-                      Debug.Log("7: " + dataGet[1].ToString());
+                    //   Debug.Log("7: " + dataGet[1].ToString());
                     newCharacter.body = int.Parse(dataGet[1].ToString());
                 }
             }
             newCharacter.life = 100;
             listCharacters.Add(newCharacter);
         }
-        return listCharacters;
+        // return listCharacters;
+    }
+
+
+    public void GenerateListOfUserCharacters()
+    {
+        // Debug.Log("count " + itemsDataVector.Length);
+        for (int i = 0; i < itemsUserDataVector.Length - 1; i++)
+        {
+            Character newUserCharacter = new Character();
+            itemsUser = itemsUserDataVector[i].Split('|');
+            for (int j = 0; j < itemsUser.Length; j++)
+            {
+                string[] dataGet = itemsUser[j].Split('@');
+                if (j == 0)
+                {
+                    //  Debug.Log("0: " + dataGet[1].ToString());
+                    newUserCharacter.name = dataGet[1].ToString();
+                }
+                if (j == 1)
+                {
+                    //   Debug.Log("1: " + dataGet[1].ToString());
+                    newUserCharacter.xp = int.Parse(dataGet[1].ToString());
+                }
+                if (j == 2)
+                {
+                    //   Debug.Log("2: " + dataGet[1].ToString());
+                    newUserCharacter.bonus = (Bonus)int.Parse(dataGet[1].ToString());
+                }
+                if (j == 3)
+                {
+                    //   Debug.Log("3: " + dataGet[1].ToString());
+                    newUserCharacter.malus = (Malus)int.Parse(dataGet[1].ToString());
+                }
+                if (j == 4)
+                {
+                //   Debug.Log("4: " + dataGet[1].ToString());
+                    newUserCharacter.randomSkill = (RandomSkill)int.Parse(dataGet[1].ToString());
+                }
+                if (j == 5)
+                {
+                    //   Debug.Log("5: " + dataGet[1].ToString());
+                    newUserCharacter.type = (Type)int.Parse(dataGet[1].ToString());
+                }
+                if (j == 6)
+                {
+                    //   Debug.Log("6: " + dataGet[1].ToString());
+                    newUserCharacter.head = int.Parse(dataGet[1].ToString());
+                }
+                if (j == 7)
+                {
+                    //   Debug.Log("7: " + dataGet[1].ToString());
+                    newUserCharacter.body = int.Parse(dataGet[1].ToString());
+                }
+            }
+            newUserCharacter.life = 100;
+            listUserCharacters.Add(newUserCharacter);
+        }
+        // return listUserCharacters;
     }
 }

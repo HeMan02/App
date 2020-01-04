@@ -22,12 +22,12 @@ public class AstaMainPage : MonoBehaviour {
 	// }
 
 	public void OpenMyPlayersPage(){
-		Debug.Log("Entrato My Players");
-		AstaPageManager.Instance.AstaLoginMyPlayers ();
+		// Debug.Log("Entrato My Players");
+		AstaPageManager.Instance.AstaLoginUserListCharacters ();
 	}
 
 	public void OpenMarketPage(){
-		Debug.Log("Entrato Market");
+		// Debug.Log("Entrato Market");
 		AstaPageManager.Instance.AstaLoginMarket ();
 	}
 }

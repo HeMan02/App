@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class AstaMarket : MonoBehaviour
 {
-    public bool checkGenerate = true;
+    // public bool checkGenerate = true;
     public GameObject scrollContentPAret;
     // Use this for initialization
     void Start()
@@ -30,21 +30,22 @@ public class AstaMarket : MonoBehaviour
         // }
     }
 
-    public void OpenMainPage()
-    {
-        AstaPageManager.Instance.AstaMainPage();
-    }
+    // public void OpenMainPage()
+    // {
+    //     AstaPageManager.Instance.AstaMainPage();
+    // }
 
     public void OpenCharacterPage(){
          string nameObj = EventSystem.current.currentSelectedGameObject.name;
          string[] splitName = nameObj.Split('.');
          AstaPageManager.Instance.currentId = int.Parse(splitName[1]);
-      AstaPageManager.Instance.AstaLoginCharacterMarket();
+        AstaPageManager.Instance.AstaLoginCharacterMarket();
     }
 
     public void GenerateMarketCharacters()
     {
         List<AstaPageManager.Character> listCharactersMarket = AstaPageManager.Instance.listCharacters;
+        // Debug.Log("COUNTTT: " + listCharactersMarket.Count);
         for (int i = 0; i < listCharactersMarket.Count; i++)
         {
             GameObject characterPrefab = Resources.Load("Character") as GameObject;
