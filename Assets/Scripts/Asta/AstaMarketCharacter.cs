@@ -41,8 +41,8 @@ public class AstaMarketCharacter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      Debug.Log("" + (dataStopMarket - DateTime.Now).TotalHours);
-      timer.text = "" + (dataStopMarket - DateTime.Now).TotalHours;
+    //   Debug.Log("" + (dataStopMarket - DateTime.Now).TotalHours);
+    //   timer.text = "" + (dataStopMarket - DateTime.Now).TotalHours;$result = mysqli_query($conn,$sql);
     }
 
     public void ReturnClickButton()
