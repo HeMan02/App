@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
 public class AstaMarketCharacter : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class AstaMarketCharacter : MonoBehaviour
     public Text type;
     public Image life;
     public Text xp;
+    public Text timer;
+    public DateTime dataStopMarket;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,12 +35,14 @@ public class AstaMarketCharacter : MonoBehaviour
         body.sprite = AstaPageManager.Instance.iltemBody[ listCharactersMarket[myId].body];
         life.fillAmount = listCharactersMarket[myId].life;
         xp.text = "Xp: " + listCharactersMarket[myId].xp + "/100";
+        dataStopMarket = listCharactersMarket[myId].dataStopMarket;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+      Debug.Log("" + (dataStopMarket - DateTime.Now).TotalHours);
+      timer.text = "" + (dataStopMarket - DateTime.Now).TotalHours;
     }
 
     public void ReturnClickButton()

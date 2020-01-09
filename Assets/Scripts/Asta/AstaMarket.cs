@@ -53,6 +53,8 @@ public class AstaMarket : MonoBehaviour
             character.transform.SetParent(scrollContentPAret.transform, false);
             character.name = "CHR." + i.ToString(); 
             character.GetComponent<AstaCharaacterMarketList>().name.text =  listCharactersMarket[i].name;
+            character.GetComponent<AstaCharaacterMarketList>().id =  i;
+            character.GetComponent<AstaCharaacterMarketList>().dataStopMarket = listCharactersMarket[i].dataStopMarket;
         }
     }
 
