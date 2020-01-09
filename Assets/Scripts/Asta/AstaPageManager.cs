@@ -104,6 +104,7 @@ public class AstaPageManager : MonoBehaviour
         public int life;
         public int head;
         public int body;
+        public DateTime dataStopMarket;
     }
 
     void Awake()
@@ -379,8 +380,15 @@ public class AstaPageManager : MonoBehaviour
                 }
                 if (j == 7)
                 {
-                    //   Debug.Log("7: " + dataGet[1].ToString());
+                    //Debug.Log("7: " + dataGet[1].ToString());
                     newCharacter.body = int.Parse(dataGet[1].ToString());
+                }
+                if (j == 8)
+                {
+                    //Debug.Log("7: " + dataGet[1].ToString());
+                    DateTime dateDB = DateTime.Parse(dataGet[1].ToString());
+                    Debug.Log("DATA: " + dateDB);
+                    newCharacter.dataStopMarket = dateDB;
                 }
             }
             newCharacter.life = 100;
