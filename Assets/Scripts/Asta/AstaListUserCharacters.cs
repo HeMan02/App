@@ -36,6 +36,15 @@ public class AstaListUserCharacters : MonoBehaviour
             character.transform.SetParent(scrollContentPAret.transform, false);
             character.name = "CHR." + i.ToString(); 
             character.GetComponent<AstaUserList>().name.text =  listMyCharacters[i].name;
+            character.GetComponent<AstaUserList>().id =  i;
+            // character.GetComponent<AstaUserList>().lifeValue = listMyCharacters[i].life;
+            character.GetComponent<AstaUserList>().lifeValue = 100;
+            // character.GetComponent<AstaUserList>().occupedValue = listMyCharacters[i].occuped;
+            bool boolValue = (Random.Range(0, 2) == 0);
+            character.GetComponent<AstaUserList>().occupedValue = boolValue;
+            // DA AGGIUNGERE SU DB "life" e "occuped", questi dati li passero qua,presi da DB
+            character.GetComponent<AstaUserList>().xpValue = listMyCharacters[i].xp;
+
         }
     }
 
