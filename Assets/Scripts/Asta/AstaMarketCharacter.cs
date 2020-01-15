@@ -21,6 +21,7 @@ public class AstaMarketCharacter : MonoBehaviour
     public Text timer;
     public DateTime dataStopMarket;
     public Text price;
+    public Text myCoins;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +39,7 @@ public class AstaMarketCharacter : MonoBehaviour
         xp.text = "Xp: " + listCharactersMarket[myId].xp + "/100";
         dataStopMarket = listCharactersMarket[myId].dataStopMarket;
         price.text =  "" + listCharactersMarket[myId].price;
+        myCoins.text = "$" + AstaPageManager.Instance.totalCash;
     }
 
     // Update is called once per frame
