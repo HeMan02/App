@@ -23,13 +23,13 @@ public class AstaPageManager : MonoBehaviour
     public int currentId = 0;
     public int numCharactersDB;
     public string[] itemsDataVector;
-    
+
     public string[] items;
     // =========== USER DATA CHARACTERS
     public int currentUserId = 0;
     public int numUserCharactersDB;
     public string[] itemsUserDataVector;
-    
+
     public string[] itemsUser;
     // ========== USER DATA
     public string idUser;
@@ -102,6 +102,7 @@ public class AstaPageManager : MonoBehaviour
         public RandomSkill randomSkill;
         public int xp;
         public int life;
+        public int price;
         public int head;
         public int body;
         public DateTime dataStopMarket;
@@ -167,7 +168,7 @@ public class AstaPageManager : MonoBehaviour
             SceneManager.LoadScene("AstaMarket");
     }
 
-     public void AstaLoginUserListCharacters()
+    public void AstaLoginUserListCharacters()
     {
         if (listUserCharacters.Count > 0)
             SceneManager.LoadScene("AstaUserListCharacters");
@@ -178,7 +179,7 @@ public class AstaPageManager : MonoBehaviour
         SceneManager.LoadScene("AstaCharacter");
     }
 
-     public void AstaLoginUserCharacter()
+    public void AstaLoginUserCharacter()
     {
         SceneManager.LoadScene("AstaUserCharacter");
     }
@@ -209,11 +210,11 @@ public class AstaPageManager : MonoBehaviour
     }
 
     // Chiam i lDB e mi faccio restituire i dati dei characters
-     IEnumerator GetCharacters()
+    IEnumerator GetCharacters()
     {
         WWWForm form = new WWWForm();
         form.AddField("idUser", 0);
-        WWW itemsData = new WWW("http://astaapp.altervista.org/GetCharacters.php",form);
+        WWW itemsData = new WWW("http://astaapp.altervista.org/GetCharacters.php", form);
         yield return itemsData;
         string itemsDataString = itemsData.text;
         // Debug.Log(itemsDataString);
@@ -226,7 +227,7 @@ public class AstaPageManager : MonoBehaviour
     {
         WWWForm form = new WWWForm();
         form.AddField("idUser", idUser);
-        WWW itemsData = new WWW("http://astaapp.altervista.org/GetCharacters.php",form);
+        WWW itemsData = new WWW("http://astaapp.altervista.org/GetCharacters.php", form);
         yield return itemsData;
         string itemsDataString = itemsData.text;
         // Debug.Log(itemsDataString);
@@ -365,7 +366,7 @@ public class AstaPageManager : MonoBehaviour
                 }
                 if (j == 4)
                 {
-                //   Debug.Log("4: " + dataGet[1].ToString());
+                    //   Debug.Log("4: " + dataGet[1].ToString());
                     newCharacter.randomSkill = (RandomSkill)int.Parse(dataGet[1].ToString());
                 }
                 if (j == 5)
@@ -390,10 +391,13 @@ public class AstaPageManager : MonoBehaviour
                     // Debug.Log("DATA: " + dateDB + " DIFF: " + (DateTime.Now - dateDB).TotalHours + " +2 giorni: " + dateDB.AddDays(2));
                     newCharacter.dataStopMarket = dateDB.AddDays(2);
                 }
-                if(j == 10){
-                    if (j == 10){
-                    newCharacter.life = int.Parse(dataGet[1].ToString());
+                if (j == 9)
+                {
+                    newCharacter.price = int.Parse(dataGet[1].ToString());
                 }
+                if (j == 10)
+                {
+                    newCharacter.life = int.Parse(dataGet[1].ToString());
                 }
             }
             newCharacter.life = 100;
@@ -435,7 +439,7 @@ public class AstaPageManager : MonoBehaviour
                 }
                 if (j == 4)
                 {
-                //   Debug.Log("4: " + dataGet[1].ToString());
+                    //   Debug.Log("4: " + dataGet[1].ToString());
                     newUserCharacter.randomSkill = (RandomSkill)int.Parse(dataGet[1].ToString());
                 }
                 if (j == 5)
@@ -453,7 +457,8 @@ public class AstaPageManager : MonoBehaviour
                     //   Debug.Log("7: " + dataGet[1].ToString());
                     newUserCharacter.body = int.Parse(dataGet[1].ToString());
                 }
-                if (j == 10){
+                if (j == 10)
+                {
                     newUserCharacter.life = int.Parse(dataGet[1].ToString());
                 }
             }
