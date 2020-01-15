@@ -9,11 +9,13 @@ public class AstaMarket : MonoBehaviour
     // public bool checkGenerate = true;
     public GameObject scrollContentPAret;
     public Text totCash;
+    public Text numOfCharacters;
     // Use this for initialization
     void Start()
     {
             GenerateMarketCharacters();
             totCash.text = "$: " + AstaPageManager.Instance.totalCash;
+            numOfCharacters.text = "" + AstaPageManager.Instance.listCharacters.Count + " CHR in Market "; 
     }
 	
     // Update is called once per frame

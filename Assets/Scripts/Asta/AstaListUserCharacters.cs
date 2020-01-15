@@ -7,10 +7,12 @@ using UnityEngine.EventSystems;
 public class AstaListUserCharacters : MonoBehaviour
 {
      public GameObject scrollContentPAret;
+     public Text userCharactersNumber;
     // Start is called before the first frame update
     void Start()
     {
         GenerateMyCharacters();
+        userCharactersNumber.text = "" + AstaPageManager.Instance.listUserCharacters.Count + " Piggies ";
     }
 
     // Update is called once per frame
