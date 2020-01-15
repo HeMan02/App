@@ -8,10 +8,12 @@ public class AstaMarket : MonoBehaviour
 {
     // public bool checkGenerate = true;
     public GameObject scrollContentPAret;
+    public Text totCash;
     // Use this for initialization
     void Start()
     {
             GenerateMarketCharacters();
+            totCash.text = "$: " + AstaPageManager.Instance.totalCash;
     }
 	
     // Update is called once per frame

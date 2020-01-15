@@ -38,7 +38,7 @@ public class AstaListUserCharacters : MonoBehaviour
             character.GetComponent<AstaUserList>().name.text =  listMyCharacters[i].name;
             character.GetComponent<AstaUserList>().id =  i;
             // character.GetComponent<AstaUserList>().lifeValue = listMyCharacters[i].life;
-            character.GetComponent<AstaUserList>().lifeValue = 100;
+            character.GetComponent<AstaUserList>().lifeValue = listMyCharacters[i].life;
             // character.GetComponent<AstaUserList>().occupedValue = listMyCharacters[i].occuped;
             bool boolValue = (Random.Range(0, 2) == 0);
             character.GetComponent<AstaUserList>().occupedValue = boolValue;

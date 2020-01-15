@@ -390,6 +390,11 @@ public class AstaPageManager : MonoBehaviour
                     // Debug.Log("DATA: " + dateDB + " DIFF: " + (DateTime.Now - dateDB).TotalHours + " +2 giorni: " + dateDB.AddDays(2));
                     newCharacter.dataStopMarket = dateDB.AddDays(2);
                 }
+                if(j == 10){
+                    if (j == 10){
+                    newCharacter.life = int.Parse(dataGet[1].ToString());
+                }
+                }
             }
             newCharacter.life = 100;
             listCharacters.Add(newCharacter);
@@ -448,8 +453,11 @@ public class AstaPageManager : MonoBehaviour
                     //   Debug.Log("7: " + dataGet[1].ToString());
                     newUserCharacter.body = int.Parse(dataGet[1].ToString());
                 }
+                if (j == 10){
+                    newUserCharacter.life = int.Parse(dataGet[1].ToString());
+                }
             }
-            newUserCharacter.life = 100;
+            // newUserCharacter.life = 100;
             listUserCharacters.Add(newUserCharacter);
         }
         // return listUserCharacters;
