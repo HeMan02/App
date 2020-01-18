@@ -399,8 +399,11 @@ public class AstaPageManager : MonoBehaviour
                 {
                     newCharacter.life = int.Parse(dataGet[1].ToString());
                 }
+                if(j == 11){
+                    newCharacter.id = int.Parse(dataGet[1].ToString());
+                }
             }
-            newCharacter.life = 100;
+            // newCharacter.life = 100;
             listCharacters.Add(newCharacter);
         }
         // return listCharacters;
@@ -460,6 +463,9 @@ public class AstaPageManager : MonoBehaviour
                 if (j == 10)
                 {
                     newUserCharacter.life = int.Parse(dataGet[1].ToString());
+                }
+                 if(j == 11){
+                    newUserCharacter.id = int.Parse(dataGet[1].ToString());
                 }
             }
             // newUserCharacter.life = 100;
