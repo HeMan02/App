@@ -26,7 +26,11 @@ public class AstaMarketCharacter : MonoBehaviour
     public GameObject buttonToRelance;
     public int idUser;
     public int idCharacterDb;
+    int actualPrice;
     int inputValue;
+    int priceValue;
+    int myCoinsValue;
+    int valueTotCashUser;
     // Start is called before the first frame update
     void Start()
     {
@@ -75,9 +79,9 @@ public class AstaMarketCharacter : MonoBehaviour
 
     public void SetRelance()
     {
-        int actualPrice = int.Parse(price.text);
-        int priceValue = int.Parse(priceToRelance.text);
-        int myCoinsValue = int.Parse(AstaPageManager.Instance.totalCash);
+        actualPrice = int.Parse(price.text);
+        priceValue = int.Parse(priceToRelance.text);
+        myCoinsValue = int.Parse(AstaPageManager.Instance.totalCash);
         if (priceValue > myCoinsValue || myCoinsValue < actualPrice) 
         {
             priceToRelance.text = "0";
@@ -92,12 +96,13 @@ public class AstaMarketCharacter : MonoBehaviour
             buttonToRelance.SetActive(false);
             priceToRelance.text = "";
         }
-        int newValue = int.Parse(AstaPageManager.Instance.totalCash) - priceValue;
-        AstaPageManager.Instance.totalCash = newValue.ToString();
+        valueTotCashUser = int.Parse(AstaPageManager.Instance.totalCash) - priceValue;
+        AstaPageManager.Instance.totalCash = valueTotCashUser.ToString();
         // =============== TEST
-        price.text = "" + int.Parse(priceToRelance.text);
-        myCoins.text = "$" + AstaPageManager.Instance.totalCash;
+        // price.text = "" + int.Parse(priceToRelance.text);
+        // myCoins.text = "$" + AstaPageManager.Instance.totalCash;
         // =============== START COROUTINE QUI SOTTO
+        StartCoroutine("SendValueRelance");
     }
 
     IEnumerator SendValueRelance()
@@ -106,16 +111,15 @@ public class AstaMarketCharacter : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("idUser", idUser);
         form.AddField("id", idCharacterDb);
-        form.AddField("valueRelance", int.Parse(priceToRelance.text));
+        form.AddField("valueRelance", priceValue);
+        form.AddField("valueTotCashUser", valueTotCashUser);
         // query per aggiornare i valori su DB!!
         WWW itemsData = new WWW("http://astaapp.altervista.org/SteValueAndRefresh.php", form);
         yield return itemsData;
         string itemsDataString = itemsData.text;
         // Debug.Log(itemsDataString);
         string[] itemsDataVector = itemsDataString.Split(';');
-        RefreshCharacter(itemsDataVector);
-        // numCharactersDB = itemsDataVector.Length - 1; // num characters DB
-        // GenerateListOfCharacters();
+        // RefreshCharacter(itemsDataVector);
     }
 
     public void RefreshCharacter(string[] itemsDataVector)
