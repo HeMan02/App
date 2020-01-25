@@ -241,6 +241,7 @@ public class AstaPageManager : MonoBehaviour
         WWWForm form = new WWWForm();
         string randomName = GenerateRandomName();
         form.AddField("name", randomName);
+        form.AddField("idUser", idUser);
         WWW www = new WWW("http://astaapp.altervista.org/RefreshCharacters.php", form);
         StartCoroutine(StartFromWait());
     }

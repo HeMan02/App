@@ -89,7 +89,7 @@ public class AstaMarketCharacter : MonoBehaviour
         actualPrice = int.Parse(price.text);
         priceValue = int.Parse(priceToRelance.text);
         myCoinsValue = int.Parse(AstaPageManager.Instance.totalCash);
-        Debug.Log("priceValue: " + priceValue + " > myCoinsValue: " + myCoinsValue + " --- myCoinsValue: " + myCoinsValue + " < actualPrice: " + actualPrice);
+        // Debug.Log("priceValue: " + priceValue + " > myCoinsValue: " + myCoinsValue + " --- myCoinsValue: " + myCoinsValue + " < actualPrice: " + actualPrice);
         if (priceValue > myCoinsValue || myCoinsValue < actualPrice || priceValue <= actualPrice) 
         {
             priceToRelance.text = "0";
