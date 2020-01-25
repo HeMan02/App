@@ -49,6 +49,7 @@ public class AstaMarketCharacter : MonoBehaviour
         body.sprite = AstaPageManager.Instance.iltemBody[listCharactersMarket[myId].body];
         life.fillAmount = listCharactersMarket[myId].life;
         xp.text = "Xp: " + listCharactersMarket[myId].xp + "/100";
+        // =========== REFRESH VALUE MARKET
         dataStopMarket = listCharactersMarket[myId].dataStopMarket;
         price.text = "" + listCharactersMarket[myId].price;
         myCoins.text = "$" + AstaPageManager.Instance.totalCash;
@@ -65,6 +66,11 @@ public class AstaMarketCharacter : MonoBehaviour
         }
     }
 
+    public void RefreshValueMArket()
+    {
+
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -79,10 +85,12 @@ public class AstaMarketCharacter : MonoBehaviour
 
     public void SetRelance()
     {
+
         actualPrice = int.Parse(price.text);
         priceValue = int.Parse(priceToRelance.text);
         myCoinsValue = int.Parse(AstaPageManager.Instance.totalCash);
-        if (priceValue > myCoinsValue || myCoinsValue < actualPrice) 
+        Debug.Log("priceValue: " + priceValue + " > myCoinsValue: " + myCoinsValue + " --- myCoinsValue: " + myCoinsValue + " < actualPrice: " + actualPrice);
+        if (priceValue > myCoinsValue || myCoinsValue < actualPrice || priceValue <= actualPrice) 
         {
             priceToRelance.text = "0";
             return;
@@ -107,6 +115,7 @@ public class AstaMarketCharacter : MonoBehaviour
 
     IEnumerator SendValueRelance()
     {
+        // Debug.Log("id: " + idCharacterDb + " idUser: " + idUser + "valueRelance: " + priceValue + " valueTotCash: " + valueTotCashUser);
         // Creo il rilancio e aggiorno il prezzo del character, con una query ad "id"
         WWWForm form = new WWWForm();
         form.AddField("idUser", idUser);
@@ -119,7 +128,7 @@ public class AstaMarketCharacter : MonoBehaviour
         string itemsDataString = itemsData.text;
         // Debug.Log(itemsDataString);
         string[] itemsDataVector = itemsDataString.Split(';');
-        // RefreshCharacter(itemsDataVector);
+        RefreshCharacter(itemsDataVector);
     }
 
     public void RefreshCharacter(string[] itemsDataVector)
@@ -137,10 +146,9 @@ public class AstaMarketCharacter : MonoBehaviour
                     newStructForPrice.price = newPrice;
                     AstaPageManager.Instance.listCharacters[myId] = newStructForPrice;
                 }
-                // if (j == 11)
-                // {
-                //     newCharacter.id = int.Parse(dataGet[1].ToString());
-                // }
+                // ====== REFRESH VALUE MARKET
+                price.text = "" + listCharactersMarket[myId].price;
+                myCoins.text = "$" + AstaPageManager.Instance.totalCash;
             }
         }  
         // Riaggiorno i valori di ritorno della query!!
