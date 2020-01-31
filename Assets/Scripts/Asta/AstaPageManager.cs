@@ -390,7 +390,10 @@ public class AstaPageManager : MonoBehaviour
                     //Debug.Log("7: " + dataGet[1].ToString());
                     DateTime dateDB = DateTime.Parse(dataGet[1].ToString());
                     // Debug.Log("DATA: " + dateDB + " DIFF: " + (DateTime.Now - dateDB).TotalHours + " +2 giorni: " + dateDB.AddDays(2));
-                    newCharacter.dataStopMarket = dateDB.AddDays(2);
+                    string[] getDataStep  = items[12].Split('@');
+                    string dataStep = getDataStep[1].ToString();
+                    int valueDataStep = int.Parse(dataStep);
+                    newCharacter.dataStopMarket = dateDB.AddHours(valueDataStep);
                 }
                 if (j == 9)
                 {

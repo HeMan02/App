@@ -68,7 +68,7 @@ public class AstaMarketCharacter : MonoBehaviour
 
     public void RefreshValueMArket()
     {
-
+            
     }
 
     // Update is called once per frame
