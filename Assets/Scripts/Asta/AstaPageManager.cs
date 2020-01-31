@@ -34,6 +34,11 @@ public class AstaPageManager : MonoBehaviour
     // ========== USER DATA
     public string idUser;
     public string totalCash;
+    // ========== DUNGEON
+    public List<Dungeon> listDungeon = new List<Dungeon>();
+    public string[] itemsDungeonVector;
+    public int numDungeon;
+    public string[] itemsDungeon;
 
     public enum Type
     {
@@ -92,6 +97,19 @@ public class AstaPageManager : MonoBehaviour
 
     }
 
+      public enum TypeDungeon
+    {
+        Fuoco,
+        // ladro
+        Stress,
+        // cavaliere
+        Acqua,
+        Famiglia,
+        Lavoro,
+        Divertimento,
+        Or
+    }
+
     public struct Character
     {
         public string name;
@@ -106,6 +124,17 @@ public class AstaPageManager : MonoBehaviour
         public int head;
         public int body;
         public DateTime dataStopMarket;
+    }
+
+       public struct Dungeon
+    {
+        public int id;
+        public int time;
+        public int description;
+        public TypeDungeon type;
+        public int cashWin;
+        public int level;
+        public int name;
     }
 
     void Awake()
@@ -131,6 +160,8 @@ public class AstaPageManager : MonoBehaviour
         CheckCharactersConnection();
         yield return new WaitForSeconds(1);
         CheckUserCharactersConnection();
+        yield return new WaitForSeconds(1);
+        CheckDungeonConnection();
     }
 
     // Update is called once per frame
@@ -207,6 +238,12 @@ public class AstaPageManager : MonoBehaviour
         StartCoroutine("GetUserCharacters");
     }
 
+    public void CheckDungeonConnection()
+    {
+        // Debug.Log("Funzione start coroutine");
+        StartCoroutine("GetDungeon");
+    }
+
     public void CheckRefreshCharactersConnection()
     {
         // Debug.Log("Funzione start coroutine nome");
@@ -250,6 +287,68 @@ public class AstaPageManager : MonoBehaviour
         StartCoroutine(StartFromWait());
     }
 
+     IEnumerator GetDungeon()
+    {
+        WWWForm form = new WWWForm();
+        // form.AddField("idUser", idUser);
+        WWW itemsData = new WWW("http://astaapp.altervista.org/GetDungeon.php", form);
+        yield return itemsData;
+        string itemsDataString = itemsData.text;
+        // Debug.Log(itemsDataString);
+        itemsDungeonVector = itemsDataString.Split(';');
+        numDungeon = itemsDungeonVector.Length - 1; // num characters DB
+        GenerateListOfDungeon();
+    }
+
+    public void GenerateListOfDungeon(){
+           // Debug.Log("count " + itemsDataVector.Length);
+        for (int i = 0; i < itemsDungeonVector.Length - 1; i++)
+        {
+            Dungeon newDungeon = new Dungeon();
+            itemsDungeon = itemsDungeonVector[i].Split('|');
+            for (int j = 0; j < itemsDungeon.Length; j++)
+            {
+                string[] dataGet = itemsDungeon[j].Split('@');
+                if (j == 0)
+                {
+                    //  Debug.Log("0: " + dataGet[1].ToString());
+                    newDungeon.id = int.Parse(dataGet[1].ToString());
+                }
+                if (j == 1)
+                {
+                    //   Debug.Log("1: " + dataGet[1].ToString());
+                    newDungeon.time = int.Parse(dataGet[1].ToString());
+                }
+                if (j == 2)
+                {
+                    //   Debug.Log("2: " + dataGet[1].ToString());
+                    newDungeon.description = int.Parse(dataGet[1].ToString());
+                }
+                if (j == 3)
+                {
+                    //   Debug.Log("3: " + dataGet[1].ToString());
+                    newDungeon.type = (TypeDungeon)int.Parse(dataGet[1].ToString());
+                }
+                if (j == 4)
+                {
+                    //   Debug.Log("4: " + dataGet[1].ToString());
+                    newDungeon.cashWin = int.Parse(dataGet[1].ToString());
+                }
+                if (j == 5)
+                {
+                    //   Debug.Log("5: " + dataGet[1].ToString());
+                    newDungeon.level = int.Parse(dataGet[1].ToString());
+                } 
+                 if (j == 6)
+                {
+                    //   Debug.Log("5: " + dataGet[1].ToString());
+                    newDungeon.name = int.Parse(dataGet[1].ToString());
+                } 
+            }
+            // newUserCharacter.life = 100;
+            listDungeon.Add(newDungeon);
+        }
+    }
 
     public string GenerateRandomName()
     {
