@@ -53,4 +53,8 @@ public class AstaListUserCharacters : MonoBehaviour
     public void ReturnClickButton(){
         AstaPageManager.Instance.AstaMainPage();
     }
+
+    public void EnterToDungeonListButton(){
+        AstaPageManager.Instance.AstaDungeon();
+    }
 }

@@ -189,6 +189,10 @@ public class AstaPageManager : MonoBehaviour
         SceneManager.LoadScene("AstaMain");
     }
 
+    public void AstaDungeon(){
+        SceneManager.LoadScene("AstaDungeon");
+    }
+
     // ================================ CONNESSIONE AL DB ===================================================
 
     public void CheckCharactersConnection()
