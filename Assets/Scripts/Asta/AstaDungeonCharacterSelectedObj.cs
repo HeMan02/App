@@ -14,6 +14,8 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour,IDragHandler, IBegi
     public GameObject gridParent;
     public GameObject scrollParent;
     bool check;
+    bool chekDragAndDrop = false;
+    public Transform finalTargetTransform;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,21 +40,38 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour,IDragHandler, IBegi
     
     public void OnDrag (PointerEventData eventData)
     {
-        
-        Debug.Log("1");
         if(!check){
         target.transform.SetParent(gridParent.transform, false);
         check = true;
         }
-        transform.position = Input.mousePosition;
+        // ==== INPUT DA TOUCH
+        transform.position = Input.mousePosition;        
     }
 
      public void OnEndDrag (PointerEventData eventData)
     {
-        Debug.Log("2");
+        if(!chekDragAndDrop){
         target.transform.SetParent(scrollParent.transform, false);
         target = null;
+         }else{
+            target.transform.SetParent(finalTargetTransform, false);
+            target.transform.localPosition = new Vector3(0,0,0);
+        target = null;
+         }
         // transform.position = startPosition;
         
+    }
+
+     void OnTriggerEnter2D(Collider2D col)
+    {
+        chekDragAndDrop = true;
+        finalTargetTransform = col.gameObject.transform;
+        Debug.Log(col.gameObject.name);
+    }
+
+     void OnTriggerExit2D(Collider2D col)
+    {
+        chekDragAndDrop = false;
+        Debug.Log("USCITO");
     }
 }
