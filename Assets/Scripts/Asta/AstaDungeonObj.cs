@@ -16,12 +16,12 @@ public class AstaDungeonObj : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-            listDungeon = AstaPageManager.Instance.listDungeon;
-             name.text =  "" + listDungeon[myId].name;
-             time.text =  "" + listDungeon[myId].time;
-             description.text =  "" + listDungeon[myId].description;
-             type.text =   "" +listDungeon[myId].type;
-             coinsText.text =  "" + listDungeon[myId].cashWin;
+            // listDungeon = AstaPageManager.Instance.listDungeon;
+            //  name.text =  "" + listDungeon[myId].name;
+            //  time.text =  "" + listDungeon[myId].time;
+            //  description.text =  "" + listDungeon[myId].description;
+            //  type.text =   "" +listDungeon[myId].type;
+            //  coinsText.text =  "" + listDungeon[myId].cashWin;
     }
 
     // Update is called once per frame

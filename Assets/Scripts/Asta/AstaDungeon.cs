@@ -10,8 +10,8 @@ public class AstaDungeon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GenerateDungeon();
-        GenerateDungeonCharacters();
+        // GenerateDungeon();
+        // GenerateDungeonCharacters();
     }
 
     // Update is called once per frame
