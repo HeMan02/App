@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class AstaDungeonCharacterSelectedObj : MonoBehaviour,IDragHandler, IBeginDragHandler, IEndDragHandler
+public class AstaDungeonCharacterSelectedObj : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     public GameObject target;
     public int myId;
@@ -19,7 +19,7 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour,IDragHandler, IBegi
     public Transform actualFinalTransformReturnPosition;
     public RectTransform targetRectTRansform;
     public BoxCollider2D returnBoxCollider;
-    public bool disactiveBoxCollider=false;
+    public bool disactiveBoxCollider = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,10 +32,10 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour,IDragHandler, IBegi
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-      public void OnBeginDrag (PointerEventData eventData)
+    public void OnBeginDrag(PointerEventData eventData)
     {
         Debug.Log("0");
         check = false;
@@ -43,62 +43,79 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour,IDragHandler, IBegi
         startPosition = transform.position;
     }
 
-    
-    public void OnDrag (PointerEventData eventData)
+
+    public void OnDrag(PointerEventData eventData)
     {
-        if(!check){
-        target.transform.SetParent(gridParent.transform, false);
-        check = true;
+        if (!check)
+        {
+            target.transform.SetParent(gridParent.transform, false);
+            check = true;
         }
         // ==== INPUT DA TOUCH
-        transform.position = Input.mousePosition;      
-         if(disactiveBoxCollider){
+        transform.position = Input.mousePosition;
+        if (disactiveBoxCollider)
+        {
             returnBoxCollider.enabled = false;
-        }else{
-         returnBoxCollider.enabled = true;
-        }  
+        }
+        else
+        {
+            returnBoxCollider.enabled = true;
+        }
     }
 
-     public void OnEndDrag (PointerEventData eventData)
+    public void OnEndDrag(PointerEventData eventData)
     {
-        if(!chekDragAndDrop){     
-        target.transform.SetParent(actualFinalTransformReturnPosition, false);
-        target.transform.localPosition = new Vector3(0,0,0);
-        targetRectTRansform.anchoredPosition = new Vector2(targetRectTRansform.anchoredPosition.x,0);
-        target = null;
-         }else{
-        actualFinalTransformReturnPosition = finalTargetTransform;
-        target.transform.SetParent(actualFinalTransformReturnPosition, false);
-        target.transform.localPosition = new Vector3(0,0,0);
-        targetRectTRansform.anchoredPosition = new Vector2(targetRectTRansform.anchoredPosition.x,0);
-        target = null;
-        
-
-         }
+        if (!chekDragAndDrop)
+        {
+            target.transform.SetParent(actualFinalTransformReturnPosition, false);
+            if (!disactiveBoxCollider)
+            {
+                target.transform.localPosition = new Vector3(0, 0, 0);
+                targetRectTRansform.anchoredPosition = new Vector2(targetRectTRansform.anchoredPosition.x, 0);
+            }
+            target = null;
+        }
+        else
+        {
+            actualFinalTransformReturnPosition = finalTargetTransform;
+            target.transform.SetParent(actualFinalTransformReturnPosition, false);
+             if (!disactiveBoxCollider)
+            {
+                target.transform.localPosition = new Vector3(0, 0, 0);
+                targetRectTRansform.anchoredPosition = new Vector2(targetRectTRansform.anchoredPosition.x, 0);
+            }
+            target = null;
+        }
         // transform.position = startPosition;
-        
+
     }
 
-     void OnTriggerEnter2D(Collider2D col)
+    void OnTriggerEnter2D(Collider2D col)
     {
-                if(string.Compare(col.gameObject.name,"CharacterContainerToDungeon")==0){
-disactiveBoxCollider = true;
-            
-        }else{
+        if (string.Compare(col.gameObject.name, "CharacterContainerToDungeon") == 0)
+        {
+            disactiveBoxCollider = true;
+            finalTargetTransform = scrollParent.transform;
+        }
+        else
+        {
             disactiveBoxCollider = false;
+            finalTargetTransform = col.gameObject.transform;
         }
         chekDragAndDrop = true;
-        finalTargetTransform = col.gameObject.transform;
+        
         Debug.Log("AAA ENTRO" + col.gameObject.name);
+
     }
 
-     void OnTriggerExit2D(Collider2D col)
+    void OnTriggerExit2D(Collider2D col)
     {
-        if(string.Compare(col.gameObject.name,"CharacterContainerToDungeon")==1){
-             chekDragAndDrop = false;
-
+        if (string.Compare(col.gameObject.name, "CharacterContainerToDungeon") == 1)
+        {
+            chekDragAndDrop = false;
             Debug.Log("USCITO");
         }
-       
+
+
     }
 }
