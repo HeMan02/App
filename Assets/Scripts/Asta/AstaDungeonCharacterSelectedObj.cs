@@ -16,6 +16,7 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour,IDragHandler, IBegi
     bool check;
     bool chekDragAndDrop = false;
     public Transform finalTargetTransform;
+    public RectTransform targetRectTRansform;
     // Start is called before the first frame update
     void Start()
     {
@@ -56,6 +57,8 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour,IDragHandler, IBegi
          }else{
             target.transform.SetParent(finalTargetTransform, false);
             target.transform.localPosition = new Vector3(0,0,0);
+             target.transform.position = new Vector3(target.transform.position.x,0,target.transform.position.z);
+             targetRectTRansform.anchoredPosition = new Vector2(targetRectTRansform.anchoredPosition.x,0);
         target = null;
          }
         // transform.position = startPosition;
