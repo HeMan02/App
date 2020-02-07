@@ -16,12 +16,17 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour,IDragHandler, IBegi
     bool check;
     bool chekDragAndDrop = false;
     public Transform finalTargetTransform;
+    public Transform actualFinalTransformReturnPosition;
     public RectTransform targetRectTRansform;
+    public BoxCollider2D returnBoxCollider;
+    public bool disactiveBoxCollider=false;
     // Start is called before the first frame update
     void Start()
     {
         // listDungeonCharacters = AstaPageManager.Instance.listUserCharacters;
         // name.text = "" + listDungeonCharacters[myId].name;
+        actualFinalTransformReturnPosition = scrollParent.transform;
+        returnBoxCollider.enabled = false;
     }
 
     // Update is called once per frame
@@ -46,20 +51,29 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour,IDragHandler, IBegi
         check = true;
         }
         // ==== INPUT DA TOUCH
-        transform.position = Input.mousePosition;        
+        transform.position = Input.mousePosition;      
+         if(disactiveBoxCollider){
+            returnBoxCollider.enabled = false;
+        }else{
+         returnBoxCollider.enabled = true;
+        }  
     }
 
      public void OnEndDrag (PointerEventData eventData)
     {
-        if(!chekDragAndDrop){
-        target.transform.SetParent(scrollParent.transform, false);
+        if(!chekDragAndDrop){     
+        target.transform.SetParent(actualFinalTransformReturnPosition, false);
+        target.transform.localPosition = new Vector3(0,0,0);
+        targetRectTRansform.anchoredPosition = new Vector2(targetRectTRansform.anchoredPosition.x,0);
         target = null;
          }else{
-            target.transform.SetParent(finalTargetTransform, false);
-            target.transform.localPosition = new Vector3(0,0,0);
-             target.transform.position = new Vector3(target.transform.position.x,0,target.transform.position.z);
-             targetRectTRansform.anchoredPosition = new Vector2(targetRectTRansform.anchoredPosition.x,0);
+        actualFinalTransformReturnPosition = finalTargetTransform;
+        target.transform.SetParent(actualFinalTransformReturnPosition, false);
+        target.transform.localPosition = new Vector3(0,0,0);
+        targetRectTRansform.anchoredPosition = new Vector2(targetRectTRansform.anchoredPosition.x,0);
         target = null;
+        
+
          }
         // transform.position = startPosition;
         
@@ -67,14 +81,24 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour,IDragHandler, IBegi
 
      void OnTriggerEnter2D(Collider2D col)
     {
+                if(string.Compare(col.gameObject.name,"CharacterContainerToDungeon")==0){
+disactiveBoxCollider = true;
+            
+        }else{
+            disactiveBoxCollider = false;
+        }
         chekDragAndDrop = true;
         finalTargetTransform = col.gameObject.transform;
-        Debug.Log(col.gameObject.name);
+        Debug.Log("AAA ENTRO" + col.gameObject.name);
     }
 
      void OnTriggerExit2D(Collider2D col)
     {
-        chekDragAndDrop = false;
-        Debug.Log("USCITO");
+        if(string.Compare(col.gameObject.name,"CharacterContainerToDungeon")==1){
+             chekDragAndDrop = false;
+
+            Debug.Log("USCITO");
+        }
+       
     }
 }
