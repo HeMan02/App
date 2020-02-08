@@ -14,7 +14,7 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour, IDragHandler, IBeg
     public GameObject gridParent;
     public GameObject scrollParent;
     bool check;
-    bool chekDragAndDrop = false;
+    public bool chekDragAndDrop = false;
     public Transform finalTargetTransform;
     public Transform actualFinalTransformReturnPosition;
     public RectTransform targetRectTRansform;
@@ -37,7 +37,6 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour, IDragHandler, IBeg
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("0");
         check = false;
         target = gameObject;
         startPosition = transform.position;
@@ -65,7 +64,7 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour, IDragHandler, IBeg
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (!chekDragAndDrop)
+        if (!chekDragAndDrop) // Ritorno alla partenza
         {
             target.transform.SetParent(actualFinalTransformReturnPosition, false);
             if (!disactiveBoxCollider)
@@ -75,37 +74,52 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour, IDragHandler, IBeg
             }
             target = null;
         }
-        else
+        else // trovato posto dove inserire
         {
             actualFinalTransformReturnPosition = finalTargetTransform;
             target.transform.SetParent(actualFinalTransformReturnPosition, false);
-             if (!disactiveBoxCollider)
+            if (!disactiveBoxCollider)
             {
                 target.transform.localPosition = new Vector3(0, 0, 0);
                 targetRectTRansform.anchoredPosition = new Vector2(targetRectTRansform.anchoredPosition.x, 0);
             }
             target = null;
         }
-        // transform.position = startPosition;
-
     }
 
     void OnTriggerEnter2D(Collider2D col)
     {
+
         if (string.Compare(col.gameObject.name, "CharacterContainerToDungeon") == 0)
         {
+            Debug.Log("0");
             disactiveBoxCollider = true;
             finalTargetTransform = scrollParent.transform;
         }
         else
         {
-            disactiveBoxCollider = false;
-            finalTargetTransform = col.gameObject.transform;
+            if (string.Compare(col.gameObject.name, "CharacterEnterToDungeon") == 0)
+            {
+                Debug.Log("1 " + col.gameObject.transform.childCount);
+                if (col.gameObject.transform.childCount == 0)
+                {
+                    Debug.Log("3 ");
+                    disactiveBoxCollider = false;
+                    finalTargetTransform = col.gameObject.transform;
+                }
+            }
+            else
+            {
+                if (!col.gameObject.name.Contains("CharacterDungeonSelect"))
+                {
+                    Debug.Log("4 ");
+                    disactiveBoxCollider = false;
+                    finalTargetTransform = col.gameObject.transform;
+                }
+
+            }
         }
         chekDragAndDrop = true;
-        
-        Debug.Log("AAA ENTRO" + col.gameObject.name);
-
     }
 
     void OnTriggerExit2D(Collider2D col)
@@ -113,9 +127,6 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour, IDragHandler, IBeg
         if (string.Compare(col.gameObject.name, "CharacterContainerToDungeon") == 1)
         {
             chekDragAndDrop = false;
-            Debug.Log("USCITO");
         }
-
-
     }
 }
