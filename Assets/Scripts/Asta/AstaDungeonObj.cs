@@ -15,25 +15,31 @@ public class AstaDungeonObj : MonoBehaviour
     public List<AstaPageManager.Dungeon> listDungeon;
     public Transform slotCharacter;
     public RectTransform targetRectTRansform;
+    public bool setTransform;
     // Start is called before the first frame update
     void Start()
     {
         // Richiesta se è libero o meno
-        int idCharacterInSlot = CheckCharacterInSlot();
-        if (idCharacterInSlot != 0)
+        if (setTransform)
         {
-            // capisco quale dei miei characters è all'interno e lo inserisco
-            GameObject[] listCharacters = GameObject.FindGameObjectsWithTag("Character");
-            // listCharacters[0].gameObject.transform.SetParent(null);
-            listCharacters[0].transform.SetParent(slotCharacter);
-            listCharacters[0].transform.localPosition = new Vector3(0, 0, 0);
-            RectTransform m_RectTransform = listCharacters[0].GetComponent<RectTransform>();
-            m_RectTransform.anchoredPosition = new Vector2(m_RectTransform.anchoredPosition.x, m_RectTransform.anchoredPosition.y * 2);
-            Debug.Log("Count " + listCharacters[0].name);
-        }
-        else
-        {
-            // Caso di slot vuoto
+            int idCharacterInSlot = CheckCharacterInSlot();
+            if (idCharacterInSlot != 0)
+            {
+                // capisco quale dei miei characters è all'interno e lo inserisco
+                GameObject[] listCharacters = GameObject.FindGameObjectsWithTag("Character");
+                listCharacters[0].gameObject.transform.SetParent(null);
+                listCharacters[0].transform.SetParent(slotCharacter);
+                listCharacters[0].transform.localPosition = new Vector3(0, 0, 0);
+                RectTransform m_RectTransform = listCharacters[0].GetComponent<RectTransform>();
+                m_RectTransform.anchoredPosition = new Vector2(m_RectTransform.anchoredPosition.x, m_RectTransform.sizeDelta.y);
+                m_RectTransform.anchorMax = new Vector2(0, 0);
+                m_RectTransform.anchorMin = new Vector2(0, 0);
+                // Debug.Log("Count " + m_RectTransform.sizeDelta.y);
+            }
+            else
+            {
+                // Caso di slot vuoto
+            }
         }
         // listDungeon = AstaPageManager.Instance.listDungeon;
         //  name.text =  "" + listDungeon[myId].name;
@@ -44,12 +50,7 @@ public class AstaDungeonObj : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        // GameObject[] listCharacters = GameObject.FindGameObjectsWithTag("Character");
-        // // listCharacters[0].transform.SetParent(null);
-        // listCharacters[0].transform.SetParent(slotCharacter);
-    }
+    void Update() { }
 
     public int CheckCharacterInSlot()
     {

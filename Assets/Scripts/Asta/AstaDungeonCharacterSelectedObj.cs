@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class AstaDungeonCharacterSelectedObj : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
@@ -42,12 +42,11 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour, IDragHandler, IBeg
         startPosition = transform.position;
     }
 
-
     public void OnDrag(PointerEventData eventData)
     {
         if (!check)
         {
-            target.transform.SetParent(gridParent.transform, false);
+            target.transform.SetParent(gridParent.transform);
             check = true;
         }
         // ==== INPUT DA TOUCH
@@ -64,24 +63,26 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour, IDragHandler, IBeg
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        targetRectTRansform.anchorMax = new Vector2(0, 0);
+        targetRectTRansform.anchorMin = new Vector2(0, 0);
         if (!chekDragAndDrop) // Ritorno alla partenza
         {
-            target.transform.SetParent(actualFinalTransformReturnPosition, false);
+            target.transform.SetParent(actualFinalTransformReturnPosition);
             if (!disactiveBoxCollider)
             {
                 target.transform.localPosition = new Vector3(0, 0, 0);
-                targetRectTRansform.anchoredPosition = new Vector2(targetRectTRansform.anchoredPosition.x, 0);
+                targetRectTRansform.anchoredPosition = new Vector2(targetRectTRansform.anchoredPosition.x, targetRectTRansform.sizeDelta.y);
             }
             target = null;
         }
         else // trovato posto dove inserire
         {
             actualFinalTransformReturnPosition = finalTargetTransform;
-            target.transform.SetParent(actualFinalTransformReturnPosition, false);
+            target.transform.SetParent(actualFinalTransformReturnPosition);
             if (!disactiveBoxCollider)
             {
                 target.transform.localPosition = new Vector3(0, 0, 0);
-                targetRectTRansform.anchoredPosition = new Vector2(targetRectTRansform.anchoredPosition.x, 0);
+                targetRectTRansform.anchoredPosition = new Vector2(targetRectTRansform.anchoredPosition.x, targetRectTRansform.sizeDelta.y);
             }
             target = null;
         }
