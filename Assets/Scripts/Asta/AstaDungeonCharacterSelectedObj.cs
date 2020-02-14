@@ -92,7 +92,6 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour, IDragHandler, IBeg
 
         if (string.Compare(col.gameObject.name, "CharacterContainerToDungeon") == 0)
         {
-            Debug.Log("0");
             disactiveBoxCollider = true;
             finalTargetTransform = scrollParent.transform;
         }
@@ -100,10 +99,8 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour, IDragHandler, IBeg
         {
             if (string.Compare(col.gameObject.name, "CharacterEnterToDungeon") == 0)
             {
-                Debug.Log("1 " + col.gameObject.transform.childCount);
                 if (col.gameObject.transform.childCount == 0)
                 {
-                    Debug.Log("3 ");
                     disactiveBoxCollider = false;
                     finalTargetTransform = col.gameObject.transform;
                 }
@@ -112,11 +109,9 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour, IDragHandler, IBeg
             {
                 if (!col.gameObject.name.Contains("CharacterDungeonSelect"))
                 {
-                    Debug.Log("4 ");
                     disactiveBoxCollider = false;
                     finalTargetTransform = col.gameObject.transform;
                 }
-
             }
         }
         chekDragAndDrop = true;

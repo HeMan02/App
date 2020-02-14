@@ -17,23 +17,25 @@ public class AstaDungeon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    public void ReturnClickButton(){
+    public void ReturnClickButton()
+    {
         AstaPageManager.Instance.AstaLoginUserListCharacters();
     }
 
-     public void GenerateDungeon()
+    public void GenerateDungeon()
     {
         List<AstaPageManager.Dungeon> listDungeon = AstaPageManager.Instance.listDungeon;
         for (int i = 0; i < listDungeon.Count; i++)
         {
-             GameObject dungeonPrefab = Resources.Load("Missions") as GameObject;
-             GameObject dungeon = Instantiate(dungeonPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-             dungeon.transform.SetParent(scrollContentPAretDungeon.transform, false);
-             dungeon.name = "DUNGEON." + i.ToString(); 
-             dungeon.GetComponent<AstaDungeonObj>().myId =  i;
+            GameObject dungeonPrefab = Resources.Load("Missions") as GameObject;
+            GameObject dungeon = Instantiate(dungeonPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+            dungeon.transform.SetParent(scrollContentPAretDungeon.transform, false);
+            dungeon.name = "DUNGEON." + i.ToString();
+            dungeon.GetComponent<AstaDungeonObj>().myId = i; // momentaneo per i test
+            // dungeon.GetComponent<AstaDungeonObj>().myId = listDungeon[i].myId;
             //  dungeon.GetComponent<AstaDungeonObj>().time.text =  listDungeon[i].time;
             //  dungeon.GetComponent<AstaDungeonObj>().description = listDungeon[i].description;
             //  dungeon.GetComponent<AstaDungeonObj>().type = listDungeon[i].type;
@@ -41,16 +43,16 @@ public class AstaDungeon : MonoBehaviour
         }
     }
 
-      public void GenerateDungeonCharacters()
+    public void GenerateDungeonCharacters()
     {
         List<AstaPageManager.Character> listDungeonCharacter = AstaPageManager.Instance.listUserCharacters;
         for (int i = 0; i < listDungeonCharacter.Count; i++)
         {
-             GameObject dungeonCharacterSelectPrefab = Resources.Load("CharacterDungeonSelect") as GameObject;
-             GameObject dungeonCharacterSelect = Instantiate(dungeonCharacterSelectPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-             dungeonCharacterSelect.transform.SetParent(scrollContentPAretDungeonCharacters.transform, false);
-             dungeonCharacterSelect.name = "CHR." + i.ToString(); 
-             dungeonCharacterSelect.GetComponent<AstaDungeonCharacterSelectedObj>().myId =  i;
+            GameObject dungeonCharacterSelectPrefab = Resources.Load("CharacterDungeonSelect") as GameObject;
+            GameObject dungeonCharacterSelect = Instantiate(dungeonCharacterSelectPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+            dungeonCharacterSelect.transform.SetParent(scrollContentPAretDungeonCharacters.transform, false);
+            dungeonCharacterSelect.name = "CHR." + i.ToString();
+            dungeonCharacterSelect.GetComponent<AstaDungeonCharacterSelectedObj>().myId = i;
             //  dungeon.GetComponent<AstaDungeonObj>().time.text =  listDungeon[i].time;
             //  dungeon.GetComponent<AstaDungeonObj>().description = listDungeon[i].description;
             //  dungeon.GetComponent<AstaDungeonObj>().type = listDungeon[i].type;
