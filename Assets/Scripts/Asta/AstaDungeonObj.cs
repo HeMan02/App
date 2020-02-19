@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class AstaDungeonObj : MonoBehaviour
 {
@@ -15,7 +16,38 @@ public class AstaDungeonObj : MonoBehaviour
     public List<AstaPageManager.Dungeon> listDungeon;
     public Transform slotCharacter;
     public RectTransform targetRectTRansform;
-    public bool setTransform;
+    public bool checkOccuped = false;
+    public GameObject buttonConfirmDungeon;
+    public Image backgroundImage;
+
+
+    public bool CheckOccuped
+    {
+        get
+        {
+            return checkOccuped;
+        }
+        set
+        {
+            checkOccuped = value;
+            if (checkOccuped)
+            {
+                buttonConfirmDungeon.SetActive(false);
+                backgroundImage.color = new Color32(191, 191, 191, 255);
+            }
+            else
+            {
+                buttonConfirmDungeon.SetActive(true);
+                backgroundImage.color = new Color32(255, 255, 255, 255);
+            }
+        }
+    }
+
+    void Awake()
+    {
+
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +62,11 @@ public class AstaDungeonObj : MonoBehaviour
         }
         Debug.Log("IdDungeon: " + myId);
         StartCoroutine("GetCharacterOnDungeon");
+        // if (checkOccuped)
+        // {
+        //     buttonConfirmDungeon.SetActive(false);
+        //     backgroundImage.color = new Color32(191, 191, 191, 255);
+        // }
         // 
         //  name.text =  "" + listDungeon[myId].name;
         //  time.text =  "" + listDungeon[myId].time;
@@ -45,10 +82,17 @@ public class AstaDungeonObj : MonoBehaviour
         WWW itemsData = new WWW("http://astaapp.altervista.org/GetCharacterOnDungeon.php", form);
         yield return itemsData;
         string itemsDataString = itemsData.text;
-        string[] itemsCharacterOnDungeonArray = itemsDataString.Split(';');
-        string[] itemSplit = itemsCharacterOnDungeonArray[0].ToString().Split('@');
-        int characterId = int.Parse(itemSplit[1]); // num characters DB
-        SetCharacterOnSlot(characterId);
+        try
+        {
+            string[] itemsCharacterOnDungeonArray = itemsDataString.Split(';');
+            string[] itemSplit = itemsCharacterOnDungeonArray[0].ToString().Split('@');
+            int characterId = int.Parse(itemSplit[1]); // num characters DB
+            SetCharacterOnSlot(characterId);
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Nessun id daassegnare al Dungeon");
+        }
     }
 
     public void SetCharacterOnSlot(int characterIdDB)
@@ -60,7 +104,7 @@ public class AstaDungeonObj : MonoBehaviour
             int idCharacterObj = int.Parse(nameSplit[1]);
             if (idCharacterObj == characterIdDB)
             {
-
+                listCharacters[i].GetComponent<AstaDungeonCharacterSelectedObj>().isOccuped = true;
                 listCharacters[i].gameObject.transform.SetParent(null);
                 listCharacters[i].transform.SetParent(slotCharacter);
                 listCharacters[i].transform.localPosition = new Vector3(0, 0, 0);
@@ -69,6 +113,8 @@ public class AstaDungeonObj : MonoBehaviour
                 m_RectTransform.anchorMax = new Vector2(0, 0);
                 m_RectTransform.anchorMin = new Vector2(0, 0);
             }
+            Debug.Log("SONO IO");
+            this.CheckOccuped = true;
         }
     }
 

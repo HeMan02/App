@@ -22,6 +22,7 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour, IDragHandler, IBeg
     public RectTransform targetRectTRansform;
     public BoxCollider2D returnBoxCollider;
     public bool disactiveBoxCollider = false;
+    public bool isOccuped = false;
     // Start is called before the first frame update
 
     void Awake()
@@ -61,49 +62,55 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour, IDragHandler, IBeg
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (!check)
+        if (!isOccuped)
         {
-            target.transform.SetParent(gridParent.transform);
-            check = true;
-        }
-        // ==== INPUT DA TOUCH
-        transform.position = Input.mousePosition;
-        if (disactiveBoxCollider)
-        {
-            returnBoxCollider.enabled = false;
-        }
-        else
-        {
-            returnBoxCollider.enabled = true;
+            if (!check)
+            {
+                target.transform.SetParent(gridParent.transform);
+                check = true;
+            }
+            // ==== INPUT DA TOUCH
+            transform.position = Input.mousePosition;
+            if (disactiveBoxCollider)
+            {
+                returnBoxCollider.enabled = false;
+            }
+            else
+            {
+                returnBoxCollider.enabled = true;
+            }
         }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        targetRectTRansform.anchorMax = new Vector2(0, 0);
-        targetRectTRansform.anchorMin = new Vector2(0, 0);
-        if (!chekDragAndDrop) // Ritorno alla partenza
+        if (!isOccuped)
         {
-            // Pezzo ocmmentato ma non detto che sia corretto
-            target.transform.SetParent(actualFinalTransformReturnPosition);
-            // if (!disactiveBoxCollider)
-            // {
-            target.transform.localPosition = new Vector3(0, 0, 0);
-            targetRectTRansform.anchoredPosition = new Vector2(targetRectTRansform.anchoredPosition.x, targetRectTRansform.sizeDelta.y);
-            // }
-            target = null;
-        }
-        else // trovato posto dove inserire
-        {
-            Debug.Log("1");
-            actualFinalTransformReturnPosition = finalTargetTransform;
-            target.transform.SetParent(actualFinalTransformReturnPosition);
-            if (!disactiveBoxCollider)
+            targetRectTRansform.anchorMax = new Vector2(0, 0);
+            targetRectTRansform.anchorMin = new Vector2(0, 0);
+            if (!chekDragAndDrop) // Ritorno alla partenza
             {
+                // Pezzo ocmmentato ma non detto che sia corretto
+                target.transform.SetParent(actualFinalTransformReturnPosition);
+                // if (!disactiveBoxCollider)
+                // {
                 target.transform.localPosition = new Vector3(0, 0, 0);
                 targetRectTRansform.anchoredPosition = new Vector2(targetRectTRansform.anchoredPosition.x, targetRectTRansform.sizeDelta.y);
+                // }
+                target = null;
             }
-            target = null;
+            else // trovato posto dove inserire
+            {
+                Debug.Log("1");
+                actualFinalTransformReturnPosition = finalTargetTransform;
+                target.transform.SetParent(actualFinalTransformReturnPosition);
+                if (!disactiveBoxCollider)
+                {
+                    target.transform.localPosition = new Vector3(0, 0, 0);
+                    targetRectTRansform.anchoredPosition = new Vector2(targetRectTRansform.anchoredPosition.x, targetRectTRansform.sizeDelta.y);
+                }
+                target = null;
+            }
         }
     }
 
