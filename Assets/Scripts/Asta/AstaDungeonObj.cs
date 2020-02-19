@@ -20,6 +20,7 @@ public class AstaDungeonObj : MonoBehaviour
     void Start()
     {
         // Richiesta se è libero o meno
+        setTransform = false;
         if (setTransform)
         {
             int idCharacterInSlot = CheckCharacterInSlot();

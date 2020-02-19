@@ -21,12 +21,20 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour, IDragHandler, IBeg
     public BoxCollider2D returnBoxCollider;
     public bool disactiveBoxCollider = false;
     // Start is called before the first frame update
-    void Start()
+
+    void Awake()
     {
-        // listDungeonCharacters = AstaPageManager.Instance.listUserCharacters;
-        // name.text = "" + listDungeonCharacters[myId].name;
+        scrollParent = GameObject.Find("ScrollContentCharacter");
+        gridParent = GameObject.Find("Grid");
+        returnBoxCollider = GameObject.Find("CharacterContainerToDungeon").GetComponent<BoxCollider2D>();
         actualFinalTransformReturnPosition = scrollParent.transform;
         returnBoxCollider.enabled = false;
+    }
+
+    void Start()
+    {
+        listDungeonCharacters = AstaPageManager.Instance.listUserCharacters;
+        name.text = "" + listDungeonCharacters[myId].name;
     }
 
     // Update is called once per frame
@@ -110,7 +118,7 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour, IDragHandler, IBeg
             }
             else
             {
-                if (!col.gameObject.name.Contains("CharacterDungeonSelect"))
+                if (!col.gameObject.name.Contains("CHR"))
                 {
                     disactiveBoxCollider = false;
                     finalTargetTransform = col.gameObject.transform;
