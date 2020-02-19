@@ -67,16 +67,18 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour, IDragHandler, IBeg
         targetRectTRansform.anchorMin = new Vector2(0, 0);
         if (!chekDragAndDrop) // Ritorno alla partenza
         {
+            // Pezzo ocmmentato ma non detto che sia corretto
             target.transform.SetParent(actualFinalTransformReturnPosition);
-            if (!disactiveBoxCollider)
-            {
-                target.transform.localPosition = new Vector3(0, 0, 0);
-                targetRectTRansform.anchoredPosition = new Vector2(targetRectTRansform.anchoredPosition.x, targetRectTRansform.sizeDelta.y);
-            }
+            // if (!disactiveBoxCollider)
+            // {
+            target.transform.localPosition = new Vector3(0, 0, 0);
+            targetRectTRansform.anchoredPosition = new Vector2(targetRectTRansform.anchoredPosition.x, targetRectTRansform.sizeDelta.y);
+            // }
             target = null;
         }
         else // trovato posto dove inserire
         {
+            Debug.Log("1");
             actualFinalTransformReturnPosition = finalTargetTransform;
             target.transform.SetParent(actualFinalTransformReturnPosition);
             if (!disactiveBoxCollider)
