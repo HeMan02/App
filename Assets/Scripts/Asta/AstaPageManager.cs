@@ -97,7 +97,7 @@ public class AstaPageManager : MonoBehaviour
 
     }
 
-      public enum TypeDungeon
+    public enum TypeDungeon
     {
         Fuoco,
         // ladro
@@ -126,7 +126,7 @@ public class AstaPageManager : MonoBehaviour
         public DateTime dataStopMarket;
     }
 
-       public struct Dungeon
+    public struct Dungeon
     {
         public int id;
         public int time;
@@ -220,7 +220,8 @@ public class AstaPageManager : MonoBehaviour
         SceneManager.LoadScene("AstaMain");
     }
 
-    public void AstaDungeon(){
+    public void AstaDungeon()
+    {
         SceneManager.LoadScene("AstaDungeon");
     }
 
@@ -287,10 +288,10 @@ public class AstaPageManager : MonoBehaviour
         StartCoroutine(StartFromWait());
     }
 
-     IEnumerator GetDungeon()
+    IEnumerator GetDungeon()
     {
         WWWForm form = new WWWForm();
-        // form.AddField("idUser", idUser);
+        form.AddField("idUser", idUser);
         WWW itemsData = new WWW("http://astaapp.altervista.org/GetDungeon.php", form);
         yield return itemsData;
         string itemsDataString = itemsData.text;
@@ -300,8 +301,9 @@ public class AstaPageManager : MonoBehaviour
         GenerateListOfDungeon();
     }
 
-    public void GenerateListOfDungeon(){
-           // Debug.Log("count " + itemsDataVector.Length);
+    public void GenerateListOfDungeon()
+    {
+        // Debug.Log("count " + itemsDataVector.Length);
         for (int i = 0; i < itemsDungeonVector.Length - 1; i++)
         {
             Dungeon newDungeon = new Dungeon();
@@ -338,12 +340,12 @@ public class AstaPageManager : MonoBehaviour
                 {
                     //   Debug.Log("5: " + dataGet[1].ToString());
                     newDungeon.level = int.Parse(dataGet[1].ToString());
-                } 
-                 if (j == 6)
+                }
+                if (j == 6)
                 {
                     //   Debug.Log("5: " + dataGet[1].ToString());
                     newDungeon.name = int.Parse(dataGet[1].ToString());
-                } 
+                }
             }
             // newUserCharacter.life = 100;
             listDungeon.Add(newDungeon);
@@ -493,7 +495,7 @@ public class AstaPageManager : MonoBehaviour
                     //Debug.Log("7: " + dataGet[1].ToString());
                     DateTime dateDB = DateTime.Parse(dataGet[1].ToString());
                     // Debug.Log("DATA: " + dateDB + " DIFF: " + (DateTime.Now - dateDB).TotalHours + " +2 giorni: " + dateDB.AddDays(2));
-                    string[] getDataStep  = items[12].Split('@');
+                    string[] getDataStep = items[12].Split('@');
                     string dataStep = getDataStep[1].ToString();
                     int valueDataStep = int.Parse(dataStep);
                     newCharacter.dataStopMarket = dateDB.AddHours(valueDataStep);
@@ -506,7 +508,8 @@ public class AstaPageManager : MonoBehaviour
                 {
                     newCharacter.life = int.Parse(dataGet[1].ToString());
                 }
-                if(j == 11){
+                if (j == 11)
+                {
                     newCharacter.id = int.Parse(dataGet[1].ToString());
                 }
             }
@@ -571,7 +574,8 @@ public class AstaPageManager : MonoBehaviour
                 {
                     newUserCharacter.life = int.Parse(dataGet[1].ToString());
                 }
-                 if(j == 11){
+                if (j == 11)
+                {
                     newUserCharacter.id = int.Parse(dataGet[1].ToString());
                 }
             }

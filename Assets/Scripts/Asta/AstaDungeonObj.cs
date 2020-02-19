@@ -20,29 +20,6 @@ public class AstaDungeonObj : MonoBehaviour
     void Start()
     {
         // Richiesta se è libero o meno
-
-        setTransform = false;
-        if (setTransform)
-        {
-            int idCharacterInSlot = CheckCharacterInSlot();
-            if (idCharacterInSlot != 0)
-            {
-                // capisco quale dei miei characters è all'interno e lo inserisco
-                GameObject[] listCharacters = GameObject.FindGameObjectsWithTag("Character");
-                listCharacters[0].gameObject.transform.SetParent(null);
-                listCharacters[0].transform.SetParent(slotCharacter);
-                listCharacters[0].transform.localPosition = new Vector3(0, 0, 0);
-                RectTransform m_RectTransform = listCharacters[0].GetComponent<RectTransform>();
-                m_RectTransform.anchoredPosition = new Vector2(m_RectTransform.anchoredPosition.x, m_RectTransform.sizeDelta.y);
-                m_RectTransform.anchorMax = new Vector2(0, 0);
-                m_RectTransform.anchorMin = new Vector2(0, 0);
-                // Debug.Log("Count " + m_RectTransform.sizeDelta.y);
-            }
-            else
-            {
-                // Caso di slot vuoto
-            }
-        }
         listDungeon = AstaPageManager.Instance.listDungeon;
         for (int i = 0; i < listDungeon.Count; i++)
         {
@@ -52,12 +29,47 @@ public class AstaDungeonObj : MonoBehaviour
             }
         }
         Debug.Log("IdDungeon: " + myId);
+        StartCoroutine("GetCharacterOnDungeon");
         // 
         //  name.text =  "" + listDungeon[myId].name;
         //  time.text =  "" + listDungeon[myId].time;
         //  description.text =  "" + listDungeon[myId].description;
         //  type.text =   "" +listDungeon[myId].type;
         //  coinsText.text =  "" + listDungeon[myId].cashWin;
+    }
+
+    IEnumerator GetCharacterOnDungeon()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("idDungeon", myId);
+        WWW itemsData = new WWW("http://astaapp.altervista.org/GetCharacterOnDungeon.php", form);
+        yield return itemsData;
+        string itemsDataString = itemsData.text;
+        string[] itemsCharacterOnDungeonArray = itemsDataString.Split(';');
+        string[] itemSplit = itemsCharacterOnDungeonArray[0].ToString().Split('@');
+        int characterId = int.Parse(itemSplit[1]); // num characters DB
+        SetCharacterOnSlot(characterId);
+    }
+
+    public void SetCharacterOnSlot(int characterIdDB)
+    {
+        GameObject[] listCharacters = GameObject.FindGameObjectsWithTag("Character");
+        for (int i = 0; i < listCharacters.Length; i++)
+        {
+            string[] nameSplit = listCharacters[i].name.Split('.');
+            int idCharacterObj = int.Parse(nameSplit[1]);
+            if (idCharacterObj == characterIdDB)
+            {
+
+                listCharacters[i].gameObject.transform.SetParent(null);
+                listCharacters[i].transform.SetParent(slotCharacter);
+                listCharacters[i].transform.localPosition = new Vector3(0, 0, 0);
+                RectTransform m_RectTransform = listCharacters[i].GetComponent<RectTransform>();
+                m_RectTransform.anchoredPosition = new Vector2(m_RectTransform.anchoredPosition.x, m_RectTransform.sizeDelta.y);
+                m_RectTransform.anchorMax = new Vector2(0, 0);
+                m_RectTransform.anchorMin = new Vector2(0, 0);
+            }
+        }
     }
 
     // Update is called once per frame
