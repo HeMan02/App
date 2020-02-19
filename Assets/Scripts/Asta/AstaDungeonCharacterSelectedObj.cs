@@ -8,6 +8,8 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour, IDragHandler, IBeg
 {
     public GameObject target;
     public int myId;
+    // Aggiunto per posizione nella lista, ma scorrendo la lista e confrontando l'id preso da DB dovrebbe essere tutto ok
+    // public int myIdPositionOfList;
     public Text name;
     public List<AstaPageManager.Character> listDungeonCharacters;
     Vector3 startPosition;
@@ -34,7 +36,14 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour, IDragHandler, IBeg
     void Start()
     {
         listDungeonCharacters = AstaPageManager.Instance.listUserCharacters;
-        name.text = "" + listDungeonCharacters[myId].name;
+        for (int i = 0; i < listDungeonCharacters.Count; i++)
+        {
+            if (listDungeonCharacters[i].id == myId)
+            {
+                name.text = "" + listDungeonCharacters[i].name;
+            }
+        }
+        Debug.Log("IdCharacter: " + myId);
     }
 
     // Update is called once per frame

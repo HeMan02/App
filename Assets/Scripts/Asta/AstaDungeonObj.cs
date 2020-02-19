@@ -20,6 +20,7 @@ public class AstaDungeonObj : MonoBehaviour
     void Start()
     {
         // Richiesta se è libero o meno
+
         setTransform = false;
         if (setTransform)
         {
@@ -42,7 +43,16 @@ public class AstaDungeonObj : MonoBehaviour
                 // Caso di slot vuoto
             }
         }
-        // listDungeon = AstaPageManager.Instance.listDungeon;
+        listDungeon = AstaPageManager.Instance.listDungeon;
+        for (int i = 0; i < listDungeon.Count; i++)
+        {
+            if (listDungeon[i].id == myId)
+            {
+                name.text = "" + listDungeon[i].name;
+            }
+        }
+        Debug.Log("IdDungeon: " + myId);
+        // 
         //  name.text =  "" + listDungeon[myId].name;
         //  time.text =  "" + listDungeon[myId].time;
         //  description.text =  "" + listDungeon[myId].description;

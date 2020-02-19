@@ -34,7 +34,7 @@ public class AstaDungeon : MonoBehaviour
             GameObject dungeon = Instantiate(dungeonPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
             dungeon.transform.SetParent(scrollContentPAretDungeon.transform, false);
             dungeon.name = "DUNGEON." + i.ToString();
-            dungeon.GetComponent<AstaDungeonObj>().myId = i; // momentaneo per i test
+            dungeon.GetComponent<AstaDungeonObj>().myId = listDungeon[i].id; // momentaneo per i test
             // dungeon.GetComponent<AstaDungeonObj>().myId = listDungeon[i].myId;
             //  dungeon.GetComponent<AstaDungeonObj>().time.text =  listDungeon[i].time;
             //  dungeon.GetComponent<AstaDungeonObj>().description = listDungeon[i].description;
@@ -52,7 +52,8 @@ public class AstaDungeon : MonoBehaviour
             GameObject dungeonCharacterSelect = Instantiate(dungeonCharacterSelectPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
             dungeonCharacterSelect.transform.SetParent(scrollContentPAretDungeonCharacters.transform, false);
             dungeonCharacterSelect.name = "CHR." + i.ToString();
-            dungeonCharacterSelect.GetComponent<AstaDungeonCharacterSelectedObj>().myId = i;
+            dungeonCharacterSelect.GetComponent<AstaDungeonCharacterSelectedObj>().myId = listDungeonCharacter[i].id;
+            // dungeonCharacterSelect.GetComponent<AstaDungeonCharacterSelectedObj>().myIdPositionOfList = i;
             //  dungeon.GetComponent<AstaDungeonObj>().time.text =  listDungeon[i].time;
             //  dungeon.GetComponent<AstaDungeonObj>().description = listDungeon[i].description;
             //  dungeon.GetComponent<AstaDungeonObj>().type = listDungeon[i].type;
