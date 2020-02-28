@@ -77,8 +77,10 @@ public class AstaDungeonObj : MonoBehaviour
 
     IEnumerator GetCharacterOnDungeon()
     {
+        string myUserId = AstaPageManager.Instance.idUser;
         WWWForm form = new WWWForm();
         form.AddField("idDungeon", myId);
+        form.AddField("idUser", myUserId);
         WWW itemsData = new WWW("http://astaapp.altervista.org/GetCharacterOnDungeon.php", form);
         yield return itemsData;
         string itemsDataString = itemsData.text;
