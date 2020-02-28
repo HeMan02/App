@@ -60,19 +60,7 @@ public class AstaDungeonObj : MonoBehaviour
                 name.text = "" + listDungeon[i].name;
             }
         }
-        Debug.Log("IdDungeon: " + myId);
         StartCoroutine("GetCharacterOnDungeon");
-        // if (checkOccuped)
-        // {
-        //     buttonConfirmDungeon.SetActive(false);
-        //     backgroundImage.color = new Color32(191, 191, 191, 255);
-        // }
-        // 
-        //  name.text =  "" + listDungeon[myId].name;
-        //  time.text =  "" + listDungeon[myId].time;
-        //  description.text =  "" + listDungeon[myId].description;
-        //  type.text =   "" +listDungeon[myId].type;
-        //  coinsText.text =  "" + listDungeon[myId].cashWin;
     }
 
     IEnumerator GetCharacterOnDungeon()
@@ -115,7 +103,6 @@ public class AstaDungeonObj : MonoBehaviour
                 m_RectTransform.anchorMax = new Vector2(0, 0);
                 m_RectTransform.anchorMin = new Vector2(0, 0);
             }
-            Debug.Log("SONO IO");
             this.CheckOccuped = true;
         }
     }
@@ -126,5 +113,22 @@ public class AstaDungeonObj : MonoBehaviour
     public int CheckCharacterInSlot()
     {
         return 1;
+    }
+
+    public void SetCharacterOnDungeonSelected()
+    {
+        if (slotCharacter.transform.childCount == 0)
+        {
+            Debug.Log("SLOT VUOTO");
+            return;
+        }
+        else
+        {
+            int idCHR = slotCharacter.transform.GetChild(0).GetComponent<AstaDungeonCharacterSelectedObj>().myId;
+            Debug.Log("Index CHR: " + idCHR);
+            // PRENDO l'ID DEL CHARACTER ASSEGNATO!!!!
+        }
+
+
     }
 }

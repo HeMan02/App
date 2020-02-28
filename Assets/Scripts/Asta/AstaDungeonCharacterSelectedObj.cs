@@ -44,7 +44,6 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour, IDragHandler, IBeg
                 name.text = "" + listDungeonCharacters[i].name;
             }
         }
-        Debug.Log("IdCharacter: " + myId);
     }
 
     // Update is called once per frame
