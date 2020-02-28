@@ -124,11 +124,36 @@ public class AstaDungeonObj : MonoBehaviour
         }
         else
         {
-            int idCHR = slotCharacter.transform.GetChild(0).GetComponent<AstaDungeonCharacterSelectedObj>().myId;
+            GameObject ogjInSLot = slotCharacter.transform.GetChild(0).gameObject;
+            int idCHR = ogjInSLot.GetComponent<AstaDungeonCharacterSelectedObj>().myId;
             Debug.Log("Index CHR: " + idCHR);
             // PRENDO l'ID DEL CHARACTER ASSEGNATO!!!!
+            ogjInSLot.GetComponent<AstaDungeonCharacterSelectedObj>().isOccuped = true;
+            ogjInSLot.gameObject.transform.SetParent(null);
+            ogjInSLot.transform.SetParent(slotCharacter);
+            ogjInSLot.transform.localPosition = new Vector3(0, 0, 0);
+            RectTransform m_RectTransform = ogjInSLot.GetComponent<RectTransform>();
+            m_RectTransform.anchoredPosition = new Vector2(m_RectTransform.anchoredPosition.x, m_RectTransform.sizeDelta.y);
+            m_RectTransform.anchorMax = new Vector2(0, 0);
+            m_RectTransform.anchorMin = new Vector2(0, 0);
+            this.CheckOccuped = true;
+            StartCoroutine("SendValueToSet");
         }
 
 
+    }
+
+    IEnumerator SendValueToSet()
+    {
+        // Id Dungeon
+        // Id Character 
+        int idCHR = slotCharacter.transform.GetChild(0).GetComponent<AstaDungeonCharacterSelectedObj>().myId;
+        int idDungeon = myId;
+        Debug.Log("idDungeon: " + idDungeon + " idCharacter " + idCHR);
+        WWWForm form = new WWWForm();
+        form.AddField("idDungeon", idDungeon);
+        form.AddField("idCharacter", idCHR);
+        WWW itemsData = new WWW("http://astaapp.altervista.org/SetCharacterOnSLotDungeon.php", form);
+        yield return itemsData;     
     }
 }
