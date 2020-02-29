@@ -23,7 +23,21 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour, IDragHandler, IBeg
     public BoxCollider2D returnBoxCollider;
     public bool disactiveBoxCollider = false;
     public bool isOccuped = false;
+    public Image lifeImage;
+    public float lifeValue;
     // Start is called before the first frame update
+    public float LifeValue
+    {
+        get
+        {
+            return lifeValue;
+        }
+        set
+        {
+            lifeValue = value;
+            lifeImage.fillAmount = (lifeValue/100);
+        }
+    }
 
     void Awake()
     {
@@ -100,7 +114,6 @@ public class AstaDungeonCharacterSelectedObj : MonoBehaviour, IDragHandler, IBeg
             }
             else // trovato posto dove inserire
             {
-                Debug.Log("1");
                 actualFinalTransformReturnPosition = finalTargetTransform;
                 target.transform.SetParent(actualFinalTransformReturnPosition);
                 if (!disactiveBoxCollider)

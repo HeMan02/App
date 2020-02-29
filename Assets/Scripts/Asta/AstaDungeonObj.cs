@@ -72,16 +72,28 @@ public class AstaDungeonObj : MonoBehaviour
         WWW itemsData = new WWW("http://astaapp.altervista.org/GetCharacterOnDungeon.php", form);
         yield return itemsData;
         string itemsDataString = itemsData.text;
-        Debug.Log("0 ReturnDB: " + itemsDataString);
+        //Debug.Log("0 ReturnDB: " + itemsDataString);
         try
         {
             string[] itemsCharacterOnDungeonArray = itemsDataString.Split(';');
             string[] itemSplit = itemsCharacterOnDungeonArray[0].ToString().Split('@');
-            Debug.Log("1 ReturnDB: " + itemSplit[0]);
+            //Debug.Log("1 ReturnDB: " + itemSplit[0]);
             if (string.Compare(itemSplit[0], "FREE") == 0) // Controllo se mi ritorna un valore già terminato su DB o no
             {
+                int characterId = int.Parse(itemSplit[1]);
                 // Lasciarlo libero e assegnargli bonus o malus finito dungeon
-            }
+                GameObject[] listCharacters = GameObject.FindGameObjectsWithTag("Character");
+                for (int i = 0; i < listCharacters.Length; i++)
+                {
+                    string[] nameSplit = listCharacters[i].name.Split('.');
+                    int idCharacterObj = int.Parse(nameSplit[1]);
+                    if (idCharacterObj == characterId)
+                    {
+                        listCharacters[i].GetComponent<AstaDungeonCharacterSelectedObj>().LifeValue -= 50; // caso con tempo finito e gli assegno malus o bonus
+                        // Aggiungere denaro
+                    }
+                }
+             }
             else // caso ancora occupato
             {
                 int characterId = int.Parse(itemSplit[1]); // num characters DB

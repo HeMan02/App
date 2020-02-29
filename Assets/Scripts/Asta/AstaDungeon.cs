@@ -53,6 +53,7 @@ public class AstaDungeon : MonoBehaviour
             dungeonCharacterSelect.transform.SetParent(scrollContentPAretDungeonCharacters.transform, false);
             dungeonCharacterSelect.name = "CHR." + listDungeonCharacter[i].id.ToString();
             dungeonCharacterSelect.GetComponent<AstaDungeonCharacterSelectedObj>().myId = listDungeonCharacter[i].id;
+            dungeonCharacterSelect.GetComponent<AstaDungeonCharacterSelectedObj>().LifeValue = listDungeonCharacter[i].life;
             // dungeonCharacterSelect.GetComponent<AstaDungeonCharacterSelectedObj>().myIdPositionOfList = i;
             //  dungeon.GetComponent<AstaDungeonObj>().time.text =  listDungeon[i].time;
             //  dungeon.GetComponent<AstaDungeonObj>().description = listDungeon[i].description;
