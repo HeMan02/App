@@ -637,4 +637,19 @@ public class AstaPageManager : MonoBehaviour
         yield return null;
     }
 
+    /// <summary>
+    /// Elimino character con vita a 0
+    /// </summary>
+    /// <param name="idCharacterUser"></param>
+    public void DeleteCharacterUser(int idCharacterUser)
+    {
+        for (int i = 0; i < listUserCharacters.Count; i++)
+        {
+            if (listUserCharacters[i].id == idCharacterUser)
+            {
+                listUserCharacters.Remove(listUserCharacters[i]);
+            }
+        }
+    }
+
 }
