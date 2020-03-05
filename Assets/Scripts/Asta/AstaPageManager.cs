@@ -584,4 +584,57 @@ public class AstaPageManager : MonoBehaviour
         }
         // return listUserCharacters;
     }
+
+    /// <summary>
+    /// Funzione per richiamare bonus o malus ai character finiti dungeon
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="type"></param>
+    /// <param name="value"></param>
+    public void AddBonusCharacter(int id,string type,int value)
+    {
+        for (int i = 0; i < listUserCharacters.Count; i++)
+        {
+            if (listUserCharacters[i].id == id)
+            {
+                // BONUS
+                switch (type)
+                {
+                    case "LoseLife": 
+                        // Rimuovo vita
+                        break;
+                    case "AddLife":
+                        // Rimuovo vita
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Aggiungo o rimuovo coins
+    /// </summary>
+    public void AddCoins(int value)
+    {
+        // iduser
+        totalCash += value;
+        StartCoroutine("SetCoins");
+    }
+
+    /// <summary>
+    /// Aggiungo cash su DB
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator SetCoins()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("idUser", idUser);
+        form.AddField("totalCash", totalCash);
+        //WWW itemsData = new WWW("http://astaapp.altervista.org/GetCharacters.php", form);
+        //yield return itemsData;
+        yield return null;
+    }
+
 }
