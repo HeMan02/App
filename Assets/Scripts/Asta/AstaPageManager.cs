@@ -648,8 +648,24 @@ public class AstaPageManager : MonoBehaviour
             if (listUserCharacters[i].id == idCharacterUser)
             {
                 listUserCharacters.Remove(listUserCharacters[i]);
+                object[] parms = new object[1] { listUserCharacters[i].id };
+                StartCoroutine("DeleteCharacterUserOnDB",parms);
             }
         }
+    }
+
+    /// <summary>
+    /// Elimino character con vita esaurita
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator DeleteCharacterUserOnDB(object[] parms)
+    {
+        int param = (int)parms[0];
+        Debug.Log("dentro ienumerator con parametro: " + param.ToString());
+        WWWForm form = new WWWForm();
+        form.AddField("idCharacter", param);
+        WWW itemsData = new WWW("http://astaapp.altervista.org/DeleteUserCharacter.php", form);
+        yield return itemsData;
     }
 
 }

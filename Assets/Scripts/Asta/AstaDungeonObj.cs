@@ -91,6 +91,11 @@ public class AstaDungeonObj : MonoBehaviour
                     {
                         listCharacters[i].GetComponent<AstaDungeonCharacterSelectedObj>().LifeValue -= 50; // caso con tempo finito e gli assegno malus o bonus
                         // Aggiungere denaro
+                        if (listCharacters[i].GetComponent<AstaDungeonCharacterSelectedObj>().LifeValue <= 0)
+                        {
+                            AstaPageManager.Instance.DeleteCharacterUser(listCharacters[i].GetComponent<AstaDungeonCharacterSelectedObj>().myId);
+                            // Qua eliminare da DB
+                        }
                     }
                 }
              }
