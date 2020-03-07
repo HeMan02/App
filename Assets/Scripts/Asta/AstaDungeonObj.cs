@@ -1,8 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 
 public class AstaDungeonObj : MonoBehaviour
 {
@@ -19,7 +19,6 @@ public class AstaDungeonObj : MonoBehaviour
     public bool checkOccuped = false;
     public GameObject buttonConfirmDungeon;
     public Image backgroundImage;
-
 
     public bool CheckOccuped
     {
@@ -72,12 +71,12 @@ public class AstaDungeonObj : MonoBehaviour
         WWW itemsData = new WWW("http://astaapp.altervista.org/GetCharacterOnDungeon.php", form);
         yield return itemsData;
         string itemsDataString = itemsData.text;
-        //Debug.Log("0 ReturnDB: " + itemsDataString);
+        Debug.Log("0 ReturnDB: " + itemsDataString);
         try
         {
             string[] itemsCharacterOnDungeonArray = itemsDataString.Split(';');
             string[] itemSplit = itemsCharacterOnDungeonArray[0].ToString().Split('@');
-            //Debug.Log("1 ReturnDB: " + itemSplit[0]);
+            Debug.Log("1 ReturnDB: " + itemSplit[0]);
             if (string.Compare(itemSplit[0], "FREE") == 0) // Controllo se mi ritorna un valore già terminato su DB o no
             {
                 int characterId = int.Parse(itemSplit[1]);
@@ -91,14 +90,17 @@ public class AstaDungeonObj : MonoBehaviour
                     {
                         listCharacters[i].GetComponent<AstaDungeonCharacterSelectedObj>().LifeValue -= 50; // caso con tempo finito e gli assegno malus o bonus
                         // Aggiungere denaro
+                        //sbloccare character e aggiornare vita su DB
+
                         if (listCharacters[i].GetComponent<AstaDungeonCharacterSelectedObj>().LifeValue <= 0)
                         {
                             AstaPageManager.Instance.DeleteCharacterUser(listCharacters[i].GetComponent<AstaDungeonCharacterSelectedObj>().myId);
+                            Destroy(listCharacters[i]);
                             // Qua eliminare da DB
                         }
                     }
                 }
-             }
+            }
             else // caso ancora occupato
             {
                 int characterId = int.Parse(itemSplit[1]); // num characters DB
@@ -166,7 +168,6 @@ public class AstaDungeonObj : MonoBehaviour
             StartCoroutine("SendValueToSet");
         }
 
-
     }
 
     IEnumerator SendValueToSet()
@@ -180,6 +181,6 @@ public class AstaDungeonObj : MonoBehaviour
         form.AddField("idDungeon", idDungeon);
         form.AddField("idCharacter", idCHR);
         WWW itemsData = new WWW("http://astaapp.altervista.org/SetCharacterOnSLotDungeon.php", form);
-        yield return itemsData;     
+        yield return itemsData;
     }
 }
