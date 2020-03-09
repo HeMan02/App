@@ -13,14 +13,15 @@ public class AstaUserList : MonoBehaviour
     public Image life;
     public Image occuped;
     public Image xp;
-    public int lifeValue;
+    public float lifeValue;
     public bool occupedValue;
     public int xpValue;
 
     // Start is called before the first frame update
     void Start()
     {
-        life.fillAmount = lifeValue;
+        //Debug.Log("life: " + (lifeValue/100) + " Id: " + id);
+        life.fillAmount = (lifeValue/100);
         if(occupedValue){
             occuped.color = Color.red;
         }else{

@@ -19,7 +19,7 @@ $result = $conn->query($sql);
 echo(mysqli_num_rows($result));
 if(mysqli_num_rows($result) > 0){
 	while($row = mysqli_fetch_assoc($result)){
-		echo "NOME@".$row['Nome'] . "|LIVELLO@".$row['Livello'] . "|SKILLBONUS@".$row['SkillBonus'] . "|SKILLMALUS@".$row['SkillMalus'] ."|SKILLRANDOM@".$row['SkillRandom']  ."|TYPE@".$row['Type']."|HEAD@".$row['Head'] ."|BODY@".$row['Body']  ."|DATA@".$row['DataCreazione'] . "|PRICE@".$row['Price'] ."|LIFE@".$row['Life'] ."|ID@".$row['Id']."|DATASTEP@".$row['DataStep'] .";";
+		echo "NOME@".$row['Nome'] . "|LIVELLO@".$row['Livello'] . "|SKILLBONUS@".$row['SkillBonus'] . "|SKILLMALUS@".$row['SkillMalus'] ."|SKILLRANDOM@".$row['SkillRandom']  ."|TYPE@".$row['Type']."|HEAD@".$row['Head'] ."|BODY@".$row['Body']  ."|DATA@".$row['DataCreazione'] . "|PRICE@".$row['Price'] ."|LIFE@".$row['Life'] ."|ID@".$row['Id']."|DATASTEP@".$row['DataStep']."|IDDUNGEON@".$row['IdDungeon'].";";
 	}
 }
 ?>

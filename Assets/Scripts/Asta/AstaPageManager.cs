@@ -124,6 +124,7 @@ public class AstaPageManager : MonoBehaviour
         public int head;
         public int body;
         public DateTime dataStopMarket;
+        public int idDungeon;
     }
 
     public struct Dungeon
@@ -272,7 +273,7 @@ public class AstaPageManager : MonoBehaviour
         WWW itemsData = new WWW("http://astaapp.altervista.org/GetCharacters.php", form);
         yield return itemsData;
         string itemsDataString = itemsData.text;
-        // Debug.Log(itemsDataString);
+        //Debug.Log(itemsDataString);
         itemsUserDataVector = itemsDataString.Split(';');
         numUserCharactersDB = itemsUserDataVector.Length - 1; // num characters DB
         GenerateListOfUserCharacters();
@@ -522,7 +523,7 @@ public class AstaPageManager : MonoBehaviour
 
     public void GenerateListOfUserCharacters()
     {
-        // Debug.Log("count " + itemsDataVector.Length);
+        //Debug.Log("count " + itemsDataVector.Length);
         for (int i = 0; i < itemsUserDataVector.Length - 1; i++)
         {
             Character newUserCharacter = new Character();
@@ -532,51 +533,58 @@ public class AstaPageManager : MonoBehaviour
                 string[] dataGet = itemsUser[j].Split('@');
                 if (j == 0)
                 {
-                    //  Debug.Log("0: " + dataGet[1].ToString());
+                    //Debug.Log("0: " + dataGet[1].ToString());
                     newUserCharacter.name = dataGet[1].ToString();
                 }
                 if (j == 1)
                 {
-                    //   Debug.Log("1: " + dataGet[1].ToString());
+                    //Debug.Log("1: " + dataGet[1].ToString());
                     newUserCharacter.xp = int.Parse(dataGet[1].ToString());
                 }
                 if (j == 2)
                 {
-                    //   Debug.Log("2: " + dataGet[1].ToString());
+                    //Debug.Log("2: " + dataGet[1].ToString());
                     newUserCharacter.bonus = (Bonus)int.Parse(dataGet[1].ToString());
                 }
                 if (j == 3)
                 {
-                    //   Debug.Log("3: " + dataGet[1].ToString());
+                    //Debug.Log("3: " + dataGet[1].ToString());
                     newUserCharacter.malus = (Malus)int.Parse(dataGet[1].ToString());
                 }
                 if (j == 4)
                 {
-                    //   Debug.Log("4: " + dataGet[1].ToString());
+                    //Debug.Log("4: " + dataGet[1].ToString());
                     newUserCharacter.randomSkill = (RandomSkill)int.Parse(dataGet[1].ToString());
                 }
                 if (j == 5)
                 {
-                    //   Debug.Log("5: " + dataGet[1].ToString());
+                    //Debug.Log("5: " + dataGet[1].ToString());
                     newUserCharacter.type = (Type)int.Parse(dataGet[1].ToString());
                 }
                 if (j == 6)
                 {
-                    //   Debug.Log("6: " + dataGet[1].ToString());
+                    //Debug.Log("6: " + dataGet[1].ToString());
                     newUserCharacter.head = int.Parse(dataGet[1].ToString());
                 }
                 if (j == 7)
                 {
-                    //   Debug.Log("7: " + dataGet[1].ToString());
+                    //Debug.Log("7: " + dataGet[1].ToString());
                     newUserCharacter.body = int.Parse(dataGet[1].ToString());
                 }
                 if (j == 10)
                 {
+                    //Debug.Log("10: " + dataGet[1].ToString());
                     newUserCharacter.life = int.Parse(dataGet[1].ToString());
                 }
                 if (j == 11)
                 {
+                    //Debug.Log("11: " + dataGet[1].ToString());
                     newUserCharacter.id = int.Parse(dataGet[1].ToString());
+                }
+                if (j == 13)
+                {
+                    //Debug.Log("12: " + dataGet[1].ToString());
+                    newUserCharacter.idDungeon = int.Parse(dataGet[1].ToString());
                 }
             }
             // newUserCharacter.life = 100;

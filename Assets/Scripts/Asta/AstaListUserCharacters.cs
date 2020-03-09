@@ -41,9 +41,17 @@ public class AstaListUserCharacters : MonoBehaviour
             character.GetComponent<AstaUserList>().id =  i;
             // character.GetComponent<AstaUserList>().lifeValue = listMyCharacters[i].life;
             character.GetComponent<AstaUserList>().lifeValue = listMyCharacters[i].life;
-            // character.GetComponent<AstaUserList>().occupedValue = listMyCharacters[i].occuped;
-            bool boolValue = (Random.Range(0, 2) == 0);
-            character.GetComponent<AstaUserList>().occupedValue = boolValue;
+            //Debug.Log("id: " + listMyCharacters[i].id + " idDungeon: " + listMyCharacters[i].idDungeon);
+            if (listMyCharacters[i].idDungeon != 0)
+            {
+                character.GetComponent<AstaUserList>().occupedValue = true;
+            }
+            else
+            {
+                character.GetComponent<AstaUserList>().occupedValue = false;
+            }
+            //bool boolValue = (Random.Range(0, 2) == 0);
+            //character.GetComponent<AstaUserList>().occupedValue = boolValue;
             // DA AGGIUNGERE SU DB "life" e "occuped", questi dati li passero qua,presi da DB
             character.GetComponent<AstaUserList>().xpValue = listMyCharacters[i].xp;
 
