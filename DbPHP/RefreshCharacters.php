@@ -46,8 +46,8 @@ $result = mysqli_query($conn,$sql);
 if(mysqli_num_rows($result)==0) {
 		echo("NO DATA");
      $myCharacter = GenerateRandomCharacter($randomName);
-    $sql = "INSERT INTO  Characters (IdUser,Id,Nome,Livello,SkillBonus,SkillMalus,	SkillRandom,Type,Head,Body,DataCreazione,DataStep,Occuped,Price,Life) VALUES(0,'" .rand(1,100). "','" .$myCharacter->nome. "'," .$myCharacter->livello. "," .$myCharacter->skillBonus. "," .$myCharacter->skillRandom. "," .$myCharacter->type. "," .$myCharacter->head. "," .$myCharacter->body. "," .$myCharacter->head. ",NOW()," .$myCharacter->DataStep. ",0,1,100)";
-    $result = mysqli_query($conn,$sql);
+     $sql = "INSERT INTO  Characters (IdUser,Id,Nome,Livello,SkillBonus,SkillMalus,	SkillRandom,Type,Head,Body,DataCreazione,DataStep,Price,Life,IdRelance,IdDungeon,EndOccuped) VALUES(0,'" .rand(1,100). "','" .$myCharacter->nome. "'," .$myCharacter->livello. "," .$myCharacter->skillBonus. "," .$myCharacter->skyllMalus. "," .$myCharacter->skillRandom. "," .$myCharacter->type. "," .$myCharacter->head. "," .$myCharacter->body. ",NOW()," .$myCharacter->DataStep. ",0,100,0,0,NOW())";
+     $result = mysqli_query($conn,$sql);
       die('Could not get data: ' . mysql_error());
 }
 // ciclo tutti i risultàti
@@ -67,7 +67,7 @@ echo $interval->format('%R');
 if(strcmp($interval->format('%R'),'-')==0){
 	echo("Negàtivo e istanzio nuovo oggetto");
     $myCharacter = GenerateRandomCharacter($randomName);
-    $sql = "INSERT INTO  Characters (IdUser,Id,Nome,Livello,SkillBonus,SkillMalus,	SkillRandom,Type,Head,Body,DataCreazione,DataStep,Occuped,Price,Life) VALUES(0,'" .rand(1,100). "','" .$myCharacter->nome. "'," .$myCharacter->livello. "," .$myCharacter->skillBonus. "," .$myCharacter->skillRandom. "," .$myCharacter->type. "," .$myCharacter->head. "," .$myCharacter->body. "," .$myCharacter->head. ",NOW()," .$myCharacter->DataStep. ",0,1,100)";
+    $sql = "INSERT INTO  Characters (IdUser,Id,Nome,Livello,SkillBonus,SkillMalus,	SkillRandom,Type,Head,Body,DataCreazione,DataStep,Price,Life,IdRelance,IdDungeon,EndOccuped) VALUES(0,'" .rand(1,100). "','" .$myCharacter->nome. "'," .$myCharacter->livello. "," .$myCharacter->skillBonus. "," .$myCharacter->skyllMalus. "," .$myCharacter->skillRandom. "," .$myCharacter->type. "," .$myCharacter->head. "," .$myCharacter->body. ",NOW()," .$myCharacter->DataStep. ",0,100,0,0,NOW())";
     $result = mysqli_query($conn,$sql);
 }else{
 	echo("Positivo Return");
@@ -76,7 +76,7 @@ if(strcmp($interval->format('%R'),'-')==0){
 }
 
 function GenerateRandomCharacter($randomName){
-  	$myCharacter = new Character($randomName,1,rand(0,7),rand(0,8),rand(0,6),rand(0,9),rand(0,9),rand(0,9),rand(1,24));
+  	$myCharacter = new Character($randomName,1,rand(0,7),rand(0,8),rand(0,6),rand(0,9),rand(0,18),rand(0,27),rand(1,24));
     return $myCharacter;
 }
 ?>

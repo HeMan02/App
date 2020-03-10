@@ -151,7 +151,7 @@ public class AstaPageManager : MonoBehaviour
     {
         Instance = this;
         // ======= CHARACTERS
-        //   CheckRefreshCharacters();
+           //CheckRefreshCharacters();
         //   StartCoroutine(StartFromWait()); // Se scommentato è poi già presente in CheckRefreshCharacters()
     }
 
@@ -286,6 +286,7 @@ public class AstaPageManager : MonoBehaviour
         form.AddField("name", randomName);
         form.AddField("idUser", idUser);
         WWW www = new WWW("http://astaapp.altervista.org/RefreshCharacters.php", form);
+        Debug.Log("StartREfresh");
         StartCoroutine(StartFromWait());
     }
 
