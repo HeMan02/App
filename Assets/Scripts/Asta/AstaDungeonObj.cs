@@ -60,6 +60,7 @@ public class AstaDungeonObj : MonoBehaviour
             }
         }
         StartCoroutine("GetCharacterOnDungeon");
+        AstaPageManager.Instance.StartCoroutineRefreshCharacter();
     }
 
     IEnumerator GetCharacterOnDungeon()
@@ -71,12 +72,12 @@ public class AstaDungeonObj : MonoBehaviour
         WWW itemsData = new WWW("http://astaapp.altervista.org/GetCharacterOnDungeon.php", form);
         yield return itemsData;
         string itemsDataString = itemsData.text;
-        Debug.Log("0 ReturnDB: " + itemsDataString);
+        //Debug.Log("0 ReturnDB: " + itemsDataString);
         try
         {
             string[] itemsCharacterOnDungeonArray = itemsDataString.Split(';');
             string[] itemSplit = itemsCharacterOnDungeonArray[0].ToString().Split('@');
-            Debug.Log("1 ReturnDB: " + itemSplit[0]);
+            //Debug.Log("1 ReturnDB: " + itemSplit[0]);
             if (string.Compare(itemSplit[0], "FREE") == 0) // Controllo se mi ritorna un valore già terminato su DB o no
             {
                 int characterId = int.Parse(itemSplit[1]);
@@ -182,5 +183,7 @@ public class AstaDungeonObj : MonoBehaviour
         form.AddField("idCharacter", idCHR);
         WWW itemsData = new WWW("http://astaapp.altervista.org/SetCharacterOnSLotDungeon.php", form);
         yield return itemsData;
+        yield return new WaitForSeconds(1);
+        AstaPageManager.Instance.StartCoroutineRefreshCharacter();
     }
 }

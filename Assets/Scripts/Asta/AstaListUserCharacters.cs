@@ -42,6 +42,7 @@ public class AstaListUserCharacters : MonoBehaviour
             // character.GetComponent<AstaUserList>().lifeValue = listMyCharacters[i].life;
             character.GetComponent<AstaUserList>().lifeValue = listMyCharacters[i].life;
             //Debug.Log("id: " + listMyCharacters[i].id + " idDungeon: " + listMyCharacters[i].idDungeon);
+            Debug.Log("Controllo con value: " + listMyCharacters[i].idDungeon + " idCharacter: " + listMyCharacters[i].id);
             if (listMyCharacters[i].idDungeon != 0)
             {
                 character.GetComponent<AstaUserList>().occupedValue = true;

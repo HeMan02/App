@@ -520,6 +520,104 @@ public class AstaPageManager : MonoBehaviour
         // return listCharacters;
     }
 
+    public void StartCoroutineRefreshCharacter()
+    {
+        StartCoroutine("RefreshListOfUserCharactersFromDB");
+    }
+
+    IEnumerator RefreshListOfUserCharactersFromDB()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("idUser", idUser);
+        WWW itemsData = new WWW("http://astaapp.altervista.org/GetCharacters.php", form);
+        yield return itemsData;
+        string itemsDataString = itemsData.text;
+        //Debug.Log(itemsDataString);
+        itemsUserDataVector = null;
+        itemsUserDataVector = itemsDataString.Split(';');
+        numUserCharactersDB = itemsUserDataVector.Length - 1; // num characters DB
+        RefreshListOfUserCharacters();
+    }
+
+    public void RefreshListOfUserCharacters()
+    {
+        //Debug.Log("count " + itemsDataVector.Length);
+        for (int i = 0; i < itemsUserDataVector.Length - 1; i++)
+        {
+            Character userCharacterDB = new Character();
+            itemsUser = itemsUserDataVector[i].Split('|');
+            for (int j = 0; j < itemsUser.Length; j++)
+            {
+                
+                string[] dataGet = itemsUser[j].Split('@');
+                if (j == 0)
+                {
+                    //Debug.Log("0: " + dataGet[1].ToString());
+                    userCharacterDB.name = dataGet[1].ToString();
+                }
+                if (j == 1)
+                {
+                    //Debug.Log("1: " + dataGet[1].ToString());
+                    userCharacterDB.xp = int.Parse(dataGet[1].ToString());
+                }
+                if (j == 2)
+                {
+                    //Debug.Log("2: " + dataGet[1].ToString());
+                    userCharacterDB.bonus = (Bonus)int.Parse(dataGet[1].ToString());
+                }
+                if (j == 3)
+                {
+                    //Debug.Log("3: " + dataGet[1].ToString());
+                    userCharacterDB.malus = (Malus)int.Parse(dataGet[1].ToString());
+                }
+                if (j == 4)
+                {
+                    //Debug.Log("4: " + dataGet[1].ToString());
+                    userCharacterDB.randomSkill = (RandomSkill)int.Parse(dataGet[1].ToString());
+                }
+                if (j == 5)
+                {
+                    //Debug.Log("5: " + dataGet[1].ToString());
+                    userCharacterDB.type = (Type)int.Parse(dataGet[1].ToString());
+                }
+                if (j == 6)
+                {
+                    //Debug.Log("6: " + dataGet[1].ToString());
+                    userCharacterDB.head = int.Parse(dataGet[1].ToString());
+                }
+                if (j == 7)
+                {
+                    //Debug.Log("7: " + dataGet[1].ToString());
+                    userCharacterDB.body = int.Parse(dataGet[1].ToString());
+                }
+                if (j == 10)
+                {
+                    //Debug.Log("10: " + dataGet[1].ToString());
+                    userCharacterDB.life = int.Parse(dataGet[1].ToString());
+                }
+                if (j == 11)
+                {
+                    //Debug.Log("11: " + dataGet[1].ToString());
+                    userCharacterDB.id = int.Parse(dataGet[1].ToString());
+                }
+                if (j == 13)
+                {
+                    //Debug.Log("12: " + dataGet[1].ToString());
+                    userCharacterDB.idDungeon = int.Parse(dataGet[1].ToString());
+                } 
+            }
+            for (int x = 0; x < listUserCharacters.Count; x++)
+            {
+                //Debug.Log("confronto da: " + listUserCharacters[x].id + " con: " + userCharacterDB.id);
+                if (listUserCharacters[x].id == userCharacterDB.id)
+                {
+                    //Debug.Log("sostituzione");
+                    //listUserCharacters[x] = void;
+                    listUserCharacters[x] = userCharacterDB;
+                }
+            }
+        }
+    }
 
     public void GenerateListOfUserCharacters()
     {
