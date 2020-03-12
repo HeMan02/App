@@ -755,7 +755,6 @@ public class AstaPageManager : MonoBehaviour
         {
             if (listUserCharacters[i].id == idCharacterUser)
             {
-                object[] parms = new object[1] { idCharacterUser };
                 listUserCharacters.Remove(listUserCharacters[i]);
             }
         }
