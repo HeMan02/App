@@ -28,7 +28,15 @@ $result = $conn->query($sql);
 if(mysqli_num_rows($result) > 0){
 	while($row = mysqli_fetch_assoc($result)){
 		echo "FREE@".$row['Id'].";";
-        $newLife = $row['Life']-50;
+        $sqlReduceLife = "select Time from Dungeon where IdDungeon = (SELECT IdDungeon FROM `Characters` WHERE Id =" .$row['Id']. ") ";
+        $resultReduceLife = mysqli_query($conn,$sqlReduceLife);
+		$resultReduceLife = $conn->query($sqlReduceLife);
+        if(mysqli_num_rows($resultReduceLife) > 0){
+        			while($rowReduceLife = mysqli_fetch_assoc($resultReduceLife)){
+        			$lifeToReduce = $rowReduceLife['Time'];
+        			}
+        }
+        $newLife = $row['Life']-$lifeToReduce;
         	if($newLife <= 0 ){
         		$sqlNew = "delete from Characters WHERE Id=" .$row['Id'];
         		$resultNew = mysqli_query($conn,$sqlNew);
