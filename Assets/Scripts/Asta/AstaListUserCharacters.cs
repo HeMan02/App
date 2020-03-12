@@ -9,6 +9,11 @@ public class AstaListUserCharacters : MonoBehaviour
      public GameObject scrollContentPAret;
      public Text userCharactersNumber;
     // Start is called before the first frame update
+    private void Awake()
+    {
+        AstaPageManager.Instance.RefreshListOfUserCharacters();
+    }
+
     void Start()
     {
         GenerateMyCharacters();
@@ -42,7 +47,7 @@ public class AstaListUserCharacters : MonoBehaviour
             // character.GetComponent<AstaUserList>().lifeValue = listMyCharacters[i].life;
             character.GetComponent<AstaUserList>().lifeValue = listMyCharacters[i].life;
             //Debug.Log("id: " + listMyCharacters[i].id + " idDungeon: " + listMyCharacters[i].idDungeon);
-            Debug.Log("Controllo con value: " + listMyCharacters[i].idDungeon + " idCharacter: " + listMyCharacters[i].id);
+            //Debug.Log("Controllo con value: " + listMyCharacters[i].idDungeon + " idCharacter: " + listMyCharacters[i].id);
             if (listMyCharacters[i].idDungeon != 0)
             {
                 character.GetComponent<AstaUserList>().occupedValue = true;
