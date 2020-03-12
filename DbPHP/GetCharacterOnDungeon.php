@@ -22,7 +22,7 @@ if(mysqli_num_rows($result) > 0){
 	}
 }else{
 //$sql = "SELECT Id,Life FROM Characters WHERE IdUser=" .$idUser. " and IdDungeon=" .$idDungeon. " and TIMEDIFF(EndOccuped, now()) < 0";
-$sql = "SELECT Id,Life FROM Characters WHERE IdUser=1 and IdDungeon=1 and TIMEDIFF(EndOccuped, now()) < 0";
+$sql = "SELECT Id,Life FROM Characters WHERE IdUser=" .$idUser. " and IdDungeon=" .$idDungeon. " and TIMEDIFF(EndOccuped, now()) < 0";
 $result = mysqli_query($conn,$sql);
 $result = $conn->query($sql);
 if(mysqli_num_rows($result) > 0){
@@ -34,7 +34,7 @@ if(mysqli_num_rows($result) > 0){
         		$resultNew = mysqli_query($conn,$sqlNew);
 				$resultNew = $conn->query($sqlNew);
         	}else{
-        		$sqlGetCashToAdd = "select CashWin from Dungeon where IdDungeon = (SELECT IdDungeon FROM `Characters` WHERE Id = 3) ";
+        		$sqlGetCashToAdd = "select CashWin from Dungeon where IdDungeon = (SELECT IdDungeon FROM `Characters` WHERE Id =" .$row['Id']. ") ";
         		//$sqlGetCashToAdd = "select CashWin from Dungeon aD,(SELECT IdDungeon FROM `Characters` WHERE Id = 3) as bD where aD.IdDungeon=bD.IdDungeon ";
                 $resultGetCashToAdd = mysqli_query($conn,$sqlGetCashToAdd);
         		$resultGetCashToAdd = $conn->query($sqlGetCashToAdd);
@@ -42,7 +42,7 @@ if(mysqli_num_rows($result) > 0){
         			while($rowGetCashToAdd = mysqli_fetch_assoc($resultGetCashToAdd)){
         			$cashToAdd = $rowGetCashToAdd['CashWin'];
         			}
-                    $sqlGetCashNow = "select TotCash from Users where Id = 1";
+                    $sqlGetCashNow = "select TotCash from Users where Id =" .$idUser. ";";
         			$resultGetCashNow = mysqli_query($conn,$sqlGetCashNow);
         			$resultGetCashNow = $conn->query($sqlGetCashNow);
                     if(mysqli_num_rows($resultGetCashNow) > 0){
@@ -53,7 +53,7 @@ if(mysqli_num_rows($result) > 0){
                     echo " 1 cash ERRORE RIGHE VUOTE;";
                     }
                     $cashNewToAdd = $cashNow + $cashToAdd;
-                    $sqlSetNewCash = "update Users set TotCash=" .$cashNewToAdd. " where Id=1";
+                    $sqlSetNewCash = "update Users set TotCash=" .$cashNewToAdd. " where Id=" .$idUser. ";";
         			$resultSetNewCash = mysqli_query($conn,$sqlSetNewCash);
         			$resultSetNewCash = $conn->query($sqlSetNewCash);
         		}else{
