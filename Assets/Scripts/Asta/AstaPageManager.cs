@@ -97,18 +97,80 @@ public class AstaPageManager : MonoBehaviour
 
     }
 
-    public enum TypeDungeon
+    public enum DescrDungeon
     {
-        Fuoco,
-        // ladro
-        Stress,
-        // cavaliere
-        Acqua,
+        Vecchio,
+        Nuovo,
+        Zombie,
         Famiglia,
-        Lavoro,
         Divertimento,
-        Or
+        Sport,
+        Nani,
+        Pecore,
+        Famtasmi,
+        Vampiri,
+        Orsi
     }
+
+    public enum PlaceDungeon
+    {
+        Discoteca,
+        Parco,
+        Lavoro,
+        Casa,
+        Supermercato,
+        Città,
+        Bosco,
+        Fattoria,
+        Pizzeria,
+        Bagno
+    }
+
+    public enum GoalDungeon
+    {
+        Anello,
+        Ciabatte,
+        Torta,
+        Zaino,
+        Moneta,
+        Principessa,
+        Fratello,
+        Pesce,
+        Vestire
+    }
+
+    public string[] goalDungeonArray = {"bisogna recuperare il nostro anello fatto di sterco,riusciremo?",
+        "alla ricerca delle ciabatte di zucchero che ci piacciono tanto!",
+        "ci serve la torta fatta con le unghie del mio cane domestico!",
+        "alla ricerca del mio zaino con dentro la droga dello stupro!",
+        "cerchiamo la mia vecchia moneta che usava mio padre per lasciarmi i lividi da bambino!",
+        "cerchiamo quella p.....a della principessa che è andata con il mio migliore amico!",
+        "dove sarà mio fratello che ha l'abitudine di uscire alle 2 di notte?",
+        "cerchiamo il mio amico Giovanni il Pesce dal culo di Gomma!",
+        "troveremo le mie mutande buttate via dopo un influenza intestinale?"
+    };
+
+    public string[] descDungeonArray = {"tutto attorno è così vecchio, odore di marcio e lerciume,",
+        "tutto così nuovo, oggeti all'avanguardia ovunque,",
+        "Un gruppo di zombie si presenta davanti a noi,",
+        "attormo a me c'è tutta la mia famiglia a supportarmi,",
+        "un posto che trasmette molta felicità anche se non sembrava così all'inizio,",
+        "posso allenarmi in qualsiasi modo, ci sono attrezi ovunque,",
+        "un gruppo di nani da giardino kyller mi aspetta di fronte,",
+        "delle simpaticisimme caprette di montagna con il vizio di bere alcolici ci aspetta,",
+        "un gruppo di fantasmi omosessuali e molto dotati ci spetta,",
+        "agli angoli ci sono vampiri pusher che cercano di venderti droga a tutti i costi",
+        "un gruppo di orsi gioca a carte e discute animatamente,"
+    };
+
+    public string[] placeDungeonArray = { "Entriamo in una Discoteca in centro al paese,", 
+        "Ci ritroviamo in un Parco furi città,","Andiamo al solito nostro posto di Lavoro come tutti i giorni,",
+        "Rimaniamo a casa perchè non ci sembrava la giornata giusta per uscire,",
+        "Entriamo nel SuperMarket più grosso del paese,",
+        "Siamo persi in mezzo alla città più buia del paese","Il Bosco incantato fatto di marzapoane",
+        "La Fattoria del mio vicino di casa un pedofilo",
+        "Il Bagno di un autogrill con siringhe per terra"
+    };
 
     public struct Character
     {
@@ -131,8 +193,9 @@ public class AstaPageManager : MonoBehaviour
     {
         public int id;
         public int time;
-        public int description;
-        public TypeDungeon type;
+        public DescrDungeon description;
+        public PlaceDungeon place;
+        public GoalDungeon goal;
         public int cashWin;
         public int level;
         public int name;
@@ -326,12 +389,12 @@ public class AstaPageManager : MonoBehaviour
                 if (j == 2)
                 {
                     //   Debug.Log("2: " + dataGet[1].ToString());
-                    newDungeon.description = int.Parse(dataGet[1].ToString());
+                    newDungeon.description = (DescrDungeon)int.Parse(dataGet[1].ToString());
                 }
                 if (j == 3)
                 {
                     //   Debug.Log("3: " + dataGet[1].ToString());
-                    newDungeon.type = (TypeDungeon)int.Parse(dataGet[1].ToString());
+                    newDungeon.place = (PlaceDungeon)int.Parse(dataGet[1].ToString());
                 }
                 if (j == 4)
                 {
@@ -613,7 +676,6 @@ public class AstaPageManager : MonoBehaviour
                 if (listUserCharacters[x].id == userCharacterDB.id)
                 {
                     //Debug.Log("sostituzione");
-                    //listUserCharacters[x] = void;
                     listUserCharacters[x] = userCharacterDB;
                 }
             }
