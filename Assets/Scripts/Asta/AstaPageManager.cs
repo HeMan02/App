@@ -139,6 +139,16 @@ public class AstaPageManager : MonoBehaviour
         Vestire
     }
 
+    public enum TypeDungeon
+    {
+        Fuoco,
+        Acqua,
+        Resistenza,
+        Deserto,
+        Malus,
+        Bonus
+    }
+
     public string[] goalDungeonArray = {"bisogna recuperare il nostro anello fatto di sterco,riusciremo?",
         "alla ricerca delle ciabatte di zucchero che ci piacciono tanto!",
         "ci serve la torta fatta con le unghie del mio cane domestico!",
@@ -196,6 +206,7 @@ public class AstaPageManager : MonoBehaviour
         public DescrDungeon description;
         public PlaceDungeon place;
         public GoalDungeon goal;
+        public TypeDungeon type;
         public int cashWin;
         public int level;
         public int name;
@@ -394,7 +405,7 @@ public class AstaPageManager : MonoBehaviour
                 if (j == 3)
                 {
                     //   Debug.Log("3: " + dataGet[1].ToString());
-                    newDungeon.place = (PlaceDungeon)int.Parse(dataGet[1].ToString());
+                    newDungeon.type = (TypeDungeon)int.Parse(dataGet[1].ToString());
                 }
                 if (j == 4)
                 {
@@ -410,6 +421,16 @@ public class AstaPageManager : MonoBehaviour
                 {
                     //   Debug.Log("5: " + dataGet[1].ToString());
                     newDungeon.name = int.Parse(dataGet[1].ToString());
+                }
+                if (j == 7)
+                {
+                    //   Debug.Log("5: " + dataGet[1].ToString());
+                    newDungeon.goal = (GoalDungeon)int.Parse(dataGet[1].ToString());
+                }
+                if (j == 8)
+                {
+                    //   Debug.Log("5: " + dataGet[1].ToString());
+                    newDungeon.place = (PlaceDungeon)int.Parse(dataGet[1].ToString());
                 }
             }
             // newUserCharacter.life = 100;
