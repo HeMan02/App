@@ -57,7 +57,7 @@ public class AstaDungeonObj : MonoBehaviour
             if (listDungeon[i].id == myId)
             {
                 name.text = "" + listDungeon[i].name;
-                description.text = "" + AstaPageManager.Instance.placeDungeonArray[(int)listDungeon[i].place] + AstaPageManager.Instance.descDungeonArray[(int)listDungeon[i].description] + AstaPageManager.Instance.goalDungeonArray[(int)listDungeon[i].goal];
+                this.description.text = "" + AstaPageManager.Instance.placeDungeonArray[(int)listDungeon[i].place] + AstaPageManager.Instance.descDungeonArray[(int)listDungeon[i].description] + AstaPageManager.Instance.goalDungeonArray[(int)listDungeon[i].goal];
             }
         }
         StartCoroutine("GetCharacterOnDungeon");

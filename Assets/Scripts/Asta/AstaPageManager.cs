@@ -149,6 +149,14 @@ public class AstaPageManager : MonoBehaviour
         Bonus
     }
 
+    public enum NameDungeon
+    {
+        a,
+        b,
+        c,
+        d
+    }
+
     public string[] goalDungeonArray = {"bisogna recuperare il nostro anello fatto di sterco,riusciremo?",
         "alla ricerca delle ciabatte di zucchero che ci piacciono tanto!",
         "ci serve la torta fatta con le unghie del mio cane domestico!",
@@ -420,14 +428,9 @@ public class AstaPageManager : MonoBehaviour
                 if (j == 6)
                 {
                     //   Debug.Log("5: " + dataGet[1].ToString());
-                    newDungeon.name = int.Parse(dataGet[1].ToString());
-                }
-                if (j == 7)
-                {
-                    //   Debug.Log("5: " + dataGet[1].ToString());
                     newDungeon.goal = (GoalDungeon)int.Parse(dataGet[1].ToString());
                 }
-                if (j == 8)
+                if (j == 7)
                 {
                     //   Debug.Log("5: " + dataGet[1].ToString());
                     newDungeon.place = (PlaceDungeon)int.Parse(dataGet[1].ToString());
