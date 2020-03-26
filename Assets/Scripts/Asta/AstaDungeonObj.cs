@@ -19,6 +19,9 @@ public class AstaDungeonObj : MonoBehaviour
     public bool checkOccuped = false;
     public GameObject buttonConfirmDungeon;
     public Image backgroundImage;
+    public DateTime endOfOccupedDateCharacterInSLot;
+    public bool startTimer;
+    public int dateTimeDateGetFromDBDungeon;
 
     public bool CheckOccuped
     {
@@ -34,11 +37,13 @@ public class AstaDungeonObj : MonoBehaviour
                 buttonConfirmDungeon.SetActive(false);
                 backgroundImage.color = new Color32(191, 191, 191, 255);
                 // ==== AGGIUNGERE CODICE TIMER DA DB O MENO
+                startTimer = true;
             }
             else
             {
                 buttonConfirmDungeon.SetActive(true);
                 backgroundImage.color = new Color32(255, 255, 255, 255);
+                startTimer = false;
             }
         }
     }
@@ -65,15 +70,26 @@ public class AstaDungeonObj : MonoBehaviour
                 this.name.text =  listDungeon[i].name.ToString();
                 // =============== DATA PRESA DA DB
                 string dateGetFromDB = listDungeon[i].dataEnd.ToString();
-                DateTime dateTimeDateGetFromDB = DateTime.Parse(dateGetFromDB);
+                dateTimeDateGetFromDBDungeon = listDungeon[i].time;
                 DateTime now = DateTime.Now;
-                TimeSpan diff = dateTimeDateGetFromDB - now;
-                double hours = diff.TotalHours;
-                Debug.Log("DataEnd: " + dateTimeDateGetFromDB + " DifFromNow: " + hours);
+                //TimeSpan diff = dateTimeDateGetFromDBDungeon - now;
+                //double hours = diff.TotalHours;
+                //Debug.Log("DataEnd: " + dateTimeDateGetFromDBDungeon + " DifFromNow: " + hours);
             }
         }
         StartCoroutine("GetCharacterOnDungeon");
         AstaPageManager.Instance.StartCoroutineRefreshCharacter();
+    }
+
+    // Update is called once per frame
+    void Update() {
+        if (startTimer)
+        {
+            DateTime now = DateTime.Now;
+            TimeSpan diff =  endOfOccupedDateCharacterInSLot - now;
+            double hours = diff.TotalHours;
+            this.time.text = "Time: " + Math.Round( hours,2)  + "H";
+        }
     }
 
     IEnumerator GetCharacterOnDungeon()
@@ -85,7 +101,7 @@ public class AstaDungeonObj : MonoBehaviour
         WWW itemsData = new WWW("http://astaapp.altervista.org/GetCharacterOnDungeon.php", form);
         yield return itemsData;
         string itemsDataString = itemsData.text;
-        //Debug.Log("0 ReturnDB: " + itemsDataString);
+        Debug.Log("0 ReturnDB: " + itemsDataString);
         try
         {
             string[] itemsCharacterOnDungeonArray = itemsDataString.Split(';');
@@ -117,8 +133,20 @@ public class AstaDungeonObj : MonoBehaviour
             }
             else // caso ancora occupato
             {
-                int characterId = int.Parse(itemSplit[1]); // num characters DB
+                Debug.Log("DEVO stampare la data");
+                int characterId = int.Parse(itemSplit[1]); // num characters DB             
                 SetCharacterOnSlot(characterId);
+                List<AstaPageManager.Character> listUserCHR = AstaPageManager.Instance.listUserCharacters;
+                
+                for (int i = 0; i < listUserCHR.Count; i++)
+                {
+                    Debug.Log("confronto idList: " + listUserCHR[i].id + " conIDDB: " + characterId);
+                    if (listUserCHR[i].id == characterId)
+                    {
+                        Debug.Log("data: " + listUserCHR[i].dateEndTime);
+                        endOfOccupedDateCharacterInSLot = listUserCHR[i].dateEndTime;
+                    }
+                }
             }
         }
         catch (Exception e)
@@ -149,8 +177,7 @@ public class AstaDungeonObj : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update() { }
+
 
     public int CheckCharacterInSlot()
     {

@@ -208,6 +208,7 @@ public class AstaPageManager : MonoBehaviour
         public int body;
         public DateTime dataStopMarket;
         public int idDungeon;
+        public DateTime dateEndTime;
     }
 
     public struct Dungeon
@@ -706,7 +707,21 @@ public class AstaPageManager : MonoBehaviour
                 {
                     //Debug.Log("12: " + dataGet[1].ToString());
                     userCharacterDB.idDungeon = int.Parse(dataGet[1].ToString());
-                } 
+                }
+                if (j == 14)
+                {
+                    //Debug.Log("14 refresh: " + dataGet[1].ToString());
+                    try
+                    {
+                        userCharacterDB.dateEndTime = DateTime.Parse(dataGet[1].ToString());
+                    }
+                    catch (Exception)
+                    {
+
+                        Debug.Log("ERRORE GET DATA");
+                    }
+
+                }
             }
             for (int x = 0; x < listUserCharacters.Count; x++)
             {
@@ -784,6 +799,20 @@ public class AstaPageManager : MonoBehaviour
                 {
                     //Debug.Log("12: " + dataGet[1].ToString());
                     newUserCharacter.idDungeon = int.Parse(dataGet[1].ToString());
+                }
+                if (j == 14)
+                {
+                    //Debug.Log("14: " + dataGet[1].ToString());
+                    try
+                    {
+                        newUserCharacter.dateEndTime = DateTime.Parse(dataGet[1].ToString());
+                    }
+                    catch (Exception)
+                    {
+
+                        Debug.Log("ERRORE GET DATA");
+                    }
+                    
                 }
             }
             // newUserCharacter.life = 100;
