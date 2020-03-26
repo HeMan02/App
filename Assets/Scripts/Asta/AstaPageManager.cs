@@ -151,10 +151,13 @@ public class AstaPageManager : MonoBehaviour
 
     public enum NameDungeon
     {
-        a,
-        b,
-        c,
-        d
+        ElChico,
+        Ramses,
+        Gerbolandia,
+        Strofinaccio,
+        Dasolitaria,
+        Pertinotti,
+        Giovannibertola
     }
 
     public string[] goalDungeonArray = {"bisogna recuperare il nostro anello fatto di sterco,riusciremo?",
@@ -217,7 +220,8 @@ public class AstaPageManager : MonoBehaviour
         public TypeDungeon type;
         public int cashWin;
         public int level;
-        public int name;
+        public NameDungeon name;
+        public string dataEnd;
     }
 
     void Awake()
@@ -434,6 +438,16 @@ public class AstaPageManager : MonoBehaviour
                 {
                     //   Debug.Log("5: " + dataGet[1].ToString());
                     newDungeon.place = (PlaceDungeon)int.Parse(dataGet[1].ToString());
+                }
+                if (j == 8)
+                {
+                    //   Debug.Log("5: " + dataGet[1].ToString());
+                    newDungeon.dataEnd = dataGet[1].ToString();
+                }
+                if (j == 7)
+                {
+                    //   Debug.Log("5: " + dataGet[1].ToString());
+                    newDungeon.name = (NameDungeon)int.Parse(dataGet[1].ToString());
                 }
             }
             // newUserCharacter.life = 100;

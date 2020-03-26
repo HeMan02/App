@@ -33,6 +33,7 @@ public class AstaDungeonObj : MonoBehaviour
             {
                 buttonConfirmDungeon.SetActive(false);
                 backgroundImage.color = new Color32(191, 191, 191, 255);
+                // ==== AGGIUNGERE CODICE TIMER DA DB O MENO
             }
             else
             {
@@ -58,6 +59,17 @@ public class AstaDungeonObj : MonoBehaviour
             {
                 name.text = "" + listDungeon[i].name;
                 this.description.text = "" + AstaPageManager.Instance.placeDungeonArray[(int)listDungeon[i].place] + AstaPageManager.Instance.descDungeonArray[(int)listDungeon[i].description] + AstaPageManager.Instance.goalDungeonArray[(int)listDungeon[i].goal];
+                this.coinsText.text = "WIN: " + listDungeon[i].cashWin;
+                this.type.text = "" + listDungeon[i].type;
+                this.time.text = "Time: " + listDungeon[i].time + "H";
+                this.name.text =  listDungeon[i].name.ToString();
+                // =============== DATA PRESA DA DB
+                string dateGetFromDB = listDungeon[i].dataEnd.ToString();
+                DateTime dateTimeDateGetFromDB = DateTime.Parse(dateGetFromDB);
+                DateTime now = DateTime.Now;
+                TimeSpan diff = dateTimeDateGetFromDB - now;
+                double hours = diff.TotalHours;
+                Debug.Log("DataEnd: " + dateTimeDateGetFromDB + " DifFromNow: " + hours);
             }
         }
         StartCoroutine("GetCharacterOnDungeon");
