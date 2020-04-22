@@ -21,9 +21,7 @@ public class AstaUserCharacter : MonoBehaviour
     void Start()
     {
         // Setto tutti i parametri del CHR
-        Debug.Log("MY ID Prima: " + myId);
         myId = AstaPageManager.Instance.currentUserId;
-        Debug.Log("MY ID Dopo: " + myId);
         userCharacter = AstaPageManager.Instance.listUserCharacters;
         name.text = userCharacter[myId].name; // visualizzo la data odierna come controlo
         bonus.text = "" + userCharacter[myId].bonus;
@@ -32,7 +30,6 @@ public class AstaUserCharacter : MonoBehaviour
         type.text = "" + userCharacter[myId].type;
         head.sprite = AstaPageManager.Instance.iltemHead[ userCharacter[myId].head];
         body.sprite = AstaPageManager.Instance.iltemBody[ userCharacter[myId].body];
-        Debug.Log("Vita: " + (userCharacter[myId].life));
         life.fillAmount = (float)((float)userCharacter[myId].life/100);
         xp.text = "Xp: " + userCharacter[myId].xp + "/100";
     }
